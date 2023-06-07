@@ -16,26 +16,23 @@ class home extends StatelessWidget {
         child: Container(
           child: Row(
             children: [
-              SizedBox(
-                width: 40,
+              Expanded(
+                child: IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.car_rental),
+                ),
               ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.car_rental),
+              Expanded(
+                child: IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.person),
+                ),
               ),
-              SizedBox(
-                width: 70,
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.person),
-              ),
-              SizedBox(
-                width: 70,
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.settings),
+              Expanded(
+                child: IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.settings),
+                ),
               )
             ],
           ),
@@ -58,23 +55,31 @@ class home extends StatelessWidget {
               height: 20,
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                const SizedBox(
-                  width: 300,
-                  height: 40,
-                  child: SearchBar(
-                    hintText: "Search",
+                Expanded(
+                  child: Container(
+                    height: 50,
+                    child: SearchBar(
+                      hintText: "Search",
+                    ),
                   ),
                 ),
-                const SizedBox(
-                  width: 20,
+                SizedBox(
+                  width: 10,
                 ),
                 Container(
                   height: 50,
                   width: 50,
                   decoration: BoxDecoration(
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                          color: Colors.black54,
+                          blurRadius: 4.0,
+                          offset: Offset(0.0, 4))
+                    ],
                     borderRadius: BorderRadius.circular(12),
-                    color: Color(0xff6AEA2E),
+                    color: Color.fromARGB(255, 163, 251, 122),
                   ),
                   child: Center(
                     child: Icon(
@@ -82,7 +87,7 @@ class home extends StatelessWidget {
                       color: Colors.white,
                     ),
                   ),
-                )
+                ),
               ],
             )
           ],
