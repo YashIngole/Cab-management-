@@ -9,6 +9,38 @@ class home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kbackgroundColor,
+      bottomNavigationBar: BottomAppBar(
+        elevation: 20,
+        height: 70,
+        color: Color(0xffFAFAFA),
+        child: Container(
+          child: Row(
+            children: [
+              SizedBox(
+                width: 40,
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.car_rental),
+              ),
+              SizedBox(
+                width: 70,
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.person),
+              ),
+              SizedBox(
+                width: 70,
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.settings),
+              )
+            ],
+          ),
+        ),
+      ),
       body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.all(20.0),
