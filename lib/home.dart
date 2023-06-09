@@ -38,61 +38,102 @@ class home extends StatelessWidget {
           ),
         ),
       ),
-      body: SafeArea(
-          child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      body: SingleChildScrollView(
+        child: SafeArea(
+            child: Column(
           children: [
-            const Text(
-              "  Drivers",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 24,
+            Padding(
+              padding: const EdgeInsets.only(left: 40, top: 30, bottom: 18),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "  Drivers",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                  ),
+                ),
               ),
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Expanded(
-                  child: Container(
+            Padding(
+              padding: const EdgeInsets.only(left: 35, right: 9),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: Container(
+                      height: 50,
+                      child: SearchBar(
+                        hintText: "Search",
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 13,
+                  ),
+                  Container(
                     height: 50,
-                    child: SearchBar(
-                      hintText: "Search",
+                    width: 50,
+                    decoration: BoxDecoration(
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                            color: Colors.black54,
+                            blurRadius: 2.0,
+                            offset: Offset(0.0, 1.5))
+                      ],
+                      borderRadius: BorderRadius.circular(12),
+                      color: Color(0xff6AEA2E),
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.search_outlined,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 42, right: 12, top: 43),
+              child: Expanded(
+                  child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(30)),
+                  color: Colors.white,
                 ),
-                SizedBox(
-                  width: 10,
-                ),
-                Container(
-                  height: 50,
-                  width: 50,
-                  decoration: BoxDecoration(
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                          color: Colors.black54,
-                          blurRadius: 4.0,
-                          offset: Offset(0.0, 4))
-                    ],
-                    borderRadius: BorderRadius.circular(12),
-                    color: Color.fromARGB(255, 163, 251, 122),
-                  ),
-                  child: Center(
-                    child: Icon(
-                      Icons.search_outlined,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
-            )
+                height: 600,
+                width: double.maxFinite,
+                child: SafeArea(
+                    child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Container(
+                          height: 32,
+                          width: 110,
+                          decoration: BoxDecoration(
+                              color: Color(0xffFBE0E0),
+                              borderRadius: BorderRadius.circular(7)),
+                          child: Center(
+                            child: Text(
+                              "Add New Driver",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w400, fontSize: 12),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                )),
+              )),
+            ),
           ],
-        ),
-      )),
+        )),
+      ),
     );
   }
 }
