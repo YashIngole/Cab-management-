@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'databaseService.dart';
+import 'driverTile.dart';
 import 'firebase_options.dart';
 import 'dart:js_util';
 import 'package:js/js.dart';
@@ -119,11 +120,11 @@ class _homeState extends State<home> {
               padding: EdgeInsets.only(left: 42, right: 12, top: 43),
               child: Expanded(
                   child: Container(
+                height: 1500,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(30)),
                   color: Colors.white,
                 ),
-                height: 600,
                 width: double.maxFinite,
                 child: SafeArea(
                     child: Column(
@@ -168,17 +169,8 @@ class _homeState extends State<home> {
                             return Center(child: CircularProgressIndicator());
                           }
 
-                          return ListView(
-                            children: snapshot.data!.docs
-                                .map((DocumentSnapshot document) {
-                              Map<String, dynamic> data =
-                                  document.data()! as Map<String, dynamic>;
-                              return ListTile(
-                                title: Text(data['name']),
-                                subtitle: Text(data['email']),
-                                trailing: Text(data['phone']),
-                              );
-                            }).toList(),
+                          return DriverTile(
+                            snapshot: snapshot,
                           );
                         },
                       ),
@@ -319,34 +311,5 @@ class _homeState extends State<home> {
             );
           }));
         });
-  }
-
-  noDriverWidget() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          GestureDetector(
-            onTap: () {
-              AddNewDriverPopUp(context);
-            },
-            child: Icon(
-              Icons.add_circle,
-              color: Colors.grey[700],
-              size: 75,
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          const Text(
-            "You've not added any driver, tap on the add button to add a driver",
-            textAlign: TextAlign.center,
-          )
-        ],
-      ),
-    );
   }
 }
