@@ -1,3 +1,4 @@
+import 'package:cab_management/cabPage.dart';
 import 'package:cab_management/constants.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -40,7 +41,9 @@ class _homeState extends State<home> {
             children: [
               Expanded(
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    nextScreen(context, cabPage());
+                  },
                   icon: Icon(Icons.car_rental),
                 ),
               ),
