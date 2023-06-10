@@ -1,9 +1,26 @@
 import 'package:cab_management/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'databaseService.dart';
+import 'firebase_options.dart';
+import 'dart:js_util';
+import 'package:js/js.dart';
 
 // ignore: camel_case_types
-class home extends StatelessWidget {
+class home extends StatefulWidget {
   const home({super.key});
+
+  @override
+  State<home> createState() => _homeState();
+}
+
+class _homeState extends State<home> {
+  String name = "";
+  String id = "";
+  String email = "";
+  String phone = "";
+
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -111,22 +128,27 @@ class home extends StatelessWidget {
                       padding: const EdgeInsets.all(20.0),
                       child: Align(
                         alignment: Alignment.centerRight,
-                        child: Container(
-                          height: 32,
-                          width: 110,
-                          decoration: BoxDecoration(
-                              color: Color(0xffFBE0E0),
-                              borderRadius: BorderRadius.circular(7)),
-                          child: Center(
-                            child: Text(
-                              "Add New Driver",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400, fontSize: 12),
+                        child: InkWell(
+                          onTap: () {
+                            AddNewDriverPopUp(context);
+                          },
+                          child: Container(
+                            height: 32,
+                            width: 110,
+                            decoration: BoxDecoration(
+                                color: Color(0xffFBE0E0),
+                                borderRadius: BorderRadius.circular(7)),
+                            child: Center(
+                              child: Text(
+                                "Add New Driver",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w400, fontSize: 12),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 )),
               )),
@@ -135,5 +157,105 @@ class home extends StatelessWidget {
         )),
       ),
     );
+  }
+
+  AddNewDriverPopUp(BuildContext context) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(builder: ((context, setState) {
+            return AlertDialog(
+              title: const Text(
+                "Create a new group",
+                textAlign: TextAlign.left,
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    onChanged: (val) {
+                      setState(() {
+                        name = val;
+                      });
+                    },
+                    decoration: InputDecoration(
+                        hintText: "enter name",
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.green),
+                            borderRadius: BorderRadius.circular(20)),
+                        errorBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.red),
+                            borderRadius: BorderRadius.circular(20)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.green),
+                            borderRadius: BorderRadius.circular(20))),
+                  ),
+                  TextField(
+                    onChanged: (val) {
+                      setState(() {
+                        email = val;
+                      });
+                    },
+                    decoration: InputDecoration(
+                        hintText: "Enter email",
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.green),
+                            borderRadius: BorderRadius.circular(20)),
+                        errorBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.red),
+                            borderRadius: BorderRadius.circular(20)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.green),
+                            borderRadius: BorderRadius.circular(20))),
+                  ),
+                  TextField(
+                    onChanged: (val) {
+                      setState(() {
+                        phone = val;
+                      });
+                    },
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                        hintText: "Enter phone number",
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.green),
+                            borderRadius: BorderRadius.circular(20)),
+                        errorBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.red),
+                            borderRadius: BorderRadius.circular(20)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.green),
+                            borderRadius: BorderRadius.circular(20))),
+                  ),
+                ],
+              ),
+              actions: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  style:
+                      ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                  child: const Text("CANCEL"),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    final DatabaseService databaseService = DatabaseService();
+
+                    await databaseService.saveDriverData(
+                        name, id, email, phone);
+
+                    // Navigator.of(context).pop();
+                    // showSnackbar(
+                    //     context, Colors.green, "Group created successfully.");
+                  },
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                  child: const Text("CREATE"),
+                )
+              ],
+            );
+          }));
+        });
   }
 }
