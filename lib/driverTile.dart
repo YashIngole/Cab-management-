@@ -24,8 +24,7 @@ class DriverTile extends StatelessWidget {
     final querySnapshot = snapshot.data!;
     return Expanded(
       child: ListView(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: false,
         children: querySnapshot.docs.map((DocumentSnapshot document) {
           Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
           return Padding(

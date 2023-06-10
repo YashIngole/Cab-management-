@@ -84,7 +84,6 @@ class _homeState extends State<home> {
                 children: [
                   Expanded(
                     child: Container(
-                      height: 50,
                       child: SearchBar(
                         hintText: "Search",
                       ),
@@ -118,9 +117,9 @@ class _homeState extends State<home> {
             ),
             Padding(
               padding: EdgeInsets.only(left: 42, right: 12, top: 43),
-              child: Expanded(
+              child: Flexible(
                   child: Container(
-                height: 1500,
+                constraints: BoxConstraints.tightForFinite(height: 800),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(30)),
                   color: Colors.white,
@@ -133,23 +132,18 @@ class _homeState extends State<home> {
                       padding: const EdgeInsets.all(20.0),
                       child: Align(
                         alignment: Alignment.centerRight,
-                        child: InkWell(
-                          onTap: () {
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xffFBE0E0),
+                            foregroundColor: Colors.black,
+                          ),
+                          onPressed: () {
                             AddNewDriverPopUp(context);
                           },
-                          child: Container(
-                            height: 32,
-                            width: 110,
-                            decoration: BoxDecoration(
-                                color: Color(0xffFBE0E0),
-                                borderRadius: BorderRadius.circular(7)),
-                            child: Center(
-                              child: Text(
-                                "Add New Driver",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w400, fontSize: 12),
-                              ),
-                            ),
+                          child: Text(
+                            "Add New Driver",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400, fontSize: 12),
                           ),
                         ),
                       ),
