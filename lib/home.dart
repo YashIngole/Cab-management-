@@ -1,4 +1,6 @@
 import 'package:cab_management/constants.dart';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'databaseService.dart';
@@ -19,6 +21,8 @@ class _homeState extends State<home> {
   String id = "";
   String email = "";
   String phone = "";
+  final DatabaseService databaseService = DatabaseService();
+  Stream? drivers;
 
   bool _isLoading = false;
 
@@ -149,6 +153,36 @@ class _homeState extends State<home> {
                         ),
                       ),
                     ),
+                    Expanded(
+                      child: StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection('drivers')
+                            .snapshots(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<QuerySnapshot> snapshot) {
+                          if (snapshot.hasError) {
+                            return Center(
+                                child: Text('Error: ${snapshot.error}'));
+                          }
+                          if (!snapshot.hasData) {
+                            return Center(child: CircularProgressIndicator());
+                          }
+
+                          return ListView(
+                            children: snapshot.data!.docs
+                                .map((DocumentSnapshot document) {
+                              Map<String, dynamic> data =
+                                  document.data()! as Map<String, dynamic>;
+                              return ListTile(
+                                title: Text(data['name']),
+                                subtitle: Text(data['email']),
+                                trailing: Text(data['phone']),
+                              );
+                            }).toList(),
+                          );
+                        },
+                      ),
+                    )
                   ],
                 )),
               )),
@@ -167,66 +201,90 @@ class _homeState extends State<home> {
           return StatefulBuilder(builder: ((context, setState) {
             return AlertDialog(
               title: const Text(
-                "Create a new group",
-                textAlign: TextAlign.left,
+                "Add Driver",
+                textAlign: TextAlign.center,
               ),
               content: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  TextField(
-                    onChanged: (val) {
-                      setState(() {
-                        name = val;
-                      });
-                    },
-                    decoration: InputDecoration(
-                        hintText: "enter name",
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.green),
-                            borderRadius: BorderRadius.circular(20)),
-                        errorBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.red),
-                            borderRadius: BorderRadius.circular(20)),
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.green),
-                            borderRadius: BorderRadius.circular(20))),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      onChanged: (val) {
+                        setState(() {
+                          name = val;
+                        });
+                      },
+                      decoration: InputDecoration(
+                          labelText: "Name",
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.green),
+                              borderRadius: BorderRadius.circular(20)),
+                          errorBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.red),
+                              borderRadius: BorderRadius.circular(20)),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.green),
+                              borderRadius: BorderRadius.circular(20))),
+                    ),
                   ),
-                  TextField(
-                    onChanged: (val) {
-                      setState(() {
-                        email = val;
-                      });
-                    },
-                    decoration: InputDecoration(
-                        hintText: "Enter email",
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.green),
-                            borderRadius: BorderRadius.circular(20)),
-                        errorBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.red),
-                            borderRadius: BorderRadius.circular(20)),
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.green),
-                            borderRadius: BorderRadius.circular(20))),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      onChanged: (val) {
+                        setState(() {
+                          email = val;
+                        });
+                      },
+                      validator: (val) {
+                        return RegExp(
+                                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                .hasMatch(val!)
+                            ? null
+                            : "Please enter a valid email";
+                      },
+                      decoration: InputDecoration(
+                          labelText: "Email",
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.green),
+                              borderRadius: BorderRadius.circular(20)),
+                          errorBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.red),
+                              borderRadius: BorderRadius.circular(20)),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.green),
+                              borderRadius: BorderRadius.circular(20))),
+                    ),
                   ),
-                  TextField(
-                    onChanged: (val) {
-                      setState(() {
-                        phone = val;
-                      });
-                    },
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                        hintText: "Enter phone number",
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.green),
-                            borderRadius: BorderRadius.circular(20)),
-                        errorBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.red),
-                            borderRadius: BorderRadius.circular(20)),
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.green),
-                            borderRadius: BorderRadius.circular(20))),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      onChanged: (val) {
+                        setState(() {
+                          phone = val;
+                        });
+                      },
+                      validator: (val) {
+                        if (val!.length < 6) {
+                          return "Password must be at least 6 characters";
+                        } else {
+                          return null;
+                        }
+                      },
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                          labelText: "phone number",
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.green),
+                              borderRadius: BorderRadius.circular(20)),
+                          errorBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.red),
+                              borderRadius: BorderRadius.circular(20)),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.green),
+                              borderRadius: BorderRadius.circular(20))),
+                    ),
                   ),
                 ],
               ),
@@ -235,14 +293,14 @@ class _homeState extends State<home> {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  style:
-                      ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                  child: const Text("CANCEL"),
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
+                  child: const Text(
+                    "CANCEL",
+                    style: TextStyle(color: Colors.black),
+                  ),
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    final DatabaseService databaseService = DatabaseService();
-
                     await databaseService.saveDriverData(
                         name, id, email, phone);
 
@@ -250,12 +308,45 @@ class _homeState extends State<home> {
                     // showSnackbar(
                     //     context, Colors.green, "Group created successfully.");
                   },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                  child: const Text("CREATE"),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.lightGreen),
+                  child: const Text(
+                    "CREATE",
+                    style: TextStyle(color: Colors.black),
+                  ),
                 )
               ],
             );
           }));
         });
+  }
+
+  noDriverWidget() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 25),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          GestureDetector(
+            onTap: () {
+              AddNewDriverPopUp(context);
+            },
+            child: Icon(
+              Icons.add_circle,
+              color: Colors.grey[700],
+              size: 75,
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          const Text(
+            "You've not added any driver, tap on the add button to add a driver",
+            textAlign: TextAlign.center,
+          )
+        ],
+      ),
+    );
   }
 }

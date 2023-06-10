@@ -3,24 +3,32 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseService {
-// Define a function to save the driver data to Firestore
+   final String? uid;
+  DatabaseService({this.uid});
+
+   // reference to the Firestore collection 'drivers'
+   CollectionReference driversRef =
+        FirebaseFirestore.instance.collection('drivers');
+// function to save the driver data to Firestore
   Future<void> saveDriverData(
       String name, String id, String email, String phone) async {
-    // Get a reference to the Firestore collection 'drivers'
-    CollectionReference driversRef =
-        FirebaseFirestore.instance.collection('drivers');
+   
+   
 
-    // Create a new document with a unique ID in the 'drivers' collection
+    // new document with a unique ID in the 'drivers' collection
     DocumentReference newDriverRef = driversRef.doc();
 
     // Set the data for the new driver document
+
     await newDriverRef.set({
       'name': name, // Driver Name
       'id': generateDriverId(), // Driver ID Number
       'email': email, // Driver Email
       'phone': phone, // Driver Phone Number
     });
+    
   }
+  
 
   String generateDriverId() {
     // Generate a random 6 digit ID
