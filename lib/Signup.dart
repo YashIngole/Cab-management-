@@ -26,6 +26,7 @@ class Signup extends StatelessWidget {
           constraints: BoxConstraints(maxWidth: 350),
           child: TextFormField(
             decoration: InputDecoration(
+              contentPadding: EdgeInsets.all(27),
               enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                     color: Pallete.borderColor,
