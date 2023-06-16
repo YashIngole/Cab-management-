@@ -1,4 +1,6 @@
+import 'package:cab_management/Signup.dart';
 import 'package:cab_management/home.dart';
+import 'package:cab_management/pallete.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -29,11 +31,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      theme: ThemeData.dark().copyWith(
+        scaffoldBackgroundColor: Color.fromARGB(255, 243, 237, 242),
         useMaterial3: true,
       ),
-      home: const home(),
+      home: Signup(),
     );
   }
 }

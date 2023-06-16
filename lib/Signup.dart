@@ -1,3 +1,4 @@
+import 'package:cab_management/pallete.dart';
 import 'package:flutter/material.dart';
 
 class Signup extends StatelessWidget {
@@ -6,26 +7,41 @@ class Signup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey[330],
-        body: SafeArea(
+        body: SingleChildScrollView(
+      child: Column(children: [
+        Image.asset(''),
+        Padding(
+          padding: const EdgeInsets.all(150.4),
           child: Center(
-              child: Column(children: [
-            SizedBox(height: 40),
-            Icon(
-              Icons.lock,
-              size: 100,
-            ),
-            SizedBox(height: 30),
-            //welcome
-            Text(
-              'Welcome to Caby',
+            child: const Text(
+              'Sign in.',
               style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-              ),
+                  fontSize: 45,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 7, 7, 7)),
             ),
-            SizedBox(height: 20),
-          ])),
-        ));
+          ),
+        ),
+        ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 350),
+          child: TextFormField(
+            decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Pallete.borderColor,
+                    width: 3,
+                  ),
+                  borderRadius: BorderRadius.circular(18)),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color.fromARGB(255, 128, 182, 185),
+                    width: 3,
+                  ),
+                  borderRadius: BorderRadius.circular(18)),
+            ),
+          ),
+        )
+      ]),
+    ));
   }
 }
