@@ -11,7 +11,7 @@ class Signup extends StatelessWidget {
       child: Column(children: [
         Image.asset(''),
         Padding(
-          padding: const EdgeInsets.all(150.4),
+          padding: const EdgeInsets.all(120.0),
           child: Center(
             child: const Text(
               'Sign in.',
@@ -22,26 +22,84 @@ class Signup extends StatelessWidget {
             ),
           ),
         ),
-        ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 350),
-          child: TextFormField(
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.all(27),
-              enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Pallete.borderColor,
-                    width: 3,
-                  ),
-                  borderRadius: BorderRadius.circular(18)),
-              focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Color.fromARGB(255, 128, 182, 185),
-                    width: 3,
-                  ),
-                  borderRadius: BorderRadius.circular(18)),
+        Padding(
+          padding: const EdgeInsets.all(0.45),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 350, maxHeight: 60),
+            child: TextFormField(
+              decoration: InputDecoration(
+                hintText: 'Email',
+                hintStyle: TextStyle(
+                    fontSize: 20.0, color: Color.fromARGB(255, 110, 109, 109)),
+                contentPadding: EdgeInsets.all(20),
+                enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Color.fromARGB(255, 104, 104, 105),
+                      width: 3,
+                    ),
+                    borderRadius: BorderRadius.circular(18)),
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Color.fromARGB(255, 0, 0, 5),
+                      width: 3,
+                    ),
+                    borderRadius: BorderRadius.circular(18)),
+              ),
             ),
           ),
-        )
+        ),
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 350, maxHeight: 60),
+            child: TextFormField(
+              decoration: InputDecoration(
+                hintText: 'Password',
+                hintStyle: TextStyle(
+                    fontSize: 20.0, color: Color.fromARGB(255, 110, 109, 109)),
+                contentPadding: EdgeInsets.all(20),
+                enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Color.fromARGB(255, 104, 104, 105),
+                      width: 3,
+                    ),
+                    borderRadius: BorderRadius.circular(18)),
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Color.fromARGB(255, 0, 0, 5),
+                      width: 3,
+                    ),
+                    borderRadius: BorderRadius.circular(18)),
+              ),
+            ),
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Pallete.gradient1,
+                  Pallete.gradient2,
+                  Pallete.gradient3
+                ],
+              ),
+              borderRadius: BorderRadius.circular(18)),
+          child: ElevatedButton(
+            onPressed: () {},
+            child: Text(
+              'Sign in',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+                fontSize: 20,
+              ),
+            ),
+            style: ElevatedButton.styleFrom(
+                fixedSize: Size(350, 50),
+                backgroundColor: Colors.transparent,
+                shadowColor: Colors.transparent),
+          ),
+        ),
       ]),
     ));
   }
