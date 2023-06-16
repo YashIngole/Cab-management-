@@ -22,66 +22,64 @@ class DriverTile extends StatelessWidget {
       );
     }
     final querySnapshot = snapshot.data!;
-    return Expanded(
-      child: ListView(
-        shrinkWrap: false,
-        children: querySnapshot.docs.map((DocumentSnapshot document) {
-          Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-          String DriverName = data['name'];
-          String DriverID = data['id'];
-          String Email = data['email'];
-          String Phone = data['phone'];
+    return ListView(
+      shrinkWrap: false,
+      children: querySnapshot.docs.map((DocumentSnapshot document) {
+        Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+        String DriverName = data['name'];
+        String DriverID = data['id'];
+        String Email = data['email'];
+        String Phone = data['phone'];
 
-          return Padding(
-            padding: const EdgeInsets.only(right: 20, bottom: 35),
-            child: Expanded(
-              child: Row(
-                children: [
-                  Container(
-                    height: 69,
-                    width: 77,
-                    decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(15)),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 25),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 8),
-                            child: Text(
-                              DriverName,
-                              style: TextStyle(fontSize: 16),
-                            ),
+        return Padding(
+          padding: const EdgeInsets.only(right: 20, bottom: 35),
+          child: Expanded(
+            child: Row(
+              children: [
+                Container(
+                  height: 69,
+                  width: 77,
+                  decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(15)),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 25),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 8),
+                          child: Text(
+                            DriverName,
+                            style: TextStyle(fontSize: 16),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              DriverID,
-                              style: TextStyle(fontSize: 12),
-                            ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            DriverID,
+                            style: TextStyle(fontSize: 12),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 15, left: 8),
-                            child: Container(
-                              height: 0.15,
-                              color: Colors.black,
-                            ),
-                          )
-                        ],
-                      ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 15, left: 8),
+                          child: Container(
+                            height: 0.15,
+                            color: Colors.black,
+                          ),
+                        )
+                      ],
                     ),
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             ),
-          );
-        }).toList(),
-      ),
+          ),
+        );
+      }).toList(),
     );
   }
 }

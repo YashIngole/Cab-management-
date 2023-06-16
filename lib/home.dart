@@ -1,4 +1,5 @@
 import 'package:cab_management/BottomNavBar.dart';
+import 'package:cab_management/DriverPage.dart';
 import 'package:cab_management/cabPage.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cab_management/main1.dart';
@@ -28,112 +29,88 @@ class _homeState extends State<home> {
   final DatabaseService databaseService = DatabaseService();
   Stream? drivers;
 
-  PageController _myPage;
+  late PageController _myPage;
   var selectedPage;
 
   @override
   void initState() {
     super.initState();
-    _myPage = PageController(initialPage: 1);
-    selectedPage = 1;
+    _myPage = PageController(initialPage: 0);
+    selectedPage = 0;
   }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      selectedPage = index;
+
+      _myPage.animateToPage(index,
+          duration: Duration(milliseconds: 500), curve: Curves.easeOut);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      bottomNavigationBar: BottomNavBar(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          AddNewDriverPopUp(context);
-        },
-        child: Icon(Icons.add, color: Colors.white),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      body: SingleChildScrollView(
-        child: SafeArea(
-            child: Column(
+        body: PageView(
+          physics: NeverScrollableScrollPhysics(),
+          controller: _myPage,
+          children: <Widget>[DriverPage(), cabPage()],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            AddNewDriverPopUp(context);
+          },
+          child: Icon(Icons.add, color: Colors.white),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: BottomNavBar());
+  }
+
+  BottomAppBar BottomNavBar() {
+    return BottomAppBar(
+      height: 70,
+      color: kbackgroundColor,
+      shape: CircularNotchedRectangle(),
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 18, top: 25),
-              child: Text(
-                "  Drivers",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24,
+            Expanded(
+              child: IconButton(
+                color: selectedPage == 0 ? Colors.blue : Colors.grey,
+                icon: Icon(
+                  Icons.person,
+                  size: 25,
+                ),
+                onPressed: () {
+                  _myPage.jumpToPage(0);
+                  setState(() {
+                    selectedPage = 0;
+                  });
+                },
+              ),
+            ),
+            SizedBox(
+              width: 30,
+            ),
+            Expanded(
+              child: IconButton(
+                onPressed: () {
+                  _myPage.jumpToPage(1);
+                  setState(() {
+                    selectedPage = 1;
+                  });
+                },
+                color: selectedPage == 1 ? Colors.blue : Colors.grey,
+                icon: Icon(
+                  Icons.car_rental,
+                  size: 25,
                 ),
               ),
             ),
-            Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
-                child: Container(
-                  height: 45,
-                  decoration: BoxDecoration(
-                      color: Color(0xffEBEDF3),
-                      borderRadius: BorderRadius.circular(15)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10, right: 5),
-                          child: Icon(
-                            Icons.search_sharp,
-                            color: Color(0xffB6B6B6),
-                          ),
-                        ),
-                        Expanded(
-                            child: TextField(
-                          style: TextStyle(),
-                          decoration: InputDecoration(
-                              hintText: 'Search',
-                              hintStyle: TextStyle(color: Color(0xffB6B6B6)),
-                              focusedBorder: InputBorder.none,
-                              enabledBorder: InputBorder.none),
-                        ))
-                      ],
-                    ),
-                  ),
-                )),
-            Padding(
-              padding: EdgeInsets.only(left: 22, right: 12, top: 37),
-              child: Flexible(
-                  child: Container(
-                constraints: BoxConstraints.tightForFinite(height: 800),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(30)),
-                  color: Colors.white,
-                ),
-                width: double.maxFinite,
-                child: SafeArea(
-                    child: Column(
-                  children: [
-                    Expanded(
-                      child: StreamBuilder<QuerySnapshot>(
-                        stream: FirebaseFirestore.instance
-                            .collection('drivers')
-                            .snapshots(),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<QuerySnapshot> snapshot) {
-                          if (snapshot.hasError) {
-                            return Center(
-                                child: Text('Error: ${snapshot.error}'));
-                          }
-                          if (!snapshot.hasData) {
-                            return Center(child: CircularProgressIndicator());
-                          }
-
-                          return DriverTile(
-                            snapshot: snapshot,
-                          );
-                        },
-                      ),
-                    )
-                  ],
-                )),
-              )),
-            ),
           ],
-        )),
+        ),
       ),
     );
   }
