@@ -27,105 +27,67 @@ class DriverTile extends StatelessWidget {
         shrinkWrap: false,
         children: querySnapshot.docs.map((DocumentSnapshot document) {
           Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+          String DriverName = data['name'];
+          String DriverID = data['id'];
+          String Email = data['email'];
+          String Phone = data['phone'];
+
           return Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 35),
-              child: Container(
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 30,
-                              backgroundColor: Colors.grey,
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Text(data['name']),
-                          ],
-                        ),
-                      ),
-                      Row(
+            padding: const EdgeInsets.only(right: 20, bottom: 35),
+            child: Expanded(
+              child: Row(
+                children: [
+                  Container(
+                    height: 69,
+                    width: 77,
+                    decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(15)),
+                    // child: Center(
+                    //   child: Text(
+                    //     DriverName,
+                    //     style: TextStyle(color: Colors.white),
+                    //   ),
+                    // ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 25),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text("Driver ID: " + data['id']),
-                                Text("Email: " + data['email']),
-                                Text("Phone: " + data['phone']),
-                              ],
+                            padding: EdgeInsets.only(left: 8),
+                            child: Text(
+                              DriverName,
+                              style: TextStyle(fontSize: 16),
                             ),
                           ),
-                          Expanded(
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: ElevatedButton(
-                                      style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                                Colors.white),
-                                        foregroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                                Colors.black),
-                                      ),
-                                      onPressed: () {},
-                                      child: Text(
-                                        "Update",
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: ElevatedButton(
-                                      style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                                Colors.white),
-                                        foregroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                                Colors.black),
-                                      ),
-                                      onPressed: () {},
-                                      child: Text(
-                                        " Delete ",
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              DriverID,
+                              style: TextStyle(fontSize: 12),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 15, left: 8),
+                            child: Container(
+                              height: 0.15,
+                              color: Colors.black,
                             ),
                           )
                         ],
                       ),
-                    ],
-                  ),
-                ),
-                decoration: BoxDecoration(
-                  color: Color(0xffD9D9D9),
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                ),
-              ));
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
         }).toList(),
       ),
     );
   }
 }
-// Column(
-//                 children: [
-//                   Text(data['name']),
-
-//                 ],
-//               ),

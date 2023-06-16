@@ -1,5 +1,6 @@
 import 'package:cab_management/cabPage.dart';
 import 'package:cab_management/constants.dart';
+import 'package:cab_management/main1.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -26,100 +27,88 @@ class _homeState extends State<home> {
   final DatabaseService databaseService = DatabaseService();
   Stream? drivers;
 
-  bool _isLoading = false;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kbackgroundColor,
+      backgroundColor: Colors.white,
       bottomNavigationBar: BottomAppBar(
-        elevation: 20,
-        height: 70,
-        color: Color(0xffFAFAFA),
+        color: Colors.white,
+        shape: CircularNotchedRectangle(),
         child: Container(
+          height: 80,
+          padding: EdgeInsets.symmetric(horizontal: 20),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                child: IconButton(
-                  onPressed: () {
-                    nextScreen(context, cabPage());
-                  },
-                  icon: Icon(Icons.car_rental),
-                ),
-              ),
-              Expanded(
-                child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.person),
-                ),
-              ),
-              Expanded(
-                child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.settings),
-                ),
-              )
+              IconButton(
+                  icon: Icon(
+                    Icons.person,
+                  ),
+                  onPressed: () {}),
+              SizedBox.shrink(),
+              IconButton(
+                  icon: Icon(
+                    Icons.car_rental,
+                  ),
+                  onPressed: () {}),
             ],
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          AddNewDriverPopUp(context);
+        },
+        child: Icon(Icons.add, color: Colors.white),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: SingleChildScrollView(
         child: SafeArea(
             child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 40, top: 30, bottom: 18),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "  Drivers",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                  ),
+              padding: const EdgeInsets.only(bottom: 18, top: 25),
+              child: Text(
+                "  Drivers",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 35, right: 9),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Expanded(
-                    child: Container(
-                      child: SearchBar(
-                        hintText: "Search",
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 13,
-                  ),
-                  Container(
-                    height: 50,
-                    width: 50,
-                    decoration: BoxDecoration(
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                            color: Colors.black54,
-                            blurRadius: 2.0,
-                            offset: Offset(0.0, 1.5))
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Container(
+                  height: 45,
+                  decoration: BoxDecoration(
+                      color: Color(0xffEBEDF3),
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 5),
+                          child: Icon(
+                            Icons.search_sharp,
+                            color: Color(0xffB6B6B6),
+                          ),
+                        ),
+                        Expanded(
+                            child: TextField(
+                          style: TextStyle(),
+                          decoration: InputDecoration(
+                              hintText: 'Search',
+                              hintStyle: TextStyle(color: Color(0xffB6B6B6)),
+                              focusedBorder: InputBorder.none,
+                              enabledBorder: InputBorder.none),
+                        ))
                       ],
-                      borderRadius: BorderRadius.circular(12),
-                      color: Color(0xff6AEA2E),
-                    ),
-                    child: Center(
-                      child: Icon(
-                        Icons.search_outlined,
-                        color: Colors.white,
-                      ),
                     ),
                   ),
-                ],
-              ),
-            ),
+                )),
             Padding(
-              padding: EdgeInsets.only(left: 42, right: 12, top: 43),
+              padding: EdgeInsets.only(left: 22, right: 12, top: 37),
               child: Flexible(
                   child: Container(
                 constraints: BoxConstraints.tightForFinite(height: 800),
@@ -131,26 +120,6 @@ class _homeState extends State<home> {
                 child: SafeArea(
                     child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xffFBE0E0),
-                            foregroundColor: Colors.black,
-                          ),
-                          onPressed: () {
-                            AddNewDriverPopUp(context);
-                          },
-                          child: Text(
-                            "Add New Driver",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w400, fontSize: 12),
-                          ),
-                        ),
-                      ),
-                    ),
                     Expanded(
                       child: StreamBuilder<QuerySnapshot>(
                         stream: FirebaseFirestore.instance
