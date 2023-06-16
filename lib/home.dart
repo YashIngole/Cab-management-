@@ -1,3 +1,4 @@
+import 'package:cab_management/BottomNavBar.dart';
 import 'package:cab_management/cabPage.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cab_management/main1.dart';
@@ -27,34 +28,20 @@ class _homeState extends State<home> {
   final DatabaseService databaseService = DatabaseService();
   Stream? drivers;
 
+  PageController _myPage;
+  var selectedPage;
+
+  @override
+  void initState() {
+    super.initState();
+    _myPage = PageController(initialPage: 1);
+    selectedPage = 1;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
-        shape: CircularNotchedRectangle(),
-        child: Container(
-          height: 80,
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                  icon: Icon(
-                    Icons.person,
-                  ),
-                  onPressed: () {}),
-              SizedBox.shrink(),
-              IconButton(
-                  icon: Icon(
-                    Icons.car_rental,
-                  ),
-                  onPressed: () {}),
-            ],
-          ),
-        ),
-      ),
+      bottomNavigationBar: BottomNavBar(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           AddNewDriverPopUp(context);

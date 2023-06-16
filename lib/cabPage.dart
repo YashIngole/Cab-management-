@@ -1,3 +1,4 @@
+import 'package:cab_management/BottomNavBar.dart';
 import 'package:flutter/material.dart';
 
 class cabPage extends StatefulWidget {
@@ -14,6 +15,12 @@ class _cabPageState extends State<cabPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          child: Icon(Icons.add, color: Colors.white),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: BottomNavBar(),
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: Colors.green[300],

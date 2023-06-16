@@ -43,12 +43,6 @@ class DriverTile extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: Colors.black,
                         borderRadius: BorderRadius.circular(15)),
-                    // child: Center(
-                    //   child: Text(
-                    //     DriverName,
-                    //     style: TextStyle(color: Colors.white),
-                    //   ),
-                    // ),
                   ),
                   Expanded(
                     child: Padding(
