@@ -9,6 +9,7 @@ class DatabaseService {
    // reference to the Firestore collection 'drivers'
    CollectionReference driversRef =
         FirebaseFirestore.instance.collection('drivers');
+        
 // function to save the driver data to Firestore
   Future<void> saveDriverData(
       String name, String id, String email, String phone) async {

@@ -1,3 +1,5 @@
+import 'package:cab_management/DriverProfile.dart';
+import 'package:cab_management/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -105,8 +107,13 @@ class _DriverPageState extends State<DriverPage> {
                                 );
                               }
 
-                              return DriverTile(
-                                snapshot: snapshot,
+                              return InkWell(
+                                onTap: () {
+                                  nextScreen(context, DriverProfile());
+                                },
+                                child: DriverTile(
+                                  snapshot: snapshot,
+                                ),
                               );
                             },
                           ),
