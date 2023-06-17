@@ -1,5 +1,9 @@
+import 'package:cab_management/constants.dart';
+import 'package:cab_management/home.dart';
 import 'package:cab_management/pallete.dart';
 import 'package:flutter/material.dart';
+
+import 'EmailField.dart';
 
 class Signup extends StatelessWidget {
   const Signup({super.key});
@@ -22,39 +26,16 @@ class Signup extends StatelessWidget {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(0.45),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 350, maxHeight: 60),
-            child: TextFormField(
-              decoration: InputDecoration(
-                hintText: 'Email',
-                hintStyle: TextStyle(
-                    fontSize: 20.0, color: Color.fromARGB(255, 110, 109, 109)),
-                contentPadding: EdgeInsets.all(20),
-                enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Color.fromARGB(255, 104, 104, 105),
-                      width: 3,
-                    ),
-                    borderRadius: BorderRadius.circular(18)),
-                focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Color.fromARGB(255, 0, 0, 5),
-                      width: 3,
-                    ),
-                    borderRadius: BorderRadius.circular(18)),
-              ),
-            ),
-          ),
-        ),
+        EmailField(),
         Padding(
           padding: const EdgeInsets.all(20.0),
           child: ConstrainedBox(
             constraints: BoxConstraints(maxWidth: 350, maxHeight: 60),
             child: TextFormField(
+              obscureText: true,
               decoration: InputDecoration(
-                hintText: 'Password',
+                labelText: 'Password',
+                labelStyle: TextStyle(color: Colors.black),
                 hintStyle: TextStyle(
                     fontSize: 20.0, color: Color.fromARGB(255, 110, 109, 109)),
                 contentPadding: EdgeInsets.all(20),
@@ -100,6 +81,11 @@ class Signup extends StatelessWidget {
                 shadowColor: Colors.transparent),
           ),
         ),
+        TextButton(
+            onPressed: () {
+              nextScreen(context, home);
+            },
+            child: Text('loginpage'))
       ]),
     ));
   }
