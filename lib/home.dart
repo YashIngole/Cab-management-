@@ -225,9 +225,12 @@ class _homeState extends State<home> {
                     await databaseService.saveDriverData(
                         name, id, email, phone);
 
-                    // Navigator.of(context).pop();
-                    // showSnackbar(
-                    //     context, Colors.green, "Group created successfully.");
+                    nextScreenReplace(context, home());
+
+                    SnackBar(
+                        content: Center(
+                      child: Text('Driver Registered Successfully'),
+                    ));
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.lightGreen),

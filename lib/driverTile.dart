@@ -1,117 +1,185 @@
-// ignore: file_names
-// ignore_for_file: prefer_const_constructors, file_names, duplicate_ignore, prefer_interpolation_to_compose_strings, sort_child_properties_last
-
 import 'package:cab_management/DriverPage.dart';
 import 'package:cab_management/DriverProfile.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class DriverTile extends StatelessWidget {
+class DriverTile extends StatefulWidget {
   final AsyncSnapshot<QuerySnapshot<Object?>> snapshot;
 
   const DriverTile({Key? key, required this.snapshot}) : super(key: key);
 
   @override
+  _DriverTileState createState() => _DriverTileState();
+}
+
+class _DriverTileState extends State<DriverTile> {
+  late List<DocumentSnapshot> filteredList;
+  String searchQuery = '';
+
+  @override
+  void initState() {
+    super.initState();
+    filteredList = widget.snapshot.data!.docs;
+  }
+
+  void filterData(String query) {
+    final List<DocumentSnapshot> allDocs = widget.snapshot.data!.docs;
+    final List<DocumentSnapshot> filteredDocs = allDocs.where((doc) {
+      final Map<String, dynamic> data = doc.data()! as Map<String, dynamic>;
+      final String driverName = data['name'].toString().toUpperCase();
+      return driverName.contains(query.toUpperCase());
+    }).toList();
+    setState(() {
+      filteredList = filteredDocs;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (snapshot.hasError) {
+    if (widget.snapshot.hasError) {
       return Center(
-        child: Text('Error: ${snapshot.error}'),
+        child: Text('Error: ${widget.snapshot.error}'),
       );
     }
-    if (!snapshot.hasData) {
+    if (!widget.snapshot.hasData) {
       return Center(
         child: CircularProgressIndicator(),
       );
     }
-    final querySnapshot = snapshot.data!;
-    return ListView(
-      shrinkWrap: false,
-      children: querySnapshot.docs.map((DocumentSnapshot document) {
-        Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-        String DriverName = data['name'].toString().toUpperCase();
-        String DriverID = data['id'];
-        String Email = data['email'];
-        String Phone = data['phone'];
-
-        return Padding(
-          padding: const EdgeInsets.only(right: 20, bottom: 35),
-          child: Expanded(
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                disabledBackgroundColor: Colors.white,
-                shadowColor: Colors.white,
-                shape: BeveledRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                side: BorderSide.none,
-                backgroundColor: Color(0xffffffff),
-              ),
-              onPressed: () {
-                nextScreen(
-                    context,
-                    DriverProfile(
-                      DriverName: DriverName,
-                      DriverID: DriverID,
-                      Email: Email,
-                      Phone: Phone,
-                    ));
-              },
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 10, right: 10, bottom: 50),
+          child: Container(
+            height: 45,
+            decoration: BoxDecoration(
+              color: Color(0xffEBEDF3),
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
-                  Container(
-                      height: 69,
-                      width: 77,
-                      decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Center(
-                        child: Text(
-                          DriverName.substring(0, 1).toUpperCase(),
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      )),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 5),
+                    child: Icon(
+                      Icons.search_sharp,
+                      color: Color(0xffB6B6B6),
+                    ),
+                  ),
                   Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 25),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 8),
-                            child: Text(DriverName,
-                                style: TextStyle(
-                                    fontSize: 12, color: Colors.black)),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              DriverID,
-                              style:
-                                  TextStyle(fontSize: 12, color: Colors.black),
-                            ),
-                          ),
-                          // Padding(
-                          //   padding: const EdgeInsets.only(top: 15, left: 8),
-                          //   child: Container(
-                          //     height: 0.15,
-                          //     color: Colors.black,
-                          //   ),
-                          // )
-                        ],
+                    child: TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          searchQuery = value;
+                        });
+                        filterData(value);
+                      },
+                      decoration: InputDecoration(
+                        hintText: 'Search',
+                        hintStyle: TextStyle(color: Color(0xffB6B6B6)),
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
                       ),
                     ),
                   ),
-                  Icon(
-                    Icons.chevron_right,
-                    color: Colors.black12,
-                  )
                 ],
               ),
             ),
           ),
-        );
-      }).toList(),
+        ),
+        Expanded(
+          child: ListView.builder(
+            itemCount: filteredList.length,
+            itemBuilder: (context, index) {
+              final DocumentSnapshot document = filteredList[index];
+              final Map<String, dynamic> data =
+                  document.data()! as Map<String, dynamic>;
+              final String driverName = data['name'].toString().toUpperCase();
+              final String driverID = data['id'];
+              final String email = data['email'];
+              final String phone = data['phone'];
+
+              return Padding(
+                padding: const EdgeInsets.only(right: 10, bottom: 35),
+                child: Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      disabledBackgroundColor: Colors.white,
+                      shadowColor: Colors.white,
+                      shape: BeveledRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      side: BorderSide.none,
+                      backgroundColor: Color(0xffffffff),
+                    ),
+                    onPressed: () {
+                      nextScreen(
+                        context,
+                        DriverProfile(
+                          DriverName: driverName,
+                          DriverID: driverID,
+                          Email: email,
+                          Phone: phone,
+                        ),
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 69,
+                          width: 77,
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Center(
+                            child: Text(
+                              driverName.substring(0, 1).toUpperCase(),
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 25),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(left: 8),
+                                  child: Text(
+                                    driverName,
+                                    style: TextStyle(
+                                        fontSize: 12, color: Colors.black),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    driverID,
+                                    style: TextStyle(
+                                        fontSize: 12, color: Colors.black),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Icon(
+                          Icons.chevron_right,
+                          color: Colors.black12,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }
