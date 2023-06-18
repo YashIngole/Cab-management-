@@ -47,7 +47,14 @@ class DriverTile extends StatelessWidget {
                 backgroundColor: Color(0xffffffff),
               ),
               onPressed: () {
-                // nextScreen(context, DriverProfile());
+                nextScreen(
+                    context,
+                    DriverProfile(
+                      DriverName: DriverName,
+                      DriverID: DriverID,
+                      Email: Email,
+                      Phone: Phone,
+                    ));
               },
               child: Row(
                 children: [
