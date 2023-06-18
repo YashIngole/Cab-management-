@@ -18,6 +18,8 @@ class _DriverPageState extends State<DriverPage> {
   String id = "";
   String email = "";
   String phone = "";
+  String searchQuery = "";
+
   final DatabaseService databaseService = DatabaseService();
 
   @override
@@ -59,7 +61,11 @@ class _DriverPageState extends State<DriverPage> {
                         ),
                         Expanded(
                           child: TextField(
-                            style: TextStyle(),
+                            onChanged: (value) {
+                              setState(() {
+                                searchQuery = value.toLowerCase();
+                              });
+                            },
                             decoration: InputDecoration(
                               hintText: 'Search',
                               hintStyle: TextStyle(color: Color(0xffB6B6B6)),
@@ -91,6 +97,7 @@ class _DriverPageState extends State<DriverPage> {
                           child: StreamBuilder<QuerySnapshot>(
                             stream: FirebaseFirestore.instance
                                 .collection('drivers')
+                                .orderBy('name')
                                 .snapshots(),
                             builder: (
                               BuildContext context,

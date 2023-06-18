@@ -27,10 +27,13 @@ class DatabaseService {
       'email': email, // Driver Email
       'phone': phone, // Driver Phone Number
     });
+    //Search Functionality
+
+  
     
   }
   
-
+//generates random driverId
   String generateDriverId() {
     // Generate a random 6 digit ID
     int randomInt = Random().nextInt(900000) + 100000;

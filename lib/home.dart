@@ -134,7 +134,7 @@ class _homeState extends State<home> {
                     child: TextField(
                       onChanged: (val) {
                         setState(() {
-                          name = val;
+                          name = val.toLowerCase();
                         });
                       },
                       decoration: InputDecoration(

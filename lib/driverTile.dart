@@ -29,7 +29,7 @@ class DriverTile extends StatelessWidget {
       shrinkWrap: false,
       children: querySnapshot.docs.map((DocumentSnapshot document) {
         Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-        String DriverName = data['name'];
+        String DriverName = data['name'].toString().toUpperCase();
         String DriverID = data['id'];
         String Email = data['email'];
         String Phone = data['phone'];
@@ -81,7 +81,7 @@ class DriverTile extends StatelessWidget {
                             padding: EdgeInsets.only(left: 8),
                             child: Text(DriverName,
                                 style: TextStyle(
-                                    fontSize: 16, color: Colors.black)),
+                                    fontSize: 12, color: Colors.black)),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
