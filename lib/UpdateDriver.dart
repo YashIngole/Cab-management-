@@ -12,12 +12,11 @@ class UpdateDriverPage extends StatefulWidget {
 }
 
 class _UpdateDriverPageState extends State<UpdateDriverPage> {
-  bool isobsecurePassword = true;
-  Icon custicon = Icon(Icons.search);
-
   Widget custappbar = Text("Update Cabs");
   @override
   Widget build(BuildContext context) {
+    String FieldText = '';
+    IconData KIconName;
     return Scaffold(
       appBar: AppBar(
         title: Text('Update Driver'),
@@ -49,97 +48,44 @@ class _UpdateDriverPageState extends State<UpdateDriverPage> {
               style: TextStyle(fontSize: 15),
             ),
           ),
+          Padding(padding: EdgeInsets.only(top: 50)),
+          KUpdateField(FieldText = 'Driver Name', Icons.person),
+          KUpdateField(FieldText = 'Email', KIconName = Icons.email),
+          KUpdateField(FieldText = 'Phone', KIconName = Icons.phone),
+          KUpdateField(FieldText = 'License Number', KIconName = Icons.badge),
+          Padding(padding: EdgeInsets.symmetric(vertical: 40)),
+          ElevatedButton(
+            onPressed: () {},
+            child: Text(
+              'Save',
+              style: TextStyle(color: Colors.black),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Padding KUpdateField(FieldText, KIconName) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15),
+      child: Row(
+        children: [
           Padding(
-            padding: EdgeInsets.only(top: 50, bottom: 20),
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Icon(Icons.person),
-                ),
-                Expanded(
-                  child: TextFormField(
-                    style: TextStyle(),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Driver Name',
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                )
-              ],
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Icon(KIconName),
+          ),
+          Expanded(
+            child: TextFormField(
+              style: TextStyle(),
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: FieldText,
+              ),
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: 20, bottom: 20),
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Icon(Icons.email),
-                ),
-                Expanded(
-                  child: TextFormField(
-                    style: TextStyle(),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Email',
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                )
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 20, bottom: 20),
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Icon(Icons.phone),
-                ),
-                Expanded(
-                  child: TextFormField(
-                    style: TextStyle(),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Phone',
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                )
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 20, bottom: 20),
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Icon(Icons.badge),
-                ),
-                Expanded(
-                  child: TextFormField(
-                    style: TextStyle(),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'License Number',
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                )
-              ],
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
           )
         ],
       ),
