@@ -107,13 +107,8 @@ class _DriverPageState extends State<DriverPage> {
                                 );
                               }
 
-                              return InkWell(
-                                onTap: () {
-                                  nextScreen(context, DriverProfile());
-                                },
-                                child: DriverTile(
-                                  snapshot: snapshot,
-                                ),
+                              return DriverTile(
+                                snapshot: snapshot,
                               );
                             },
                           ),

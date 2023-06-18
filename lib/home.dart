@@ -2,7 +2,6 @@ import 'package:cab_management/BottomNavBar.dart';
 import 'package:cab_management/DriverPage.dart';
 import 'package:cab_management/cabPage.dart';
 import 'package:cab_management/constants.dart';
-import 'package:cab_management/main1.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
