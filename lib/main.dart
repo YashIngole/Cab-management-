@@ -1,4 +1,5 @@
-import 'package:cab_management/Signup.dart';
+import 'package:cab_management/LoginPage.dart';
+import 'package:cab_management/Signin.dart';
 import 'package:cab_management/home.dart';
 import 'package:cab_management/pallete.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -29,13 +30,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData().copyWith(
-        scaffoldBackgroundColor: Color.fromARGB(255, 243, 237, 242),
-        useMaterial3: true,
-      ),
-      home: Signup(),
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData().copyWith(
+          scaffoldBackgroundColor: Color.fromARGB(255, 243, 237, 242),
+          useMaterial3: true,
+        ),
+        home: Signin());
   }
 }

@@ -1,3 +1,4 @@
+import 'package:cab_management/LoginPage.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cab_management/home.dart';
 import 'package:cab_management/pallete.dart';
@@ -5,8 +6,8 @@ import 'package:flutter/material.dart';
 
 import 'EmailField.dart';
 
-class Signup extends StatelessWidget {
-  const Signup({super.key});
+class Signin extends StatelessWidget {
+  const Signin({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class Signup extends StatelessWidget {
       child: Column(children: [
         Image.asset(''),
         Padding(
-          padding: const EdgeInsets.all(120.0),
+          padding: const EdgeInsets.only(top: 250),
           child: Center(
             child: const Text(
               'Sign in.',
@@ -28,7 +29,7 @@ class Signup extends StatelessWidget {
         ),
         EmailField(),
         Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.only(top: 23),
           child: ConstrainedBox(
             constraints: BoxConstraints(maxWidth: 350, maxHeight: 60),
             child: TextFormField(
@@ -44,48 +45,61 @@ class Signup extends StatelessWidget {
                       color: Color.fromARGB(255, 104, 104, 105),
                       width: 3,
                     ),
-                    borderRadius: BorderRadius.circular(18)),
+                    borderRadius: BorderRadius.circular(12)),
                 focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
                       color: Color.fromARGB(255, 0, 0, 5),
                       width: 3,
                     ),
-                    borderRadius: BorderRadius.circular(18)),
+                    borderRadius: BorderRadius.circular(12)),
               ),
             ),
           ),
         ),
-        Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Pallete.gradient1,
-                  Pallete.gradient2,
-                  Pallete.gradient3
-                ],
+        Padding(
+          padding: const EdgeInsets.only(top: 23),
+          child: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Pallete.gradient1,
+                    Pallete.gradient2,
+                    Pallete.gradient3
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(12)),
+            child: ElevatedButton(
+              onPressed: () {
+                nextScreen(context, home());
+              },
+              child: Text(
+                'Sign in',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 20,
+                ),
               ),
-              borderRadius: BorderRadius.circular(18)),
-          child: ElevatedButton(
-            onPressed: () {},
-            child: Text(
-              'Sign in',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w600,
-                fontSize: 20,
-              ),
+              style: ElevatedButton.styleFrom(
+                  fixedSize: Size(350, 50),
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent),
             ),
-            style: ElevatedButton.styleFrom(
-                fixedSize: Size(350, 50),
-                backgroundColor: Colors.transparent,
-                shadowColor: Colors.transparent),
           ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 27),
+          child: Text("Don't have an Account? ",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 15,
+              )),
         ),
         TextButton(
             onPressed: () {
-              nextScreen(context, home);
+              nextScreen(context, LoginPage());
             },
-            child: Text('loginpage'))
+            child: Text('Sign up.'))
       ]),
     ));
   }

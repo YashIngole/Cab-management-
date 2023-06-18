@@ -8,7 +8,7 @@ class EmailField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(0.45),
+      padding: const EdgeInsets.only(top: 23),
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: 350, maxHeight: 60),
         child: TextFormField(
@@ -31,13 +31,13 @@ class EmailField extends StatelessWidget {
                   color: Color.fromARGB(255, 104, 104, 105),
                   width: 3,
                 ),
-                borderRadius: BorderRadius.circular(18)),
+                borderRadius: BorderRadius.circular(12)),
             focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(
                   color: Color.fromARGB(255, 0, 0, 5),
                   width: 3,
                 ),
-                borderRadius: BorderRadius.circular(18)),
+                borderRadius: BorderRadius.circular(12)),
           ),
         ),
       ),
