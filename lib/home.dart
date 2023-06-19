@@ -31,6 +31,8 @@ class _homeState extends State<home> {
   late PageController _myPage;
   var selectedPage;
 
+  String InputValue = '';
+
   @override
   void initState() {
     super.initState();
@@ -115,8 +117,6 @@ class _homeState extends State<home> {
   }
 
   AddNewDriverPopUp(BuildContext context) {
-    String FieldText = '';
-    IconData KIconName;
     showDialog(
         barrierDismissible: false,
         context: context,
@@ -132,51 +132,124 @@ class _homeState extends State<home> {
               ),
               content: SingleChildScrollView(
                 child: SizedBox(
-                  width: MediaQuery.of(context).size.width - 100,
-                  child: Column(
-                    children: [
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: Container(
-                            height: 150,
-                            width: 150,
-                            decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.circular(1000)),
-                            child: Center(
-                                child: Icon(
-                              Icons.add_a_photo,
-                              color: Colors.white,
-                              size: 50,
-                            )),
+                  width: MediaQuery.of(context).size.width - 80,
+                  child: Column(children: [
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Container(
+                          height: 150,
+                          width: 150,
+                          decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(1000)),
+                          child: Center(
+                              child: Icon(
+                            Icons.add_a_photo,
+                            color: Colors.white,
+                            size: 50,
+                          )),
+                        ),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        'Update Profile Picture',
+                        style: TextStyle(fontSize: 15),
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.only(top: 50)),
+
+                    //
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Icon(Icons.person),
                           ),
-                        ),
+                          Expanded(
+                            child: TextFormField(
+                              onChanged: (val) {
+                                setState(() {
+                                  name = val.toLowerCase();
+                                });
+                              },
+                              style: TextStyle(),
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: 'Name',
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                          )
+                        ],
                       ),
-                      Center(
-                        child: Text(
-                          'Update Profile Picture',
-                          style: TextStyle(fontSize: 15),
-                        ),
+                    ),
+
+                    //
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Icon(Icons.email),
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                              onChanged: (val) {
+                                setState(() {
+                                  email = val;
+                                });
+                              },
+                              style: TextStyle(),
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: 'Email',
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                          )
+                        ],
                       ),
-                      Padding(padding: EdgeInsets.only(top: 50)),
-                      KUpdateField(FieldText = 'Driver Name', Icons.person),
-                      KUpdateField(
-                          FieldText = 'Email', KIconName = Icons.email),
-                      KUpdateField(
-                          FieldText = 'Phone', KIconName = Icons.phone),
-                      KUpdateField(FieldText = 'License Number',
-                          KIconName = Icons.badge),
-                      Padding(padding: EdgeInsets.symmetric(vertical: 40)),
-                      ElevatedButton(
-                        onPressed: () {},
-                        child: Text(
-                          'Save',
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      )
-                    ],
-                  ),
+                    ),
+
+                    //
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Icon(Icons.phone),
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                              onChanged: (val) {
+                                setState(() {
+                                  phone = val;
+                                });
+                              },
+                              style: TextStyle(),
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: 'Phone',
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                          )
+                        ],
+                      ),
+                    ),
+                  ]),
                 ),
               ),
               actions: [
@@ -205,7 +278,7 @@ class _homeState extends State<home> {
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.lightGreen),
                   child: const Text(
-                    "CREATE",
+                    "Register",
                     style: TextStyle(color: Colors.black),
                   ),
                 )

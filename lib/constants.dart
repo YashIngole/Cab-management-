@@ -17,28 +17,4 @@ void nextScreenReplace(context, page) {
   Navigator.pushReplacement(
       context, MaterialPageRoute(builder: (context) => page));
 }
- Padding KUpdateField(FieldText, KIconName) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15),
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Icon(KIconName),
-          ),
-          Expanded(
-            child: TextFormField(
-              style: TextStyle(),
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: FieldText,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-          )
-        ],
-      ),
-    );
-  }
+ 
