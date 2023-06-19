@@ -1,6 +1,7 @@
 import 'package:cab_management/Driver/UpdateDriver.dart';
 import 'package:cab_management/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:image_network/image_network.dart';
 
 class DriverProfile extends StatelessWidget {
   final String DriverName;
@@ -14,7 +15,8 @@ class DriverProfile extends StatelessWidget {
       required this.DriverName,
       required this.DriverID,
       required this.Email,
-      required this.Phone, required this.ImageUrl});
+      required this.Phone,
+      required this.ImageUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -42,20 +44,27 @@ class DriverProfile extends StatelessWidget {
             children: [
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Container(
-                    height: 150,
-                    width: 150,
-                    decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(1000)),
-                    child: Center(
-                        child: Text(
-                      DriverName.substring(0, 1).toUpperCase(),
-                      style: TextStyle(color: Colors.white, fontSize: 50),
+                    padding: const EdgeInsets.all(20),
+                    child: ImageNetwork(
+                      image: ImageUrl,
+                      height: 150,
+                      width: 150,
+                      fitAndroidIos: BoxFit.fill,
+                      fitWeb: BoxFitWeb.fill,
+                      borderRadius: BorderRadius.circular(1000),
+                      onError: Container(
+                        height: 150,
+                        width: 150,
+                        decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(1000)),
+                        child: Center(
+                            child: Text(
+                          DriverName.substring(0, 1).toUpperCase(),
+                          style: TextStyle(color: Colors.white, fontSize: 50),
+                        )),
+                      ),
                     )),
-                  ),
-                ),
               ),
               Center(
                 child: Text(
