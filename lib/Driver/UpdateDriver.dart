@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'constants.dart';
-import 'home.dart';
+import '../constants.dart';
+import '../home.dart';
 
 class UpdateDriverPage extends StatefulWidget {
   const UpdateDriverPage({super.key});

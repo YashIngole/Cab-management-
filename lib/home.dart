@@ -1,13 +1,13 @@
 import 'package:cab_management/BottomNavBar.dart';
-import 'package:cab_management/DriverPage.dart';
-import 'package:cab_management/cabPage.dart';
+import 'package:cab_management/Driver/DriverPage.dart';
+import 'package:cab_management/Cab/cabPage.dart';
 import 'package:cab_management/constants.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'databaseService.dart';
-import 'driverTile.dart';
+import 'Driver/driverTile.dart';
 import 'firebase_options.dart';
 import 'dart:js_util';
 import 'package:js/js.dart';
