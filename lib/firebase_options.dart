@@ -23,15 +23,9 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -64,5 +58,25 @@ class DefaultFirebaseOptions {
     messagingSenderId: '548481446524',
     projectId: 'cab-management-7b661',
     storageBucket: 'cab-management-7b661.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyDdLh6wXBSjM88ZPVVMzrTCtKcuy4jw0VI',
+    appId: '1:548481446524:ios:5f84388d27a8026cc30ff9',
+    messagingSenderId: '548481446524',
+    projectId: 'cab-management-7b661',
+    storageBucket: 'cab-management-7b661.appspot.com',
+    iosClientId: '548481446524-dhgqevjs6q3969h667pqlr7dqprvbpp0.apps.googleusercontent.com',
+    iosBundleId: 'com.example.cabManagement',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyDdLh6wXBSjM88ZPVVMzrTCtKcuy4jw0VI',
+    appId: '1:548481446524:ios:0bcb350d378098f1c30ff9',
+    messagingSenderId: '548481446524',
+    projectId: 'cab-management-7b661',
+    storageBucket: 'cab-management-7b661.appspot.com',
+    iosClientId: '548481446524-u77ct6o9n0d9vfqe2pfams2rofncpjri.apps.googleusercontent.com',
+    iosBundleId: 'com.example.cabManagement.RunnerTests',
   );
 }

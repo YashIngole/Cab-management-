@@ -1,37 +1,36 @@
-import 'package:cab_management/BottomNavBar.dart';
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:cab_management/Driver/DriverPage.dart';
 import 'package:cab_management/Cab/cabPage.dart';
 import 'package:cab_management/constants.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:image_picker/image_picker.dart';
 import 'databaseService.dart';
-import 'Driver/driverTile.dart';
-import 'firebase_options.dart';
-import 'dart:js_util';
-import 'package:js/js.dart';
 
-// ignore: camel_case_types
-class home extends StatefulWidget {
-  const home({super.key});
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
 
   @override
-  State<home> createState() => _homeState();
+  _HomeState createState() => _HomeState();
 }
 
-class _homeState extends State<home> {
+class _HomeState extends State<Home> {
   String name = "";
   String id = "";
   String email = "";
   String phone = "";
   final DatabaseService databaseService = DatabaseService();
   Stream? drivers;
+  String ImageUrl = "";
 
   late PageController _myPage;
   var selectedPage;
 
-  String InputValue = '';
+  String inputValue = '';
 
   @override
   void initState() {
@@ -52,22 +51,23 @@ class _homeState extends State<home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: PageView(
-          physics: NeverScrollableScrollPhysics(),
-          controller: _myPage,
-          children: <Widget>[DriverPage(), cabPage()],
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            AddNewDriverPopUp(context);
-          },
-          child: Icon(Icons.add, color: Colors.white),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: BottomNavBar());
+      body: PageView(
+        physics: NeverScrollableScrollPhysics(),
+        controller: _myPage,
+        children: <Widget>[DriverPage(), cabPage()],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          addNewDriverPopUp(context);
+        },
+        child: Icon(Icons.add, color: Colors.white),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: bottomNavBar(),
+    );
   }
 
-  BottomAppBar BottomNavBar() {
+  BottomAppBar bottomNavBar() {
     return BottomAppBar(
       height: 70,
       color: kbackgroundColor,
@@ -116,39 +116,82 @@ class _homeState extends State<home> {
     );
   }
 
-  AddNewDriverPopUp(BuildContext context) {
+  void addNewDriverPopUp(BuildContext context) {
     showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) {
-          return StatefulBuilder(builder: ((context, setState) {
-            return AlertDialog(
-              // insetPadding: EdgeInsets.zero,
-              contentPadding: EdgeInsets.zero,
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              title: const Text(
-                "Add Driver",
-                textAlign: TextAlign.center,
-              ),
-              content: SingleChildScrollView(
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width - 80,
-                  child: Column(children: [
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(builder: (context, setState) {
+          return AlertDialog(
+            insetPadding: EdgeInsets.all(10),
+            contentPadding: EdgeInsets.zero,
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            title: const Text(
+              "Add Driver",
+              textAlign: TextAlign.center,
+            ),
+            content: SingleChildScrollView(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  children: [
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.all(20),
-                        child: Container(
-                          height: 150,
-                          width: 150,
-                          decoration: BoxDecoration(
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(1000),
+                          onTap: () async {
+                            ImagePicker imagePicker = ImagePicker();
+                            XFile? file = await imagePicker.pickImage(
+                              source: ImageSource.gallery,
+                            );
+                            if (file == null) {
+                              return;
+                            }
+                            //convert file to data
+                            final Uint8List fileBytes =
+                                await file.readAsBytes();
+
+                            // Reference to storage root of Firebase Storage
+                            Reference referenceRoot =
+                                FirebaseStorage.instance.ref();
+                            Reference referenceDirImages =
+                                referenceRoot.child('images');
+
+                            // Reference for the image to be stored
+                            String uniqueFileName = DateTime.now()
+                                    .millisecondsSinceEpoch
+                                    .toString() +
+                                '.jpg';
+                            Reference referenceImageToUpload =
+                                referenceDirImages.child(uniqueFileName);
+                            try {
+                              // Store the file
+                              await referenceImageToUpload.putData(
+                                  fileBytes as Uint8List,
+                                  SettableMetadata(contentType: 'image/jpeg'));
+                              ImageUrl =
+                                  await referenceImageToUpload.getDownloadURL();
+                              print(ImageUrl);
+                            } catch (e) {
+                              print('Error uploading image: $e');
+                            }
+                          },
+                          child: Container(
+                            height: 150,
+                            width: 150,
+                            decoration: BoxDecoration(
                               color: Colors.black,
-                              borderRadius: BorderRadius.circular(1000)),
-                          child: Center(
+                              borderRadius: BorderRadius.circular(1000),
+                            ),
+                            child: Center(
                               child: Icon(
-                            Icons.add_a_photo,
-                            color: Colors.white,
-                            size: 50,
-                          )),
+                                Icons.add_a_photo,
+                                color: Colors.white,
+                                size: 50,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -159,8 +202,6 @@ class _homeState extends State<home> {
                       ),
                     ),
                     Padding(padding: EdgeInsets.only(top: 50)),
-
-                    //
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 15),
                       child: Row(
@@ -189,8 +230,6 @@ class _homeState extends State<home> {
                         ],
                       ),
                     ),
-
-                    //
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 15),
                       child: Row(
@@ -219,8 +258,6 @@ class _homeState extends State<home> {
                         ],
                       ),
                     ),
-
-                    //
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 15),
                       child: Row(
@@ -249,42 +286,56 @@ class _homeState extends State<home> {
                         ],
                       ),
                     ),
-                  ]),
+                  ],
                 ),
               ),
-              actions: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
-                  child: const Text(
-                    "CANCEL",
-                    style: TextStyle(color: Colors.black),
-                  ),
+            ),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
+                child: const Text(
+                  "CANCEL",
+                  style: TextStyle(color: Colors.black),
                 ),
-                ElevatedButton(
-                  onPressed: () async {
-                    await databaseService.saveDriverData(
-                        name, id, email, phone);
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  await databaseService.saveDriverData(
+                      name, id, email, phone, ImageUrl);
 
-                    nextScreenReplace(context, home());
+                  nextScreenReplace(context, Home());
 
+                  ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                        content: Center(
-                      child: Text('Driver Registered Successfully'),
-                    ));
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.lightGreen),
-                  child: const Text(
-                    "Register",
-                    style: TextStyle(color: Colors.black),
-                  ),
-                )
-              ],
-            );
-          }));
+                      content: Center(
+                        child: Text('Driver Registered Successfully'),
+                      ),
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.lightGreen,
+                ),
+                child: const Text(
+                  "Register",
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+            ],
+          );
         });
+      },
+    );
+  }
+
+  Future<Image> convertFileToImage(File picture) async {
+    List<int> imageBase64 = picture.readAsBytesSync();
+    String imageAsString = base64Encode(imageBase64);
+    Uint8List uint8list = base64.decode(imageAsString);
+    Image image = Image.memory(uint8list);
+    return image;
   }
 }

@@ -1,8 +1,12 @@
-import 'package:cab_management/Driver/DriverPage.dart';
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:cab_management/Driver/DriverProfile.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:image_network/image_network.dart';
 
 class DriverTile extends StatefulWidget {
   final AsyncSnapshot<QuerySnapshot<Object?>> snapshot;
@@ -99,6 +103,7 @@ class _DriverTileState extends State<DriverTile> {
               final String driverID = data['id'];
               final String email = data['email'];
               final String phone = data['phone'];
+              final String ImageUrl = data['ImageUrl'];
 
               return Flex(
                 direction: Axis.horizontal,
@@ -123,25 +128,73 @@ class _DriverTileState extends State<DriverTile> {
                               DriverID: driverID,
                               Email: email,
                               Phone: phone,
+                              ImageUrl: ImageUrl,
                             ),
                           );
                         },
                         child: Row(
                           children: [
-                            Container(
-                              height: 69,
-                              width: 77,
-                              decoration: BoxDecoration(
-                                color: Colors.black,
+                            ImageNetwork(
+                                image: ImageUrl,
                                 borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  driverName.substring(0, 1).toUpperCase(),
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ),
-                            ),
+                                height: 69,
+                                width: 77,
+                                fitWeb: BoxFitWeb.fill,
+                                fitAndroidIos: BoxFit.fill,
+                                onError: Container(
+                                  width: 77,
+                                  height: 69,
+                                  decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      driverName.substring(0, 1).toUpperCase(),
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                ))
+                            // Image.network(
+                            //   ImageUrl,
+                            //   width: 77,
+                            //   height: 69,
+                            //   fit: BoxFit.cover,
+                            //   // errorBuilder: (context, error, stackTrace) {
+                            //   //   // Handle image loading error
+                            //   //   return Container(
+                            //   //     width: 77,
+                            //   //     height: 69,
+                            //   //     decoration: BoxDecoration(
+                            //   //       color: Colors.black,
+                            //   //       borderRadius: BorderRadius.circular(15),
+                            //   //     ),
+                            //   //     child: Center(
+                            //   //       child: Text(
+                            //   //         driverName.substring(0, 1).toUpperCase(),
+                            //   //         style: TextStyle(color: Colors.white),
+                            //   //       ),
+                            //   //     ),
+                            //   //   );
+                            //   // },
+                            // )
+                            // : Container(
+                            //     width: 77,
+                            //     height: 69,
+                            //     decoration: BoxDecoration(
+                            //       color: Colors.black,
+                            //       borderRadius: BorderRadius.circular(15),
+                            //     ),
+                            //     child: Center(
+                            //       child: Text(
+                            //         driverName
+                            //             .substring(0, 1)
+                            //             .toUpperCase(),
+                            //         style: TextStyle(color: Colors.white),
+                            //       ),
+                            //     ),
+                            //   ),
+                            ,
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 25),
@@ -185,5 +238,14 @@ class _DriverTileState extends State<DriverTile> {
         ),
       ],
     );
+  }
+
+  Future<Image> convertFileToImage(File ImageUrl) async {
+    List<int> imageBase64 = ImageUrl.readAsBytesSync();
+    String imageAsString = base64UrlEncode(imageBase64);
+    Uint8List uint8list = base64.decode(imageAsString);
+    Image image1 = Image.memory(uint8list);
+    print(image1);
+    return image1;
   }
 }

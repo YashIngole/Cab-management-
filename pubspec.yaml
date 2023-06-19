@@ -33,9 +33,13 @@ environment:
 dependencies:
   cloud_firestore: ^4.8.0
   cupertino_icons: ^1.0.2
+  file_picker: ^5.3.2
   firebase_core: ^2.13.1
+  firebase_storage: ^11.2.3
   flutter:
     sdk: flutter
+  image_network: ^2.5.4+1
+  image_picker: ^0.8.9
  
 
 dev_dependencies:

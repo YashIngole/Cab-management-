@@ -7,13 +7,14 @@ class DriverProfile extends StatelessWidget {
   final String DriverID;
   final String Email;
   final String Phone;
+  final String ImageUrl;
 
   const DriverProfile(
       {super.key,
       required this.DriverName,
       required this.DriverID,
       required this.Email,
-      required this.Phone});
+      required this.Phone, required this.ImageUrl});
 
   @override
   Widget build(BuildContext context) {
