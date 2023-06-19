@@ -115,99 +115,69 @@ class _homeState extends State<home> {
   }
 
   AddNewDriverPopUp(BuildContext context) {
+    String FieldText = '';
+    IconData KIconName;
     showDialog(
         barrierDismissible: false,
         context: context,
         builder: (context) {
           return StatefulBuilder(builder: ((context, setState) {
             return AlertDialog(
+              // insetPadding: EdgeInsets.zero,
+              contentPadding: EdgeInsets.zero,
+              clipBehavior: Clip.antiAliasWithSaveLayer,
               title: const Text(
                 "Add Driver",
                 textAlign: TextAlign.center,
               ),
-              content: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(
-                      onChanged: (val) {
-                        setState(() {
-                          name = val.toLowerCase();
-                        });
-                      },
-                      decoration: InputDecoration(
-                          labelText: "Name",
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.green),
-                              borderRadius: BorderRadius.circular(20)),
-                          errorBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.red),
-                              borderRadius: BorderRadius.circular(20)),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.green),
-                              borderRadius: BorderRadius.circular(20))),
-                    ),
+              content: SingleChildScrollView(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width - 100,
+                  child: Column(
+                    children: [
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Container(
+                            height: 150,
+                            width: 150,
+                            decoration: BoxDecoration(
+                                color: Colors.black,
+                                borderRadius: BorderRadius.circular(1000)),
+                            child: Center(
+                                child: Icon(
+                              Icons.add_a_photo,
+                              color: Colors.white,
+                              size: 50,
+                            )),
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: Text(
+                          'Update Profile Picture',
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.only(top: 50)),
+                      KUpdateField(FieldText = 'Driver Name', Icons.person),
+                      KUpdateField(
+                          FieldText = 'Email', KIconName = Icons.email),
+                      KUpdateField(
+                          FieldText = 'Phone', KIconName = Icons.phone),
+                      KUpdateField(FieldText = 'License Number',
+                          KIconName = Icons.badge),
+                      Padding(padding: EdgeInsets.symmetric(vertical: 40)),
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: Text(
+                          'Save',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      )
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      onChanged: (val) {
-                        setState(() {
-                          email = val;
-                        });
-                      },
-                      validator: (val) {
-                        return RegExp(
-                                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                .hasMatch(val!)
-                            ? null
-                            : "Please enter a valid email";
-                      },
-                      decoration: InputDecoration(
-                          labelText: "Email",
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.green),
-                              borderRadius: BorderRadius.circular(20)),
-                          errorBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.red),
-                              borderRadius: BorderRadius.circular(20)),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.green),
-                              borderRadius: BorderRadius.circular(20))),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      onChanged: (val) {
-                        setState(() {
-                          phone = val;
-                        });
-                      },
-                      validator: (val) {
-                        if (val!.length < 6) {
-                          return "Password must be at least 6 characters";
-                        } else {
-                          return null;
-                        }
-                      },
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                          labelText: "phone number",
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.green),
-                              borderRadius: BorderRadius.circular(20)),
-                          errorBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.red),
-                              borderRadius: BorderRadius.circular(20)),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.green),
-                              borderRadius: BorderRadius.circular(20))),
-                    ),
-                  ),
-                ],
+                ),
               ),
               actions: [
                 ElevatedButton(
