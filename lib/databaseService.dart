@@ -1,7 +1,5 @@
 import 'dart:math';
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 
 String UniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
 
@@ -37,12 +35,7 @@ class DatabaseService {
   //reference for image to be stored
 
   // Initialize references before using them
-  void initializeReferences() {
-    Reference referenceRoot = FirebaseStorage.instance.ref();
-    Reference referenceImageToUpload =
-        referenceRoot!.child('images').child(UniqueFileName);
-  }
-
+  
   //generates random driverId
   String generateDriverId() {
     // Generate a random 6 digit ID

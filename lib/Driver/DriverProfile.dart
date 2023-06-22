@@ -20,8 +20,6 @@ class DriverProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String TitleText;
-    String SubtitleText;
     return Scaffold(
         appBar: AppBar(
           title: Text('Driver Profile'),
@@ -85,16 +83,16 @@ class DriverProfile extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    KTitle(TitleText = 'Driver ID'),
-                    KSubtitle(SubtitleText = DriverID),
-                    KTitle(TitleText = 'Email'),
-                    KSubtitle(SubtitleText = Email),
-                    KTitle(TitleText = 'Phone'),
-                    KSubtitle(SubtitleText = Phone),
-                    KTitle(TitleText = 'License Number'),
-                    KSubtitle(SubtitleText = Phone),
-                    KTitle(TitleText = 'Driver Join date'),
-                    KSubtitle(SubtitleText = Phone),
+                    KTitle('Driver ID'),
+                    KSubtitle(DriverID),
+                    KTitle('Email'),
+                    KSubtitle(Email),
+                    KTitle('Phone'),
+                    KSubtitle(Phone),
+                    KTitle('License Number'),
+                    KSubtitle(Phone),
+                    KTitle('Driver Join date'),
+                    KSubtitle(Phone),
                   ],
                 ),
               )

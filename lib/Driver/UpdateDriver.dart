@@ -11,8 +11,6 @@ class _UpdateDriverPageState extends State<UpdateDriverPage> {
   Widget custappbar = Text("Update Cabs");
   @override
   Widget build(BuildContext context) {
-    String FieldText = '';
-    IconData KIconName;
     return Scaffold(
       appBar: AppBar(
         title: Text('Update Driver'),
@@ -46,10 +44,10 @@ class _UpdateDriverPageState extends State<UpdateDriverPage> {
               ),
             ),
             Padding(padding: EdgeInsets.only(top: 50)),
-            KUpdateField(FieldText = 'Driver Name', Icons.person),
-            KUpdateField(FieldText = 'Email', KIconName = Icons.email),
-            KUpdateField(FieldText = 'Phone', KIconName = Icons.phone),
-            KUpdateField(FieldText = 'License Number', KIconName = Icons.badge),
+            KUpdateField('Driver Name', Icons.person),
+            KUpdateField('Email', Icons.email),
+            KUpdateField('Phone', Icons.phone),
+            KUpdateField('License Number', Icons.badge),
             Padding(padding: EdgeInsets.symmetric(vertical: 40)),
             ElevatedButton(
               onPressed: () {},
