@@ -1,24 +1,42 @@
 import 'package:cab_management/Signin.dart';
 import 'package:cab_management/pallete.dart';
 import 'package:flutter/material.dart';
-
-import 'EmailField.dart';
 import 'constants.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  LoginPage({Key? key}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
+
+  var email = "";
+  var password = "";
+  var confirmpassword = "";
+
+  //here are email and password conrtrollers
+
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmpasswordController = TextEditingController();
+
   @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    confirmpasswordController.dispose();
+    super.dispose();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
+        key: _formKey,
         child: Column(children: [
-          Image.asset(''),
+          Image.asset(""),
           Padding(
             padding: const EdgeInsets.only(top: 250),
             child: Center(
@@ -36,7 +54,6 @@ class _LoginPageState extends State<LoginPage> {
             child: ConstrainedBox(
               constraints: BoxConstraints(maxWidth: 350, maxHeight: 60),
               child: TextFormField(
-                obscureText: true,
                 decoration: InputDecoration(
                   labelText: 'Name',
                   labelStyle: TextStyle(color: Colors.black),
@@ -65,13 +82,14 @@ class _LoginPageState extends State<LoginPage> {
             child: ConstrainedBox(
               constraints: BoxConstraints(maxWidth: 350, maxHeight: 60),
               child: TextFormField(
-                validator: (val) {
+                controller: emailController,
+                /*validator: (val) {
                   return RegExp(
                               r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                           .hasMatch(val!)
                       ? null
                       : "Please enter a valid email";
-                },
+                },*/
                 decoration: InputDecoration(
                   labelText: 'Email',
                   labelStyle: TextStyle(color: Colors.black),
@@ -93,6 +111,15 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       borderRadius: BorderRadius.circular(12)),
                 ),
+
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please Enter Email';
+                  } else if (!value.contains('@')) {
+                    return 'Please Enter Valid Email';
+                  }
+                  return null;
+                }, //if else statement for email @
               ),
             ),
           ),
@@ -101,6 +128,7 @@ class _LoginPageState extends State<LoginPage> {
             child: ConstrainedBox(
               constraints: BoxConstraints(maxWidth: 350, maxHeight: 60),
               child: TextFormField(
+                controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
                   labelText: 'Create Password',
@@ -122,6 +150,15 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       borderRadius: BorderRadius.circular(12)),
                 ),
+
+                //validation of password
+
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please Enter Password';
+                  }
+                  return null;
+                },
               ),
             ),
           ),
@@ -151,6 +188,16 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       borderRadius: BorderRadius.circular(12)),
                 ),
+
+                //confirm password validator
+
+                controller: confirmpasswordController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Password Mismatched';
+                  }
+                  return null;
+                },
               ),
             ),
           ),
@@ -168,7 +215,15 @@ class _LoginPageState extends State<LoginPage> {
                   borderRadius: BorderRadius.circular(12)),
               child: ElevatedButton(
                 onPressed: () {
-                  nextScreen(context, Signin());
+                  //Validating password and email by register button
+
+                  if (_formKey.currentState!.validate()) {
+                    setState(() {
+                      email = emailController.text;
+                      password = passwordController.text;
+                      confirmpassword = confirmpasswordController.text;
+                    });
+                  }
                 },
                 child: Text(
                   'Register',

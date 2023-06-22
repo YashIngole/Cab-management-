@@ -1,24 +1,45 @@
 import 'package:flutter/material.dart';
 
-class EmailField extends StatelessWidget {
+class EmailField extends StatefulWidget {
   const EmailField({
     super.key,
   });
 
   @override
+  State<EmailField> createState() => _EmailFieldState();
+}
+
+class _EmailFieldState extends State<EmailField> {
+  final _formKey = GlobalKey<FormState>();
+
+  var email = "";
+  var password = "";
+
+  //here are email and password conrtrollers
+
+  final emailController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+
+    super.dispose();
+  }
+
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 23),
+      key: _formKey,
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: 350, maxHeight: 60),
         child: TextFormField(
-          validator: (val) {
+          /*validator: (val) {
             return RegExp(
                         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                     .hasMatch(val!)
                 ? null
                 : "Please enter a valid email";
-          },
+          },*/
           decoration: InputDecoration(
             labelText: 'Email',
             labelStyle: TextStyle(color: Colors.black),
@@ -39,6 +60,15 @@ class EmailField extends StatelessWidget {
                 ),
                 borderRadius: BorderRadius.circular(12)),
           ),
+          controller: emailController,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please Enter Email';
+            } else if (!value.contains('@')) {
+              return 'Please Enter Valid Email';
+            }
+            return null;
+          }, //if else statement for email @
         ),
       ),
     );

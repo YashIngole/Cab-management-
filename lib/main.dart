@@ -1,4 +1,4 @@
-import 'package:cab_management/LoginPage.dart';
+import 'package:cab_management/SignUp.dart';
 import 'package:cab_management/Signin.dart';
 import 'package:cab_management/home.dart';
 import 'package:cab_management/pallete.dart';
