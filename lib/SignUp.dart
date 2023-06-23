@@ -1,4 +1,5 @@
 import 'package:cab_management/Signin.dart';
+import 'package:cab_management/auth_controller.dart';
 import 'package:cab_management/pallete.dart';
 import 'package:flutter/material.dart';
 import 'constants.dart';
@@ -36,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
       body: SingleChildScrollView(
         key: _formKey,
         child: Column(children: [
-          Image.asset(""),
+          Image.asset("assets/ssignup.png"),
           Padding(
             padding: const EdgeInsets.only(top: 250),
             child: Center(
@@ -215,6 +216,8 @@ class _LoginPageState extends State<LoginPage> {
                   borderRadius: BorderRadius.circular(12)),
               child: ElevatedButton(
                 onPressed: () {
+                  AuthController.instance.register(emailController.text.trim(),
+                      passwordController.text.trim());
                   //Validating password and email by register button
 
                   if (_formKey.currentState!.validate()) {
@@ -240,6 +243,16 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
+          TextButton(
+              onPressed: () {
+                nextScreen(
+                    context,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 50),
+                      child: Signin(),
+                    ));
+              },
+              child: Text('Sign In.'))
         ]),
       ),
     );
