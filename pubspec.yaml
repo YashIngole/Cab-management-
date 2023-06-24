@@ -33,11 +33,13 @@ environment:
 dependencies:
   cloud_firestore: ^4.8.0
   cupertino_icons: ^1.0.2
+  firebase_auth: ^4.6.3
   firebase_core: ^2.13.1
   email_validator: ^2.1.16
   flutter:
     sdk: flutter
-  firebase_auth: ^4.6.3
+  get: ^4.6.5
+  
  
 
 dev_dependencies:
@@ -60,7 +62,7 @@ flutter:
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/login.png
+    - assets/ssignup.png
     
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
