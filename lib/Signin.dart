@@ -14,7 +14,7 @@ class Signin extends StatefulWidget {
 }
 
 class _SigninState extends State<Signin> {
-  final _formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
 
   var email = "";
   var password = "";
@@ -23,11 +23,6 @@ class _SigninState extends State<Signin> {
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
-  userLogin() {
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => home()));
-  }
 
   @override
   void dispose() {
@@ -39,9 +34,9 @@ class _SigninState extends State<Signin> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SingleChildScrollView(
-      key: _formKey,
+      key: formKey,
       child: Column(children: [
-        Image.asset(''),
+        //Image.asset(''),
         Padding(
           padding: const EdgeInsets.only(top: 250),
           child: Center(
@@ -106,13 +101,11 @@ class _SigninState extends State<Signin> {
               onPressed: () {
                 //validates password and email
 
-                if (_formKey.currentState!.validate()) {
+                if (formKey.currentState!.validate()) {
                   setState(() {
                     email = emailController.text;
                     password = passwordController.text;
                   });
-
-                  userLogin();
                 }
               },
               child: Text(
