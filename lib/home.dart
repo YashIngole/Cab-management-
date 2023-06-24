@@ -172,7 +172,7 @@ class _HomeState extends State<Home> {
                                   SettableMetadata(contentType: 'image/jpeg'));
                               ImageUrl =
                                   await referenceImageToUpload.getDownloadURL();
-                              print(ImageUrl); 
+                              print(ImageUrl);
                             } catch (e) {
                               print('Error uploading image: $e');
                             }
