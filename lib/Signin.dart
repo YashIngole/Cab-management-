@@ -36,9 +36,9 @@ class _SigninState extends State<Signin> {
         body: SingleChildScrollView(
       key: formKey,
       child: Column(children: [
-        //Image.asset(''),
+        Image.asset('assets/ssignup.png'),
         Padding(
-          padding: const EdgeInsets.only(top: 250),
+          padding: const EdgeInsets.only(top: 30),
           child: Center(
             child: const Text(
               'Sign in.',
