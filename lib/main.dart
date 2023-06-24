@@ -1,12 +1,10 @@
 import 'package:cab_management/SignUp.dart';
 import 'package:cab_management/Signin.dart';
-import 'package:cab_management/auth_controller.dart';
 import 'package:cab_management/home.dart';
-import 'package:cab_management/pallete.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import 'constants.dart';
 
 void main() async {
@@ -22,7 +20,6 @@ void main() async {
   } else {
     await Firebase.initializeApp();
   }
-  await Firebase.initializeApp().then((value) => Get.put(AuthController()));
 
   runApp(const MyApp());
 }
