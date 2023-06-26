@@ -17,7 +17,8 @@ void nextScreenReplace(context, page) {
   Navigator.pushReplacement(
       context, MaterialPageRoute(builder: (context) => page));
 }
- List<String> items = [
+
+List<String> items = [
   'Item1',
   'Item2',
   'Item3',

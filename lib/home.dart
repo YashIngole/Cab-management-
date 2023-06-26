@@ -11,6 +11,10 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'databaseService.dart';
 
+import 'firebase_options.dart';
+import 'dart:js_util';
+import 'package:js/js.dart';
+
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
