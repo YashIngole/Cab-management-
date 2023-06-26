@@ -1,6 +1,5 @@
 import 'package:cab_management/Signin.dart';
 import 'package:cab_management/home.dart';
-import 'package:cab_management/pallete.dart';
 import 'package:flutter/material.dart';
 import 'constants.dart';
 import 'package:cab_management/helper.dart';
@@ -35,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 250),
+                      padding: const EdgeInsets.only(top: 50),
                       child: Center(
                         child: const Text(
                           'Sign Up.',
@@ -48,7 +47,11 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.only(top: 16, bottom: 5),
+                      child: Image.asset("assets/cab22.png"),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 3, bottom: 23),
                       child: ConstrainedBox(
                         constraints:
                             BoxConstraints(maxWidth: 350, maxHeight: 60),
@@ -64,6 +67,13 @@ class _LoginPageState extends State<LoginPage> {
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 color: Color.fromARGB(255, 104, 104, 105),
+                                width: 3,
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Color.fromARGB(255, 243, 65, 65),
                                 width: 3,
                               ),
                               borderRadius: BorderRadius.circular(12),
@@ -190,9 +200,9 @@ class _LoginPageState extends State<LoginPage> {
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
-                              Pallete.gradient1,
-                              Pallete.gradient2,
-                              Pallete.gradient3,
+                              Color.fromARGB(255, 63, 113, 221),
+                              Color.fromARGB(255, 62, 80, 243),
+                              Color.fromARGB(255, 56, 181, 240)
                             ],
                           ),
                           borderRadius: BorderRadius.circular(12),
@@ -217,6 +227,8 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
+                    SizedBox(height: 20),
+                    Text('Already have an Account?'),
                     TextButton(
                       onPressed: () {
                         nextScreen(
@@ -249,7 +261,7 @@ class _LoginPageState extends State<LoginPage> {
           await helperFunctions.saveUserEmailSF(email);
           await helperFunctions.saveUsernameSF(fullname);
 
-          nextScreenReplace(context, home());
+          nextScreenReplace(context, Signin());
         } else {
           setState(() {
             _isLoading = false;
