@@ -36,18 +36,21 @@ class _SigninState extends State<Signin> {
         body: SingleChildScrollView(
       key: formKey,
       child: Column(children: [
-        Image.asset('assets/3644592.jpg'),
         Padding(
-          padding: const EdgeInsets.only(top: 20),
+          padding: const EdgeInsets.only(top: 50),
           child: Center(
             child: const Text(
-              'Sign in.',
+              'Sign In',
               style: TextStyle(
-                  fontSize: 45,
+                  fontSize: 35,
                   fontWeight: FontWeight.bold,
                   color: Color.fromARGB(255, 7, 7, 7)),
             ),
           ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(25),
+          child: Image.asset("assets/taxi22.png"),
         ),
         EmailField(),
         Padding(
@@ -91,9 +94,9 @@ class _SigninState extends State<Signin> {
             decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Pallete.gradient1,
-                    Pallete.gradient2,
-                    Pallete.gradient3
+                    Color.fromARGB(255, 63, 113, 221),
+                    Color.fromARGB(255, 62, 80, 243),
+                    Color.fromARGB(255, 56, 181, 240)
                   ],
                 ),
                 borderRadius: BorderRadius.circular(12)),

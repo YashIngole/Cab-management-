@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData().copyWith(
-          scaffoldBackgroundColor: Color.fromARGB(255, 243, 237, 242),
+          scaffoldBackgroundColor: Color.fromARGB(255, 255, 255, 255),
           useMaterial3: true,
         ),
         home: Signin());
