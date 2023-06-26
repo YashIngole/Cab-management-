@@ -85,6 +85,20 @@ class _SigninState extends State<Signin> {
                             ),
                             borderRadius: BorderRadius.circular(12),
                           ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 243, 65, 65),
+                              width: 3,
+                            ),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color.fromARGB(255, 0, 0, 5),
+                              width: 3,
+                            ),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
                         onChanged: (val) {
                           setState(() {
@@ -120,6 +134,20 @@ class _SigninState extends State<Signin> {
                                   width: 3,
                                 ),
                                 borderRadius: BorderRadius.circular(12)),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                color: Color.fromARGB(255, 243, 65, 65),
+                                width: 3,
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Color.fromARGB(255, 0, 0, 5),
+                                width: 3,
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                           ),
                           validator: (val) {
                             if (val!.length < 6) {

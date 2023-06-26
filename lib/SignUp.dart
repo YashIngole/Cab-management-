@@ -1,5 +1,6 @@
 import 'package:cab_management/Signin.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'constants.dart';
 import 'package:cab_management/helper.dart';
 import 'package:cab_management/Authentication.dart';
@@ -12,8 +13,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  //form key
   final _formKey = GlobalKey<FormState>();
 
+//To take user input
   String email = "";
   String password = "";
   String fullname = "";
@@ -53,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
                       padding: const EdgeInsets.only(top: 3, bottom: 23),
                       child: ConstrainedBox(
                         constraints:
-                            BoxConstraints(maxWidth: 350, maxHeight: 60),
+                            const BoxConstraints(maxWidth: 350, maxHeight: 60),
                         child: TextFormField(
                           decoration: InputDecoration(
                             labelText: 'Name',
@@ -70,13 +73,6 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            errorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color.fromARGB(255, 243, 65, 65),
-                                width: 3,
-                              ),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 color: Color.fromARGB(255, 0, 0, 5),
@@ -84,7 +80,22 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                color: Color.fromARGB(255, 243, 65, 65),
+                                width: 3,
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Color.fromARGB(255, 0, 0, 5),
+                                width: 3,
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                           ),
+                          //parameter for name input
                           onChanged: (val) {
                             setState(() {
                               fullname = val;
@@ -107,6 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                         constraints:
                             BoxConstraints(maxWidth: 350, maxHeight: 60),
                         child: TextFormField(
+                          //parameter for Email input
                           validator: (val) {
                             return RegExp(
                                         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
@@ -131,6 +143,20 @@ class _LoginPageState extends State<LoginPage> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Color.fromARGB(255, 0, 0, 5),
+                                width: 3,
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                color: Color.fromARGB(255, 243, 65, 65),
+                                width: 3,
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 color: Color.fromARGB(255, 0, 0, 5),
                                 width: 3,
@@ -176,7 +202,22 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                color: Color.fromARGB(255, 243, 65, 65),
+                                width: 3,
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Color.fromARGB(255, 0, 0, 5),
+                                width: 3,
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                           ),
+                          //parameter for password input
                           validator: (val) {
                             if (val!.length < 6) {
                               return "Password must be at least 6 characters";
@@ -208,6 +249,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         child: ElevatedButton(
                           onPressed: () {
+                            //Function for saving and validating email and password
                             register();
                           },
                           child: Text(
