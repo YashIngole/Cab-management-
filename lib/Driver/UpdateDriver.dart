@@ -1,3 +1,4 @@
+import 'package:cab_management/constants.dart';
 import 'package:flutter/material.dart';
 
 class UpdateDriverPage extends StatefulWidget {
@@ -9,6 +10,7 @@ class UpdateDriverPage extends StatefulWidget {
 
 class _UpdateDriverPageState extends State<UpdateDriverPage> {
   Widget custappbar = Text("Update Cabs");
+  String? selectedValue;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +43,36 @@ class _UpdateDriverPageState extends State<UpdateDriverPage> {
               child: Text(
                 'Update Profile Picture',
                 style: TextStyle(fontSize: 15),
+              ),
+            ),
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text("Assign a cab"),
+                  Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
+                  DropdownButton(
+                    items: items
+                        .map((String item) => DropdownMenuItem<String>(
+                              value: item,
+                              child: Text(
+                                item,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ))
+                        .toList(),
+                    hint: Text("Select a item"),
+                    value: selectedValue,
+                    onChanged: (String? value) {
+                      setState(() {
+                        selectedValue = value;
+                      });
+                    },
+                  ),
+                ],
               ),
             ),
             Padding(padding: EdgeInsets.only(top: 50)),

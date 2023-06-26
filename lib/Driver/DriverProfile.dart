@@ -65,9 +65,19 @@ class DriverProfile extends StatelessWidget {
                     )),
               ),
               Center(
-                child: Text(
-                  DriverName,
-                  style: TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
+                child: Column(
+                  children: [
+                    Text(
+                      DriverName,
+                      style:
+                          TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
+                    ),
+                    Text(
+                      "Cab Assigned :cabName",
+                      style:
+                          TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
+                    ),
+                  ],
                 ),
               ),
               Padding(
