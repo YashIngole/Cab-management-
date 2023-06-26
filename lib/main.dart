@@ -4,6 +4,7 @@ import 'package:cab_management/home.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:cab_management/helper.dart';
 
 import 'constants.dart';
 
@@ -24,8 +25,30 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool _isSignedIn = false;
+  @override
+  void initState() {
+    super.initState();
+    getUserLoggedInStatus();
+  }
+
+  void getUserLoggedInStatus() async {
+    await helperFunctions.getUserLoggedInStatus().then((value) {
+      if (value != null) {
+        setState(() {
+          _isSignedIn = value;
+        });
+      } else {}
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +59,7 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Color.fromARGB(255, 255, 255, 255),
           useMaterial3: true,
         ),
-        home: Signin());
+        home: _isSignedIn ? home() 
+        : const Signin());
   }
 }
