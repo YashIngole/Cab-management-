@@ -1,35 +1,35 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-
-import 'package:cab_management/Cab/therealcabpage.dart';
+import 'cabtile.dart';
 import 'package:cab_management/Driver/DriverPage.dart';
-import 'package:cab_management/Cab/therealcabpage.dart';
+//import 'package:cab_management/Cab/cabPage.dart';
 import 'package:cab_management/constants.dart';
+import 'package:cab_management/home.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'databaseService.dart';
+import 'database_c.dart';
 
-import 'firebase_options.dart';
+import 'therealcabpage.dart';
 import 'dart:js_util';
 import 'package:js/js.dart';
 
-class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+class cabPage extends StatefulWidget {
+  const cabPage({Key? key}) : super(key: key);
 
   @override
-  _HomeState createState() => _HomeState();
+  _cabState createState() => _cabState();
 }
 
-class _HomeState extends State<Home> {
-  String name = "";
-  String id = "";
-  String email = "";
-  String phone = "";
-  final DatabaseService databaseService = DatabaseService();
-  Stream? drivers;
+class _cabState extends State<cabPage> {
+  String C_name = "";
+  String C_id = "";
+  String C_type = "";
+  String C_RTO = "";
+  final Database_c database_c = Database_c();
+  Stream? Cabs;
   String ImageUrl = "";
 
   late PageController _myPage;
@@ -41,7 +41,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     _myPage = PageController(initialPage: 0);
-    selectedPage = 0;
+    selectedPage = 1;
   }
 
   void _onItemTapped(int index) {
@@ -59,74 +59,18 @@ class _HomeState extends State<Home> {
       body: PageView(
         physics: NeverScrollableScrollPhysics(),
         controller: _myPage,
-        children: <Widget>[DriverPage(), thecab()],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          if (selectedPage == 0) {
-            addNewDriverPopUp(context);
-          } else {
-            addNewCabPopup();
-          }
-        },
-        child: Icon(Icons.add, color: Colors.white),
+        children: <Widget>[DriverPage(), cabPage()],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: bottomNavBar(),
-    );
-  }
-
-  BottomAppBar bottomNavBar() {
-    return BottomAppBar(
-      height: 70,
-      color: kbackgroundColor,
-      shape: CircularNotchedRectangle(),
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: IconButton(
-                color: selectedPage == 0 ? Colors.blue : Colors.grey,
-                icon: Icon(
-                  Icons.person,
-                  size: 25,
-                ),
-                onPressed: () {
-                  _myPage.jumpToPage(0);
-                  setState(() {
-                    selectedPage = 0;
-                  });
-                },
-              ),
-            ),
-            SizedBox(
-              width: 30,
-            ),
-            Expanded(
-              child: IconButton(
-                onPressed: () {
-                  _myPage.jumpToPage(1);
-                  setState(() {
-                    selectedPage = 1;
-                  });
-                },
-                color: selectedPage == 1 ? Colors.blue : Colors.grey,
-                icon: Icon(
-                  Icons.car_rental,
-                  size: 25,
-                ),
-              ),
-            ),
-          ],
-        ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          addNewCabPopUp(context);}
+      
       ),
     );
   }
 
-  void addNewCabPopup() {}
-  void addNewDriverPopUp(BuildContext context) {
+  void addNewCabPopUp(BuildContext context) {
     showDialog(
       barrierDismissible: false,
       context: context,
@@ -137,7 +81,7 @@ class _HomeState extends State<Home> {
             contentPadding: EdgeInsets.zero,
             clipBehavior: Clip.antiAliasWithSaveLayer,
             title: const Text(
-              "Add Driver",
+              "Add Cab",
               textAlign: TextAlign.center,
             ),
             content: SingleChildScrollView(
@@ -224,13 +168,13 @@ class _HomeState extends State<Home> {
                             child: TextFormField(
                               onChanged: (val) {
                                 setState(() {
-                                  name = val.toLowerCase();
+                                  C_name = val.toLowerCase();
                                 });
                               },
                               style: TextStyle(),
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
-                                labelText: 'Name',
+                                labelText: 'Cab Name',
                               ),
                             ),
                           ),
@@ -246,19 +190,19 @@ class _HomeState extends State<Home> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Icon(Icons.email),
+                            child: Icon(Icons.directions_car),
                           ),
                           Expanded(
                             child: TextFormField(
                               onChanged: (val) {
                                 setState(() {
-                                  email = val;
+                                  C_type = val;
                                 });
                               },
                               style: TextStyle(),
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
-                                labelText: 'Email',
+                                labelText: 'Cab Type',
                               ),
                             ),
                           ),
@@ -274,19 +218,19 @@ class _HomeState extends State<Home> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Icon(Icons.phone),
+                            child: Icon(Icons.numbers),
                           ),
                           Expanded(
                             child: TextFormField(
                               onChanged: (val) {
                                 setState(() {
-                                  phone = val;
+                                  C_RTO = val;
                                 });
                               },
                               style: TextStyle(),
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
-                                labelText: 'Phone',
+                                labelText: 'RTO Passing no.',
                               ),
                             ),
                           ),
@@ -313,15 +257,15 @@ class _HomeState extends State<Home> {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  await databaseService.saveDriverData(
-                      name, id, email, phone, ImageUrl);
+                  await database_c.saveCabsData(
+                      C_name, C_id, C_type, C_RTO, ImageUrl);
 
                   nextScreenReplace(context, Home());
 
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Center(
-                        child: Text('Driver Registered Successfully'),
+                        child: Text('Cab Registered Successfully'),
                       ),
                     ),
                   );
@@ -347,5 +291,5 @@ class _HomeState extends State<Home> {
     Uint8List uint8list = base64.decode(imageAsString);
     Image image = Image.memory(uint8list);
     return image;
- }
+  }
 }
