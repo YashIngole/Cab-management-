@@ -35,7 +35,7 @@ class _cabTileState extends State<cabtile> {
     final List<DocumentSnapshot> allDocs = widget.snapshot.data!.docs;
     final List<DocumentSnapshot> filteredDocs = allDocs.where((doc) {
       final Map<String, dynamic> data = doc.data()! as Map<String, dynamic>;
-      final String C_name = data['Cab name'].toString().toUpperCase();
+      final String C_name = data['C_name'].toString().toUpperCase();
       return C_name.contains(query.toUpperCase());
     }).toList();
     setState(() {
@@ -158,9 +158,7 @@ class _cabTileState extends State<cabtile> {
                                       style: TextStyle(color: Colors.white),
                                     ),
                                   ),
-                                ))
-                            
-                            ,
+                                )),
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 25),
