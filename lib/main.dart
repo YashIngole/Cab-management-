@@ -1,10 +1,10 @@
-import 'package:cab_management/SignUp.dart';
-import 'package:cab_management/Signin.dart';
+import 'package:cab_management/Auth/SignUp.dart';
+import 'package:cab_management/Auth/Signin.dart';
 import 'package:cab_management/home.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:cab_management/helper.dart';
+import 'package:cab_management/Auth/helper.dart';
 
 import 'constants.dart';
 import 'firebase_options.dart';

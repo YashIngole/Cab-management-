@@ -28,13 +28,7 @@ class DatabaseService {
     });
   }
 
-  // Profile picture uploading and retrieving for the driver
-
-  //reference to storage root
-
-  //reference for image to be stored
-
-  // Initialize references before using them
+ 
   
   //generates random driverId
   String generateDriverId() {

@@ -1,12 +1,12 @@
-import 'package:cab_management/SignUp.dart';
+import 'package:cab_management/Auth/SignUp.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cab_management/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:cab_management/Authentication.dart';
-import 'package:cab_management/DBservice.dart';
-import 'package:cab_management/helper.dart';
+import 'package:cab_management/Auth/Authentication.dart';
+import 'package:cab_management/Auth/DBservice.dart';
+import 'package:cab_management/Auth/helper.dart';
 
 class Signin extends StatefulWidget {
   const Signin({super.key});

@@ -62,7 +62,11 @@ class _HomeState extends State<Home> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          addNewDriverPopUp(context);
+          if (selectedPage == 0) {
+            addNewDriverPopUp(context);
+          } else {
+            addNewCabPopup();
+          }
         },
         child: Icon(Icons.add, color: Colors.white),
       ),
@@ -120,6 +124,7 @@ class _HomeState extends State<Home> {
     );
   }
 
+  void addNewCabPopup() {}
   void addNewDriverPopUp(BuildContext context) {
     showDialog(
       barrierDismissible: false,
