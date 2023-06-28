@@ -1,5 +1,26 @@
 import 'package:cab_management/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+void updateData() async {
+  try {
+    await FirebaseFirestore.instance.collection('Cabs').doc('').update({
+      'C_name': '',
+      //'field2': 'new_value2',
+      // Add more fields as needed
+    });
+    print('Data updated successfully');
+  } catch (error) {
+    print('Error updating data: $error');
+  }
+}
+
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(UpdateCabPage());
+}
 
 class UpdateCabPage extends StatefulWidget {
   const UpdateCabPage({super.key});
@@ -92,6 +113,7 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
           ],
         ),
       ),
+      
     );
   }
 
