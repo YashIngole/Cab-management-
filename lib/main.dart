@@ -1,4 +1,3 @@
-import 'package:cab_management/Auth/SignUp.dart';
 import 'package:cab_management/Auth/Signin.dart';
 import 'package:cab_management/home.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -70,6 +69,7 @@ class _MyAppState extends State<MyApp> {
           scaffoldBackgroundColor: Color.fromARGB(255, 255, 255, 255),
           useMaterial3: true,
         ),
-        home: _isSignedIn ? Home() : const Signin());
+        home: //Home());
+            _isSignedIn ? Home() : const Signin());
   }
 }

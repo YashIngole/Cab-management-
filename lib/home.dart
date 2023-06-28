@@ -5,11 +5,11 @@ import 'dart:typed_data';
 import 'package:cab_management/Driver/DriverPage.dart';
 import 'package:cab_management/Cab/cabPage.dart';
 import 'package:cab_management/constants.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-
+import 'package:cab_management/databaseService.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'databaseService.dart';
 
 import 'firebase_options.dart';
 import 'dart:js_util';
@@ -28,9 +28,13 @@ class _HomeState extends State<Home> {
   String email = "";
   String phone = "";
   final DatabaseService databaseService = DatabaseService();
+
   Stream? drivers;
   String ImageUrl = "";
 
+  String selectedValue = "";
+
+  var NewDriverRef;
   late PageController _myPage;
   var selectedPage;
 
@@ -202,12 +206,6 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                    Center(
-                      child: Text(
-                        'Update Profile Picture',
-                        style: TextStyle(fontSize: 15),
                       ),
                     ),
                     Padding(padding: EdgeInsets.only(top: 50)),
