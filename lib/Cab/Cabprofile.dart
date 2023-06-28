@@ -1,4 +1,5 @@
 //import 'package:cab_management/Driver/UpdateDriver.dart';
+import 'package:cab_management/Cab/UpdateCab.dart';
 import 'package:cab_management/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:image_network/image_network.dart';
@@ -28,7 +29,7 @@ class CabProfile extends StatelessWidget {
           actions: [
             IconButton(
                 onPressed: () {
-                  //nextScreen(context, UpdateDriverPage());
+                  nextScreen(context, UpdateCabPage());
                 },
                 icon: Icon(Icons.edit)),
             Padding(padding: EdgeInsets.all(5)),
@@ -74,7 +75,7 @@ class CabProfile extends StatelessWidget {
                           TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
                     ),
                     Text(
-                      "Cab Assigned :cabName",
+                      "Driver Assigned :",
                       style:
                           TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
                     ),
