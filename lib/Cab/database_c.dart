@@ -9,8 +9,7 @@ class Database_c {
   Database_c({this.uid});
 
   // reference to the Firestore collection 'cabs'
-  CollectionReference CabsRef =
-      FirebaseFirestore.instance.collection('Cabs');
+  CollectionReference CabsRef = FirebaseFirestore.instance.collection('Cabs');
 
   // function to save the driver data to Firestore
   Future<void> saveCabsData(String C_name, String C_id, String C_type,
@@ -35,7 +34,7 @@ class Database_c {
   //reference for image to be stored
 
   // Initialize references before using them
-  
+
   //generates random driverId
   String generateCabId() {
     // Generate a random 6 digit ID
