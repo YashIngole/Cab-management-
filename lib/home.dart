@@ -42,8 +42,6 @@ class _HomeState extends State<Home> {
   String ImageUrl = "";
   List<String> cabs = [];
 
-  String selectedValue = "";
-
   var NewDriverRef;
   late PageController _myPage;
   var selectedPage;
