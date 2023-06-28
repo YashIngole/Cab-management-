@@ -7,8 +7,9 @@ import 'package:cab_management/Driver/DriverPage.dart';
 import 'package:cab_management/Cab/therealcabpage.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-
+import 'package:cab_management/databaseService.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'databaseService.dart';
@@ -41,6 +42,9 @@ class _HomeState extends State<Home> {
   String ImageUrl = "";
   List<String> cabs = [];
 
+  String selectedValue = "";
+
+  var NewDriverRef;
   late PageController _myPage;
   var selectedPage;
 

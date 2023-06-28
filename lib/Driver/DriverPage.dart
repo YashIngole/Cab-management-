@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
+import 'package:cab_management/Auth/navBar.dart';
 import '../databaseService.dart';
 import 'driverTile.dart';
 
@@ -24,6 +24,7 @@ class _DriverPageState extends State<DriverPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      drawer: navBar(),
       appBar: AppBar(
         elevation: 0,
         forceMaterialTransparency: true,
