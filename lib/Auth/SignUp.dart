@@ -1,8 +1,8 @@
-import 'package:cab_management/Signin.dart';
+import 'package:cab_management/Auth/Signin.dart';
 import 'package:flutter/material.dart';
-import 'constants.dart';
-import 'package:cab_management/helper.dart';
-import 'package:cab_management/Authentication.dart';
+import '../constants.dart';
+import 'package:cab_management/Auth/helper.dart';
+import 'package:cab_management/Auth/Authentication.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);
