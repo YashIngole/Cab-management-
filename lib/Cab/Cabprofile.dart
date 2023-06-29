@@ -10,6 +10,7 @@ class CabProfile extends StatelessWidget {
   final String C_type;
   final String C_RTO;
   final String ImageUrl;
+  final String AssignDriver;
 
   const CabProfile(
       {super.key,
@@ -17,7 +18,7 @@ class CabProfile extends StatelessWidget {
       required this.C_id,
       required this.C_type,
       required this.C_RTO,
-      required this.ImageUrl});
+      required this.ImageUrl, required this.AssignDriver});
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +75,7 @@ class CabProfile extends StatelessWidget {
                           TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
                     ),
                     Text(
-                      "Cab Assigned :cabName",
+                      "Cab Assigned : "+ AssignDriver ,
                       style:
                           TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
                     ),

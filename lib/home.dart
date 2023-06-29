@@ -51,8 +51,8 @@ class _HomeState extends State<Home> {
 
   String inputValue = '';
 
-  String? CselectedValue;
-  String? cabType;
+  String? AssignDriver;
+  String? AssignCab;
 
   @override
   void initState() {
@@ -252,10 +252,10 @@ class _HomeState extends State<Home> {
                           );
                         }).toList(),
                         hint: Text("Assign a Driver"),
-                        value: CselectedValue,
+                        value: AssignDriver,
                         onChanged: (String? value) {
                           setState(() {
-                            CselectedValue = value;
+                            AssignDriver = value;
                           });
                         },
                       ),
@@ -367,7 +367,7 @@ class _HomeState extends State<Home> {
                 ElevatedButton(
                   onPressed: () async {
                     await database_c.saveCabsData(
-                        C_name, C_id, C_type, C_RTO, ImageUrl);
+                        C_name, C_id, C_type, C_RTO, ImageUrl, AssignDriver);
 
                     Navigator.of(context).pop();
 
@@ -506,10 +506,10 @@ class _HomeState extends State<Home> {
                           );
                         }).toList(),
                         hint: Text("Assign a Cab"),
-                        value: cabType,
+                        value: AssignCab,
                         onChanged: (String? value) {
                           setState(() {
-                            cabType = value;
+                            AssignCab = value;
                           });
                         },
                       ),
@@ -621,7 +621,7 @@ class _HomeState extends State<Home> {
                 ElevatedButton(
                   onPressed: () async {
                     await databaseService.saveDriverData(
-                        name, id, email, phone, ImageUrl, cabType);
+                        name, id, email, phone, ImageUrl, AssignCab);
 
                     nextScreenReplace(context, Home());
 
