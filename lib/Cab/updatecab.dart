@@ -47,8 +47,8 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
   String? selectedValue;
 
   late String newNameValue;
-  late String newcabtype;
-  late String newcabRTOnumber;
+  late String newcabtypeValue;
+  late String newcabRTOValue;
 
   @override
   Widget build(BuildContext context) {
@@ -157,7 +157,7 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
                   Expanded(
                     child: TextFormField(
                       onChanged: (value) {
-                        newNameValue = value;
+                        newcabtypeValue = value;
                       },
                       style: const TextStyle(),
                       decoration: InputDecoration(
@@ -183,7 +183,7 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
                   Expanded(
                     child: TextFormField(
                       onChanged: (value) {
-                        newNameValue = value;
+                        newcabRTOValue = value;
                       },
                       style: const TextStyle(),
                       decoration: InputDecoration(
@@ -231,29 +231,25 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
           .update({'C_name': newNameValue})
           .then((_) => print('Success'))
           .catchError((error) => print('Failed: $error'));
-      
-    } 
-    if (querySnapshot.docs.isNotEmpty) {
-      var documentSnapshot = querySnapshot.docs.first;
-
-      collection
-          .doc(documentSnapshot.id)
-          .update({'C_type': newcabtype})
-          .then((_) => print('Success'))
-          .catchError((error) => print('Failed: $error'));
-      
     }
     if (querySnapshot.docs.isNotEmpty) {
       var documentSnapshot = querySnapshot.docs.first;
 
       collection
           .doc(documentSnapshot.id)
-          .update({'C_RTO': newcabRTOnumber})
+          .update({'C_type': newcabtypeValue})
           .then((_) => print('Success'))
           .catchError((error) => print('Failed: $error'));
-      
     }
-     else {
+    if (querySnapshot.docs.isNotEmpty) {
+      var documentSnapshot = querySnapshot.docs.first;
+
+      collection
+          .doc(documentSnapshot.id)
+          .update({'C_RTO': newcabRTOValue})
+          .then((_) => print('Success'))
+          .catchError((error) => print('Failed: $error'));
+    } else {
       print('Document not found');
     }
   }
