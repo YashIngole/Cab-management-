@@ -2,6 +2,7 @@ import 'dart:html';
 
 import 'package:cab_management/Driver/UpdateDriver.dart';
 import 'package:cab_management/constants.dart';
+import 'package:cab_management/home.dart';
 import 'package:flutter/material.dart';
 import 'package:image_network/image_network.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -37,7 +38,29 @@ class DriverProfile extends StatelessWidget {
             Padding(padding: EdgeInsets.all(5)),
             IconButton(
                 onPressed: () {
-                  deletedrivrData();
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text("Exit"),
+                        content: const Text(
+                            "Are you sure you want to exit the group?"),
+                        actions: [
+                          TextButton(
+                            child: const Text("Cancel"),
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                          TextButton(
+                            child: const Text("Log out"),
+                            onPressed: () {
+                              deletedrivrData();
+                              nextScreen(context, Home());
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 },
                 icon: Icon(Icons.delete)),
             Padding(padding: EdgeInsets.all(5)),
@@ -145,8 +168,9 @@ class DriverProfile extends StatelessWidget {
     var collection = FirebaseFirestore.instance.collection('drivers');
     print(DriverName);
 
-    var querySnapshot =
-        await collection.where("DriverName", isEqualTo: DriverName).get();
+    var querySnapshot = await collection
+        .where("name", isEqualTo: DriverName.toLowerCase())
+        .get();
 
     if (querySnapshot.docs.isNotEmpty) {
       var documentSnapshot = querySnapshot.docs.first;
