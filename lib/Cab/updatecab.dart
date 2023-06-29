@@ -1,10 +1,52 @@
 import 'package:cab_management/constants.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:cab_management/firebase_options.dart';
+import 'package:cab_management/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:cab_management/Cab/database_c.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(MyApp());
+}
+
+final CollectionReference cabCollection =
+    FirebaseFirestore.instance.collection('Cabs');
+
+final Database_c database_c = Database_c();
+
+void updateCabData() async {
+  try {
+    QuerySnapshot querySnapshot = await cabCollection
+        .where('C_name', isEqualTo: 'C_name')
+        .limit(1)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      String documentId = querySnapshot.docs[0].id;
+
+      await cabCollection.doc(documentId).update({
+        'C_name': 'C_name',
+        'C_type': 'C_type',
+        'C_RTO': 'C_RTO',
+        // Add more fields and their updated values
+      });
+
+      print('Cab data updated successfully.');
+    } else {
+      print('No matching cab found.');
+    }
+  } catch (e) {
+    print('Error updating cab data: $e');
+  }
+}
 
 class UpdateCabPage extends StatefulWidget {
-  const UpdateCabPage({super.key});
+  const UpdateCabPage({Key? key}) : super(key: key);
 
   @override
   State<UpdateCabPage> createState() => _UpdateCabPageState();
@@ -12,6 +54,7 @@ class UpdateCabPage extends StatefulWidget {
 
 class _UpdateCabPageState extends State<UpdateCabPage> {
   String? selectedValue;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,14 +72,16 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
                   height: 150,
                   width: 150,
                   decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(1000)),
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(1000),
+                  ),
                   child: Center(
-                      child: Icon(
-                    Icons.add_a_photo,
-                    color: Colors.white,
-                    size: 50,
-                  )),
+                    child: Icon(
+                      Icons.add_a_photo,
+                      color: Colors.white,
+                      size: 50,
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -55,15 +100,17 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
                   Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
                   DropdownButton(
                     items: items
-                        .map((String item) => DropdownMenuItem<String>(
-                              value: item,
-                              child: Text(
-                                item,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                ),
+                        .map(
+                          (String item) => DropdownMenuItem<String>(
+                            value: item,
+                            child: Text(
+                              item,
+                              style: const TextStyle(
+                                fontSize: 14,
                               ),
-                            ))
+                            ),
+                          ),
+                        )
                         .toList(),
                     hint: Text("Select a item"),
                     value: selectedValue,
@@ -83,12 +130,14 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
             //KUpdateField('License Number', Icons.badge),
             Padding(padding: EdgeInsets.symmetric(vertical: 40)),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                updateCabData();
+              },
               child: Text(
                 'Save',
                 style: TextStyle(color: Colors.black),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -115,7 +164,7 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-          )
+          ),
         ],
       ),
     );
