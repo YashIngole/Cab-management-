@@ -143,6 +143,59 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
                 ],
               ),
             ),
+            const Padding(padding: EdgeInsets.only(top: 1)),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Icon(Icons.local_taxi),
+                  ),
+                  Expanded(
+                    child: TextFormField(
+                      onChanged: (value) {
+                        newNameValue = value;
+                      },
+                      style: const TextStyle(),
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Cab Type',
+                      ),
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Icon(Icons.local_taxi),
+                  ),
+                  Expanded(
+                    child: TextFormField(
+                      onChanged: (value) {
+                        newNameValue = value;
+                      },
+                      style: const TextStyle(),
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'RTO passing number',
+                      ),
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                  ),
+                ],
+              ),
+            ),
             const Padding(padding: EdgeInsets.symmetric(vertical: 40)),
             ElevatedButton(
               onPressed: () {
@@ -165,6 +218,8 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
 
     var querySnapshot =
         await collection.where('C_name', isEqualTo: widget.C_name).get();
+    await collection.where('C_type', isEqualTo: widget.C_name).get();
+    await collection.where('C_RTO', isEqualTo: widget.C_name).get();
 
     if (querySnapshot.docs.isNotEmpty) {
       var documentSnapshot = querySnapshot.docs.first;
@@ -172,6 +227,16 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
       collection
           .doc(documentSnapshot.id)
           .update({'C_name': newNameValue})
+          .then((_) => print('Success'))
+          .catchError((error) => print('Failed: $error'));
+      collection
+          .doc(documentSnapshot.id)
+          .update({'C_type': newNameValue})
+          .then((_) => print('Success'))
+          .catchError((error) => print('Failed: $error'));
+      collection
+          .doc(documentSnapshot.id)
+          .update({'C_RTO': newNameValue})
           .then((_) => print('Success'))
           .catchError((error) => print('Failed: $error'));
     } else {
