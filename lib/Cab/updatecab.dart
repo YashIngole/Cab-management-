@@ -47,6 +47,8 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
   String? selectedValue;
 
   late String newNameValue;
+  late String newcabtype;
+  late String newcabRTOnumber;
 
   @override
   Widget build(BuildContext context) {
@@ -218,8 +220,8 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
 
     var querySnapshot =
         await collection.where('C_name', isEqualTo: widget.C_name).get();
-    await collection.where('C_type', isEqualTo: widget.C_name).get();
-    await collection.where('C_RTO', isEqualTo: widget.C_name).get();
+    await collection.where('C_type', isEqualTo: widget.C_type).get();
+    await collection.where('C_RTO', isEqualTo: widget.C_RTO).get();
 
     if (querySnapshot.docs.isNotEmpty) {
       var documentSnapshot = querySnapshot.docs.first;
@@ -229,17 +231,29 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
           .update({'C_name': newNameValue})
           .then((_) => print('Success'))
           .catchError((error) => print('Failed: $error'));
+      
+    } 
+    if (querySnapshot.docs.isNotEmpty) {
+      var documentSnapshot = querySnapshot.docs.first;
+
       collection
           .doc(documentSnapshot.id)
-          .update({'C_type': newNameValue})
+          .update({'C_type': newcabtype})
           .then((_) => print('Success'))
           .catchError((error) => print('Failed: $error'));
+      
+    }
+    if (querySnapshot.docs.isNotEmpty) {
+      var documentSnapshot = querySnapshot.docs.first;
+
       collection
           .doc(documentSnapshot.id)
-          .update({'C_RTO': newNameValue})
+          .update({'C_RTO': newcabRTOnumber})
           .then((_) => print('Success'))
           .catchError((error) => print('Failed: $error'));
-    } else {
+      
+    }
+     else {
       print('Document not found');
     }
   }
