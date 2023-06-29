@@ -18,7 +18,8 @@ class CabProfile extends StatelessWidget {
       required this.C_id,
       required this.C_type,
       required this.C_RTO,
-      required this.ImageUrl, required this.AssignDriver});
+      required this.ImageUrl,
+      required this.AssignDriver});
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +76,7 @@ class CabProfile extends StatelessWidget {
                           TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
                     ),
                     Text(
-                      "Cab Assigned : "+ AssignDriver ,
+                      "Cab Assigned : " + AssignDriver,
                       style:
                           TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
                     ),

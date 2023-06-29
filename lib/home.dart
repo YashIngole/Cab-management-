@@ -147,7 +147,7 @@ class _HomeState extends State<Home> {
         .collection('drivers')
         .get()
         .then((querySnapshot) {
-      List<String> cabs = [];
+      List<String> cabs = ['not selected'];
       querySnapshot.docs.forEach((doc) {
         var driverName = doc.data()['name'].toString().toUpperCase();
         cabs.add(driverName);
@@ -175,61 +175,57 @@ class _HomeState extends State<Home> {
                         child: Padding(
                           padding: const EdgeInsets.all(20),
                           child: InkWell(
-                              borderRadius: BorderRadius.circular(1000),
-                              onTap: () async {
-                                ImagePicker imagePicker = ImagePicker();
-                                XFile? file = await imagePicker.pickImage(
-                                  source: ImageSource.gallery,
-                                );
-                                if (file == null) {
-                                  return;
-                                }
-                                final Uint8List fileBytes =
-                                    await file.readAsBytes();
+                            borderRadius: BorderRadius.circular(1000),
+                            onTap: () async {
+                              ImagePicker imagePicker = ImagePicker();
+                              XFile? file = await imagePicker.pickImage(
+                                source: ImageSource.gallery,
+                              );
+                              if (file == null) {
+                                return;
+                              }
+                              final Uint8List fileBytes =
+                                  await file.readAsBytes();
 
-                                Reference referenceRoot =
-                                    FirebaseStorage.instance.ref();
-                                Reference referenceDirImages =
-                                    referenceRoot.child('images');
+                              Reference referenceRoot =
+                                  FirebaseStorage.instance.ref();
+                              Reference referenceDirImages =
+                                  referenceRoot.child('images');
 
-                                String uniqueFileName = DateTime.now()
-                                        .millisecondsSinceEpoch
-                                        .toString() +
-                                    '.jpg';
-                                Reference referenceImageToUpload =
-                                    referenceDirImages.child(uniqueFileName);
-                                try {
-                                  await referenceImageToUpload.putData(
-                                      fileBytes as Uint8List,
-                                      SettableMetadata(
-                                          contentType: 'image/jpeg'));
-                                  ImageUrl = await referenceImageToUpload
-                                      .getDownloadURL();
-                                  print(ImageUrl);
-                                } catch (e) {
-                                  print('Error uploading image: $e');
-                                }
-                              },
-                              child: ImageNetwork(
-                                image: ImageUrl,
-                                height: 150,
-                                width: 150,
-                                onError: Container(
-                                  height: 150,
-                                  width: 150,
-                                  decoration: BoxDecoration(
-                                    color: Colors.black,
-                                    borderRadius: BorderRadius.circular(1000),
-                                  ),
-                                  child: Center(
-                                    child: Icon(
-                                      Icons.add_a_photo,
-                                      color: Colors.white,
-                                      size: 50,
-                                    ),
-                                  ),
+                              String uniqueFileName = DateTime.now()
+                                      .millisecondsSinceEpoch
+                                      .toString() +
+                                  '.jpg';
+                              Reference referenceImageToUpload =
+                                  referenceDirImages.child(uniqueFileName);
+                              try {
+                                await referenceImageToUpload.putData(
+                                    fileBytes as Uint8List,
+                                    SettableMetadata(
+                                        contentType: 'image/jpeg'));
+                                ImageUrl = await referenceImageToUpload
+                                    .getDownloadURL();
+                                print(ImageUrl);
+                              } catch (e) {
+                                print('Error uploading image: $e');
+                              }
+                            },
+                            child: Container(
+                              height: 150,
+                              width: 150,
+                              decoration: BoxDecoration(
+                                color: Colors.black,
+                                borderRadius: BorderRadius.circular(1000),
+                              ),
+                              child: Center(
+                                child: Icon(
+                                  Icons.add_a_photo,
+                                  color: Colors.white,
+                                  size: 50,
                                 ),
-                              )),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                       Center(
@@ -239,25 +235,33 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       Padding(padding: EdgeInsets.only(top: 50)),
-                      DropdownButton<String>(
-                        items: cabs.map((String item) {
-                          return DropdownMenuItem<String>(
-                            value: item,
-                            child: Text(
-                              item,
-                              style: const TextStyle(
-                                fontSize: 14,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 150),
+                        child: DropdownButtonFormField<String>(
+                          validator: (value) {
+                            if (value == null) {
+                              return 'Relationship is required';
+                            }
+                          },
+                          items: cabs.map((String item) {
+                            return DropdownMenuItem<String>(
+                              value: item,
+                              child: Text(
+                                item,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                ),
                               ),
-                            ),
-                          );
-                        }).toList(),
-                        hint: Text("Assign a Driver"),
-                        value: AssignDriver,
-                        onChanged: (String? value) {
-                          setState(() {
-                            AssignDriver = value;
-                          });
-                        },
+                            );
+                          }).toList(),
+                          hint: Text("Assign a Driver"),
+                          value: cabs[0],
+                          onChanged: (String? value) {
+                            setState(() {
+                              AssignDriver = value;
+                            });
+                          },
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 15),
@@ -399,7 +403,9 @@ class _HomeState extends State<Home> {
 
   void addNewDriverPopUp(BuildContext context) {
     FirebaseFirestore.instance.collection('Cabs').get().then((querySnapshot) {
-      List<String> cabs = []; // Create an empty list to store cab names
+      List<String> cabs = [
+        'not selected'
+      ]; // Create an empty list to store cab names
       querySnapshot.docs.forEach((doc) {
         var cName = doc.data()['C_name'].toString().toUpperCase();
         var cRTO = doc.data()['C_RTO'].toString().toUpperCase();
@@ -493,25 +499,33 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       Padding(padding: EdgeInsets.only(top: 50)),
-                      DropdownButton<String>(
-                        items: cabs.map((String item) {
-                          return DropdownMenuItem<String>(
-                            value: item,
-                            child: Text(
-                              item,
-                              style: const TextStyle(
-                                fontSize: 14,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 150),
+                        child: DropdownButtonFormField<String>(
+                          validator: (value) {
+                            if (value == null) {
+                              return 'Relationship is required';
+                            }
+                          },
+                          items: cabs.map((String item) {
+                            return DropdownMenuItem<String>(
+                              value: item,
+                              child: Text(
+                                item,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                ),
                               ),
-                            ),
-                          );
-                        }).toList(),
-                        hint: Text("Assign a Cab"),
-                        value: AssignCab,
-                        onChanged: (String? value) {
-                          setState(() {
-                            AssignCab = value;
-                          });
-                        },
+                            );
+                          }).toList(),
+                          hint: Text("Assign a Cab"),
+                          value: cabs[0],
+                          onChanged: (String? value) {
+                            setState(() {
+                              AssignCab = value;
+                            });
+                          },
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 15),
