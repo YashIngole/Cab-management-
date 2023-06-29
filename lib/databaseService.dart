@@ -1,4 +1,6 @@
 import 'dart:math';
+import 'package:cab_management/Driver/DriverPage.dart';
+import 'package:cab_management/Driver/driverTile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 String UniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
@@ -28,8 +30,11 @@ class DatabaseService {
     });
   }
 
- 
-  
+ /* static Future delete(DriverTile driver) async {
+    final drivercollection = FirebaseFirestore.instance.collection('drivers');
+    final docRef = drivercollection.doc().delete();
+  }*/
+
   //generates random driverId
   String generateDriverId() {
     // Generate a random 6 digit ID
