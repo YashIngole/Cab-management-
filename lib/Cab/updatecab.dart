@@ -14,14 +14,14 @@ Future<void> main() async {
   runApp(MyApp());
 }
 
-final CollectionReference cabCollection =
+final CollectionReference Cabs =
     FirebaseFirestore.instance.collection('Cabs');
 
 final Database_c database_c = Database_c();
 
 void updateCabData() async {
   try {
-    QuerySnapshot querySnapshot = await cabCollection
+    QuerySnapshot querySnapshot = await Cabs
         .where('C_name', isEqualTo: 'C_name')
         .limit(1)
         .get();
@@ -29,16 +29,13 @@ void updateCabData() async {
     if (querySnapshot.docs.isNotEmpty) {
       String documentId = querySnapshot.docs[0].id;
 
-      await cabCollection.doc(documentId).update({
+      await Cabs.doc(documentId).update({
         'C_name': 'C_name',
         'C_type': 'C_type',
         'C_RTO': 'C_RTO',
         // Add more fields and their updated values
       });
 
-      print('Cab data updated successfully.');
-    } else {
-      print('No matching cab found.');
     }
   } catch (e) {
     print('Error updating cab data: $e');
