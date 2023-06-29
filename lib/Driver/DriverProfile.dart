@@ -9,6 +9,7 @@ class DriverProfile extends StatelessWidget {
   final String Email;
   final String Phone;
   final String ImageUrl;
+  final String cabType;
 
   const DriverProfile(
       {super.key,
@@ -16,7 +17,8 @@ class DriverProfile extends StatelessWidget {
       required this.DriverID,
       required this.Email,
       required this.Phone,
-      required this.ImageUrl});
+      required this.ImageUrl,
+      required this.cabType});
 
   @override
   Widget build(BuildContext context) {
@@ -73,9 +75,9 @@ class DriverProfile extends StatelessWidget {
                           TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
                     ),
                     Text(
-                      "Cab Assigned :cabName",
+                      "Cab Assigned : " + cabType,
                       style:
-                          TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
+                          TextStyle(fontWeight: FontWeight.w400, fontSize: 15),
                     ),
                   ],
                 ),

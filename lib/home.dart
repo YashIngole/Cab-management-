@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:cab_management/Auth/navBar.dart';
+import 'package:cab_management/Cab/cabtile.dart';
 import 'package:cab_management/Cab/therealcabpage.dart';
 import 'package:cab_management/Driver/DriverPage.dart';
 import 'package:cab_management/Cab/therealcabpage.dart';
@@ -11,6 +13,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cab_management/databaseService.dart';
 import 'package:flutter/material.dart';
+import 'package:image_network/image_network.dart';
 import 'package:image_picker/image_picker.dart';
 import 'databaseService.dart';
 import 'Cab/database_c.dart';
@@ -48,7 +51,8 @@ class _HomeState extends State<Home> {
 
   String inputValue = '';
 
-  String? selectedValue;
+  String? CselectedValue;
+  String? cabType;
 
   @override
   void initState() {
@@ -145,7 +149,7 @@ class _HomeState extends State<Home> {
         .then((querySnapshot) {
       List<String> cabs = [];
       querySnapshot.docs.forEach((doc) {
-        var driverName = doc.data()['name'];
+        var driverName = doc.data()['name'].toString().toUpperCase();
         cabs.add(driverName);
       });
 
@@ -171,57 +175,61 @@ class _HomeState extends State<Home> {
                         child: Padding(
                           padding: const EdgeInsets.all(20),
                           child: InkWell(
-                            borderRadius: BorderRadius.circular(1000),
-                            onTap: () async {
-                              ImagePicker imagePicker = ImagePicker();
-                              XFile? file = await imagePicker.pickImage(
-                                source: ImageSource.gallery,
-                              );
-                              if (file == null) {
-                                return;
-                              }
-                              final Uint8List fileBytes =
-                                  await file.readAsBytes();
+                              borderRadius: BorderRadius.circular(1000),
+                              onTap: () async {
+                                ImagePicker imagePicker = ImagePicker();
+                                XFile? file = await imagePicker.pickImage(
+                                  source: ImageSource.gallery,
+                                );
+                                if (file == null) {
+                                  return;
+                                }
+                                final Uint8List fileBytes =
+                                    await file.readAsBytes();
 
-                              Reference referenceRoot =
-                                  FirebaseStorage.instance.ref();
-                              Reference referenceDirImages =
-                                  referenceRoot.child('images');
+                                Reference referenceRoot =
+                                    FirebaseStorage.instance.ref();
+                                Reference referenceDirImages =
+                                    referenceRoot.child('images');
 
-                              String uniqueFileName = DateTime.now()
-                                      .millisecondsSinceEpoch
-                                      .toString() +
-                                  '.jpg';
-                              Reference referenceImageToUpload =
-                                  referenceDirImages.child(uniqueFileName);
-                              try {
-                                await referenceImageToUpload.putData(
-                                    fileBytes as Uint8List,
-                                    SettableMetadata(
-                                        contentType: 'image/jpeg'));
-                                ImageUrl = await referenceImageToUpload
-                                    .getDownloadURL();
-                                print(ImageUrl);
-                              } catch (e) {
-                                print('Error uploading image: $e');
-                              }
-                            },
-                            child: Container(
-                              height: 150,
-                              width: 150,
-                              decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.circular(1000),
-                              ),
-                              child: Center(
-                                child: Icon(
-                                  Icons.add_a_photo,
-                                  color: Colors.white,
-                                  size: 50,
+                                String uniqueFileName = DateTime.now()
+                                        .millisecondsSinceEpoch
+                                        .toString() +
+                                    '.jpg';
+                                Reference referenceImageToUpload =
+                                    referenceDirImages.child(uniqueFileName);
+                                try {
+                                  await referenceImageToUpload.putData(
+                                      fileBytes as Uint8List,
+                                      SettableMetadata(
+                                          contentType: 'image/jpeg'));
+                                  ImageUrl = await referenceImageToUpload
+                                      .getDownloadURL();
+                                  print(ImageUrl);
+                                } catch (e) {
+                                  print('Error uploading image: $e');
+                                }
+                              },
+                              child: ImageNetwork(
+                                image: ImageUrl,
+                                height: 150,
+                                width: 150,
+                                onError: Container(
+                                  height: 150,
+                                  width: 150,
+                                  decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(1000),
+                                  ),
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.add_a_photo,
+                                      color: Colors.white,
+                                      size: 50,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                          ),
+                              )),
                         ),
                       ),
                       Center(
@@ -244,10 +252,10 @@ class _HomeState extends State<Home> {
                           );
                         }).toList(),
                         hint: Text("Assign a Driver"),
-                        value: selectedValue,
+                        value: CselectedValue,
                         onChanged: (String? value) {
                           setState(() {
-                            selectedValue = value;
+                            CselectedValue = value;
                           });
                         },
                       ),
@@ -393,8 +401,10 @@ class _HomeState extends State<Home> {
     FirebaseFirestore.instance.collection('Cabs').get().then((querySnapshot) {
       List<String> cabs = []; // Create an empty list to store cab names
       querySnapshot.docs.forEach((doc) {
-        var cName = doc.data()['C_name'];
-        cabs.add(cName);
+        var cName = doc.data()['C_name'].toString().toUpperCase();
+        var cRTO = doc.data()['C_RTO'].toString().toUpperCase();
+        cabs.add(cRTO + " - " + cName);
+        print(cabs);
       });
 
       showDialog(
@@ -496,10 +506,10 @@ class _HomeState extends State<Home> {
                           );
                         }).toList(),
                         hint: Text("Assign a Cab"),
-                        value: selectedValue,
+                        value: cabType,
                         onChanged: (String? value) {
                           setState(() {
-                            selectedValue = value;
+                            cabType = value;
                           });
                         },
                       ),
@@ -611,7 +621,7 @@ class _HomeState extends State<Home> {
                 ElevatedButton(
                   onPressed: () async {
                     await databaseService.saveDriverData(
-                        name, id, email, phone, ImageUrl);
+                        name, id, email, phone, ImageUrl, cabType);
 
                     nextScreenReplace(context, Home());
 

@@ -104,6 +104,7 @@ class _DriverTileState extends State<DriverTile> {
               final String email = data['email'];
               final String phone = data['phone'];
               final String ImageUrl = data['ImageUrl'];
+              final String cabType = data['cabType'];
 
               return Flex(
                 direction: Axis.horizontal,
@@ -129,6 +130,7 @@ class _DriverTileState extends State<DriverTile> {
                               Email: email,
                               Phone: phone,
                               ImageUrl: ImageUrl,
+                              cabType: cabType,
                             ),
                           );
                         },
