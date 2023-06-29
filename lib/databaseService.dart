@@ -30,11 +30,6 @@ class DatabaseService {
     });
   }
 
- /* static Future delete(DriverTile driver) async {
-    final drivercollection = FirebaseFirestore.instance.collection('drivers');
-    final docRef = drivercollection.doc().delete();
-  }*/
-
   //generates random driverId
   String generateDriverId() {
     // Generate a random 6 digit ID

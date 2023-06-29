@@ -1,12 +1,9 @@
-import 'dart:html';
-
 import 'package:cab_management/Driver/UpdateDriver.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cab_management/home.dart';
 import 'package:flutter/material.dart';
 import 'package:image_network/image_network.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cab_management/databaseService.dart';
 
 class DriverProfile extends StatelessWidget {
   final String DriverName;
@@ -42,18 +39,18 @@ class DriverProfile extends StatelessWidget {
                     context: context,
                     builder: (context) {
                       return AlertDialog(
-                        title: const Text("Exit"),
+                        title: const Text("Delete"),
                         content: const Text(
-                            "Are you sure you want to exit the group?"),
+                            "Are you sure you want to Delete the profile?"),
                         actions: [
                           TextButton(
-                            child: const Text("Cancel"),
+                            child: const Text("No"),
                             onPressed: () => Navigator.pop(context),
                           ),
                           TextButton(
-                            child: const Text("Log out"),
+                            child: const Text("Yes"),
                             onPressed: () {
-                              deletedrivrData();
+                              deletedriverData();
                               nextScreen(context, Home());
                             },
                           ),
@@ -164,13 +161,12 @@ class DriverProfile extends StatelessWidget {
 
 // delete drivers method
 
-  void deletedrivrData() async {
+  void deletedriverData() async {
     var collection = FirebaseFirestore.instance.collection('drivers');
     print(DriverName);
 
-    var querySnapshot = await collection
-        .where("name", isEqualTo: DriverName.toLowerCase())
-        .get();
+    var querySnapshot =
+        await collection.where("name", isEqualTo: DriverName.toString()).get();
 
     if (querySnapshot.docs.isNotEmpty) {
       var documentSnapshot = querySnapshot.docs.first;
