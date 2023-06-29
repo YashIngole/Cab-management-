@@ -1,5 +1,6 @@
 import 'package:cab_management/Driver/UpdateDriver.dart';
 import 'package:cab_management/constants.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_network/image_network.dart';
 
@@ -9,6 +10,7 @@ class DriverProfile extends StatelessWidget {
   final String Email;
   final String Phone;
   final String ImageUrl;
+    final AsyncSnapshot<QuerySnapshot<Object?>> snapshot;
 
   const DriverProfile(
       {super.key,
@@ -16,7 +18,7 @@ class DriverProfile extends StatelessWidget {
       required this.DriverID,
       required this.Email,
       required this.Phone,
-      required this.ImageUrl});
+      required this.ImageUrl, required this.snapshot});
 
   @override
   Widget build(BuildContext context) {
