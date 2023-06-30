@@ -371,7 +371,11 @@ class _HomeState extends State<Home> {
                 ElevatedButton(
                   onPressed: () async {
                     await database_c.saveCabsData(
-                        C_name, C_id, C_type, C_RTO, ImageUrl, AssignDriver);
+                        C_name.toUpperCase(),
+                        C_id.toUpperCase(),
+                        C_type.toUpperCase(),
+                        C_RTO.toUpperCase(),
+                        ImageUrl);
 
                     Navigator.of(context).pop();
 
@@ -634,8 +638,8 @@ class _HomeState extends State<Home> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    await databaseService.saveDriverData(
-                        name, id, email, phone, ImageUrl, AssignCab);
+                    await databaseService.saveDriverData(name.toUpperCase(),
+                        id.toUpperCase(), email, phone, ImageUrl);
 
                     nextScreenReplace(context, Home());
 

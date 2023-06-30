@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'database_c.dart';
+//import '../databaseService.dart';
 import 'cabtile.dart';
 
 class thecab extends StatefulWidget {
@@ -15,10 +16,9 @@ class _thecabState extends State<thecab> {
   String C_id = "";
   String C_type = "";
   String C_RTO = "";
-  String searchQuery = "";
-  Stream? Cabs;
-  String ImageUrl = "";
-  String AssignDriver = "";
+  // String searchQuery = "";
+  // Stream? Cabs;
+  // String ImageUrl = "";
 
   final Database_c database_c = Database_c();
   //final DatabaseService databaseService = DatabaseService();
