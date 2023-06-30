@@ -17,7 +17,8 @@ Future<void> main() async {
   runApp(MyApp());
 }
 
-final CollectionReference Cabs = FirebaseFirestore.instance.collection('drivers');
+final CollectionReference Cabs =
+    FirebaseFirestore.instance.collection('drivers');
 
 //final Database_c database_c = Database_c();
 
@@ -231,8 +232,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
           .update({'name': newNameValue})
           .then((_) => print('Success'))
           .catchError((error) => print('Failed: $error'));
-      
-    } 
+    }
     if (querySnapshot.docs.isNotEmpty) {
       var documentSnapshot = querySnapshot.docs.first;
 
@@ -241,7 +241,6 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
           .update({'email': newemail})
           .then((_) => print('Success'))
           .catchError((error) => print('Failed: $error'));
-      
     }
     if (querySnapshot.docs.isNotEmpty) {
       var documentSnapshot = querySnapshot.docs.first;
@@ -251,9 +250,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
           .update({'phone': newphonenumber})
           .then((_) => print('Success'))
           .catchError((error) => print('Failed: $error'));
-      
-    }
-     else {
+    } else {
       print('Document not found');
     }
   }

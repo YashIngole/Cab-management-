@@ -69,9 +69,7 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
         child: Column(
           children: [
             Stack(
-              children: [
-                CircleAvatar()
-              ],
+              children: [CircleAvatar()],
             ),
             Center(
               child: Padding(
@@ -278,7 +276,7 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
 
       collection
           .doc(documentSnapshot.id)
-          .update({'C_name': newNameValue})
+          .update({'C_name'.toLowerCase(): newNameValue.toLowerCase()})
           .then((_) => print('Success'))
           .catchError((error) => print('Failed: $error'));
     }
