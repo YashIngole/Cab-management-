@@ -19,6 +19,7 @@ class _thecabState extends State<thecab> {
   String searchQuery = "";
   Stream? Cabs;
   String ImageUrl = "";
+  String AssignDriver = "";
 
   final Database_c database_c = Database_c();
   //final DatabaseService databaseService = DatabaseService();

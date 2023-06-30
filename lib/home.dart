@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:cab_management/Auth/navBar.dart';
+import 'package:cab_management/Cab/cabtile.dart';
 import 'package:cab_management/Cab/therealcabpage.dart';
 import 'package:cab_management/Driver/DriverPage.dart';
 import 'package:cab_management/Cab/therealcabpage.dart';
@@ -11,6 +13,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cab_management/databaseService.dart';
 import 'package:flutter/material.dart';
+import 'package:image_network/image_network.dart';
 import 'package:image_picker/image_picker.dart';
 import 'databaseService.dart';
 import 'Cab/database_c.dart';
@@ -48,7 +51,8 @@ class _HomeState extends State<Home> {
 
   String inputValue = '';
 
-  String? selectedValue;
+  String? AssignDriver;
+  String? AssignCab;
 
   @override
   void initState() {
@@ -143,9 +147,9 @@ class _HomeState extends State<Home> {
         .collection('drivers')
         .get()
         .then((querySnapshot) {
-      List<String> cabs = [];
+      List<String> cabs = ['not selected'];
       querySnapshot.docs.forEach((doc) {
-        var driverName = doc.data()['name'];
+        var driverName = doc.data()['name'].toString().toUpperCase();
         cabs.add(driverName);
       });
 
@@ -231,25 +235,33 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       Padding(padding: EdgeInsets.only(top: 50)),
-                      DropdownButton<String>(
-                        items: cabs.map((String item) {
-                          return DropdownMenuItem<String>(
-                            value: item,
-                            child: Text(
-                              item,
-                              style: const TextStyle(
-                                fontSize: 14,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 150),
+                        child: DropdownButtonFormField<String>(
+                          validator: (value) {
+                            if (value == null) {
+                              return 'Relationship is required';
+                            }
+                          },
+                          items: cabs.map((String item) {
+                            return DropdownMenuItem<String>(
+                              value: item,
+                              child: Text(
+                                item,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                ),
                               ),
-                            ),
-                          );
-                        }).toList(),
-                        hint: Text("Assign a Driver"),
-                        value: selectedValue,
-                        onChanged: (String? value) {
-                          setState(() {
-                            selectedValue = value;
-                          });
-                        },
+                            );
+                          }).toList(),
+                          hint: Text("Assign a Driver"),
+                          value: cabs[0],
+                          onChanged: (String? value) {
+                            setState(() {
+                              AssignDriver = value;
+                            });
+                          },
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 15),
@@ -359,7 +371,7 @@ class _HomeState extends State<Home> {
                 ElevatedButton(
                   onPressed: () async {
                     await database_c.saveCabsData(
-                        C_name, C_id, C_type, C_RTO, ImageUrl);
+                        C_name, C_id, C_type, C_RTO, ImageUrl, AssignDriver);
 
                     Navigator.of(context).pop();
 
@@ -391,10 +403,14 @@ class _HomeState extends State<Home> {
 
   void addNewDriverPopUp(BuildContext context) {
     FirebaseFirestore.instance.collection('Cabs').get().then((querySnapshot) {
-      List<String> cabs = []; // Create an empty list to store cab names
+      List<String> cabs = [
+        'not selected'
+      ]; // Create an empty list to store cab names
       querySnapshot.docs.forEach((doc) {
-        var cName = doc.data()['C_name'];
-        cabs.add(cName);
+        var cName = doc.data()['C_name'].toString().toUpperCase();
+        var cRTO = doc.data()['C_RTO'].toString().toUpperCase();
+        cabs.add(cRTO + " - " + cName);
+        print(cabs);
       });
 
       showDialog(
@@ -483,25 +499,33 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       Padding(padding: EdgeInsets.only(top: 50)),
-                      DropdownButton<String>(
-                        items: cabs.map((String item) {
-                          return DropdownMenuItem<String>(
-                            value: item,
-                            child: Text(
-                              item,
-                              style: const TextStyle(
-                                fontSize: 14,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 150),
+                        child: DropdownButtonFormField<String>(
+                          validator: (value) {
+                            if (value == null) {
+                              return 'Relationship is required';
+                            }
+                          },
+                          items: cabs.map((String item) {
+                            return DropdownMenuItem<String>(
+                              value: item,
+                              child: Text(
+                                item,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                ),
                               ),
-                            ),
-                          );
-                        }).toList(),
-                        hint: Text("Assign a Cab"),
-                        value: selectedValue,
-                        onChanged: (String? value) {
-                          setState(() {
-                            selectedValue = value;
-                          });
-                        },
+                            );
+                          }).toList(),
+                          hint: Text("Assign a Cab"),
+                          value: cabs[0],
+                          onChanged: (String? value) {
+                            setState(() {
+                              AssignCab = value;
+                            });
+                          },
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 15),
@@ -611,7 +635,7 @@ class _HomeState extends State<Home> {
                 ElevatedButton(
                   onPressed: () async {
                     await databaseService.saveDriverData(
-                        name, id, email, phone, ImageUrl);
+                        name, id, email, phone, ImageUrl, AssignCab);
 
                     nextScreenReplace(context, Home());
 
