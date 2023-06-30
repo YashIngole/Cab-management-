@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:cab_management/Cab/thecab.dart';
+
 import 'package:cab_management/constants.dart';
 import 'package:cab_management/firebase_options.dart';
 import 'package:cab_management/main.dart';
@@ -68,9 +68,6 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Stack(
-              children: [CircleAvatar()],
-            ),
             Center(
               child: Padding(
                 padding: const EdgeInsets.all(20),
@@ -252,7 +249,7 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
             const Padding(padding: EdgeInsets.symmetric(vertical: 40)),
             ElevatedButton(
               onPressed: () {
-                Navigator.pop(context);
+                updateCabData(newNameValue);
               },
               child: const Text(
                 'Save',

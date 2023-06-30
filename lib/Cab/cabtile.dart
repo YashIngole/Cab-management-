@@ -42,8 +42,6 @@ class _cabTileState extends State<cabtile> {
 
   @override
   Widget build(BuildContext context) {
-    Size _size = MediaQuery.of(context).size;
-    print(_size.width);
     if (widget.snapshot.hasError) {
       return Center(
         child: Text('Error: ${widget.snapshot.error}'),
@@ -56,7 +54,6 @@ class _cabTileState extends State<cabtile> {
     }
     return Column(
       children: [
-        
         Padding(
           padding: const EdgeInsets.only(left: 10, right: 10, bottom: 50),
           child: Container(
