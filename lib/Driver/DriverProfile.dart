@@ -34,15 +34,14 @@ class DriverProfile extends StatelessWidget {
           actions: [
             IconButton(
                 onPressed: () {
-                  
                   nextScreen(
                       context,
                       UpdateDriverPage(
-                        DriverName: '',
-                        DriverID: '',
-                        Email: '',
-                        Phone: '',
-                        ImageUrl: '',
+                        DriverID: DriverID,
+                        DriverName: DriverName,
+                        Email: Email,
+                        ImageUrl: ImageUrl,
+                        Phone: Phone,
                         snapshot: snapshot,
                       ));
                 },

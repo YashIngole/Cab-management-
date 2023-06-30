@@ -370,14 +370,17 @@ class _HomeState extends State<Home> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    await database_c.saveCabsData(
-                        C_name.toUpperCase(),
-                        C_id.toUpperCase(),
-                        C_type.toUpperCase(),
-                        C_RTO.toUpperCase(),
-                        ImageUrl);
-
-                    Navigator.of(context).pop();
+                    await database_c
+                        .saveCabsData(
+                            C_name.toUpperCase(),
+                            C_id.toUpperCase(),
+                            C_type.toUpperCase(),
+                            C_RTO.toUpperCase(),
+                            ImageUrl,
+                            AssignDriver)
+                        .whenComplete(() {
+                      Navigator.of(context).pop();
+                    });
 
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -638,10 +641,12 @@ class _HomeState extends State<Home> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    await databaseService.saveDriverData(name.toUpperCase(),
-                        id.toUpperCase(), email, phone, ImageUrl);
-
-                    nextScreenReplace(context, Home());
+                    await databaseService
+                        .saveDriverData(name.toUpperCase(), id.toUpperCase(),
+                            email, phone, ImageUrl, AssignCab)
+                        .whenComplete(() {
+                      Navigator.of(context).pop();
+                    });
 
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
