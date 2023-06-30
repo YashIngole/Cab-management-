@@ -1,5 +1,6 @@
 import 'package:cab_management/Driver/UpdateDriver.dart';
 import 'package:cab_management/constants.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cab_management/home.dart';
 import 'package:flutter/material.dart';
 import 'package:image_network/image_network.dart';
@@ -11,6 +12,7 @@ class DriverProfile extends StatelessWidget {
   final String Email;
   final String Phone;
   final String ImageUrl;
+  final AsyncSnapshot<QuerySnapshot<Object?>> snapshot;
   final String AssignCab;
 
   const DriverProfile(
@@ -20,6 +22,7 @@ class DriverProfile extends StatelessWidget {
       required this.Email,
       required this.Phone,
       required this.ImageUrl,
+      required this.snapshot,
       required this.AssignCab});
 
   @override
@@ -31,7 +34,16 @@ class DriverProfile extends StatelessWidget {
           actions: [
             IconButton(
                 onPressed: () {
-                  nextScreen(context, UpdateDriverPage());
+                  nextScreen(
+                      context,
+                      UpdateDriverPage(
+                        DriverID: DriverID,
+                        DriverName: DriverName,
+                        Email: Email,
+                        ImageUrl: ImageUrl,
+                        Phone: Phone,
+                        snapshot: snapshot,
+                      ));
                 },
                 icon: Icon(Icons.edit)),
             Padding(padding: EdgeInsets.all(5)),

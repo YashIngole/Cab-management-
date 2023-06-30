@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:cab_management/Driver/DriverProfile.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:image_network/image_network.dart';
 
@@ -18,6 +19,7 @@ class DriverTile extends StatefulWidget {
 }
 
 class _DriverTileState extends State<DriverTile> {
+  late Stream<QuerySnapshot<Object?>> driverStream;
   late List<DocumentSnapshot> filteredList;
   String searchQuery = '';
 
@@ -25,6 +27,7 @@ class _DriverTileState extends State<DriverTile> {
   void initState() {
     super.initState();
     filteredList = widget.snapshot.data!.docs;
+    driverStream = FirebaseFirestore.instance.collection('drivers').snapshots();
   }
 
   void filterData(String query) {
@@ -130,6 +133,7 @@ class _DriverTileState extends State<DriverTile> {
                               Email: email,
                               Phone: phone,
                               ImageUrl: ImageUrl,
+                              snapshot: widget.snapshot,
                               AssignCab: AssignCab,
                             ),
                           );

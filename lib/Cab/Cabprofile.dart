@@ -1,19 +1,20 @@
 //import 'package:cab_management/Driver/UpdateDriver.dart';
+import 'package:cab_management/Cab/UpdateCab.dart';
 import 'package:cab_management/Cab/therealcabpage.dart';
 import 'package:cab_management/constants.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_network/image_network.dart';
-import '../Driver/UpdateDriver.dart';
 import '../home.dart';
 import 'cabtile.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
-class CabProfile extends StatelessWidget {
+class CabProfile extends StatefulWidget {
   final String C_name;
   final String C_id;
   final String C_type;
   final String C_RTO;
   final String ImageUrl;
+  final AsyncSnapshot<QuerySnapshot<Object?>> snapshot;
   final String AssignDriver;
 
   const CabProfile(
@@ -23,8 +24,14 @@ class CabProfile extends StatelessWidget {
       required this.C_type,
       required this.C_RTO,
       required this.ImageUrl,
+      required this.snapshot,
       required this.AssignDriver});
 
+  @override
+  State<CabProfile> createState() => _CabProfileState();
+}
+
+class _CabProfileState extends State<CabProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +42,16 @@ class CabProfile extends StatelessWidget {
             Padding(padding: EdgeInsets.all(5)),
             IconButton(
                 onPressed: () {
-                  nextScreen(context, UpdateDriverPage());
+                  nextScreen(
+                      context,
+                      UpdateCabPage(
+                        C_RTO: widget.C_RTO,
+                        C_id: widget.C_id,
+                        C_name: widget.C_name,
+                        C_type: widget.C_type,
+                        ImageUrl: widget.ImageUrl,
+                        snapshot: widget.snapshot,
+                      ));
                 },
                 icon: Icon(Icons.edit)),
             Padding(padding: EdgeInsets.all(5)),
@@ -78,7 +94,7 @@ class CabProfile extends StatelessWidget {
                 child: Padding(
                     padding: const EdgeInsets.all(20),
                     child: ImageNetwork(
-                      image: ImageUrl,
+                      image: widget.ImageUrl,
                       height: 150,
                       width: 150,
                       fitAndroidIos: BoxFit.fill,
@@ -92,7 +108,7 @@ class CabProfile extends StatelessWidget {
                             borderRadius: BorderRadius.circular(1000)),
                         child: Center(
                             child: Text(
-                          C_name.substring(0, 1).toUpperCase(),
+                          widget.C_name.substring(0, 1).toUpperCase(),
                           style: TextStyle(color: Colors.white, fontSize: 50),
                         )),
                       ),
@@ -102,12 +118,12 @@ class CabProfile extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      C_name,
+                      widget.C_name,
                       style:
                           TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
                     ),
                     Text(
-                      "Cab Assigned : " + AssignDriver,
+                      "Cab Assigned : " + widget.AssignDriver,
                       style:
                           TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
                     ),
@@ -128,11 +144,11 @@ class CabProfile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     KTitle('Cab ID'),
-                    KSubtitle(C_id),
+                    KSubtitle(widget.C_id),
                     KTitle('Cab Type'),
-                    KSubtitle(C_type),
+                    KSubtitle(widget.C_type),
                     KTitle('RTO Passing no.'),
-                    KSubtitle(C_RTO),
+                    KSubtitle(widget.C_RTO),
                     // KTitle('License Number'),
                     // KSubtitle(Phone),
                     // KTitle('Driver Join date'),
@@ -169,10 +185,11 @@ class CabProfile extends StatelessWidget {
 
   void deleteCabData() async {
     var collection = FirebaseFirestore.instance.collection('Cabs');
-    print(C_name);
+    print(widget.C_name);
 
-    var querySnapshot =
-        await collection.where("C_name", isEqualTo: C_name.toString()).get();
+    var querySnapshot = await collection
+        .where("C_name", isEqualTo: widget.C_name.toString())
+        .get();
 
     if (querySnapshot.docs.isNotEmpty) {
       var documentSnapshot = querySnapshot.docs.first;

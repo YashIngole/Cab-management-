@@ -3,10 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:cab_management/Cab/Cabprofile.dart';
-//import 'cabPage.dart';
-import 'database_c.dart';
-import 'package:cab_management/BottomNavBar.dart';
-import 'package:cab_management/home.dart';
+
 import 'package:cab_management/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -108,7 +105,8 @@ class _cabTileState extends State<cabtile> {
               final String C_type = data['C_type'];
               final String C_RTO = data['C_RTO'];
               final String ImageUrl = data['ImageUrl'];
-              final String AssignDriver = data['AssignDriver'];
+                           final String AssignDriver = data['AssignDriver'];
+
 
               return Flex(
                 direction: Axis.horizontal,
@@ -133,7 +131,7 @@ class _cabTileState extends State<cabtile> {
                                 C_id: C_id,
                                 C_type: C_type,
                                 C_RTO: C_RTO,
-                                ImageUrl: ImageUrl,
+                                ImageUrl: ImageUrl,  snapshot: widget.snapshot,
                                 AssignDriver: AssignDriver),
                           );
                         },
