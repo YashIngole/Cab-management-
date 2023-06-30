@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:cab_management/Cab/thecab.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cab_management/firebase_options.dart';
 import 'package:cab_management/main.dart';
@@ -68,11 +68,6 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Stack(
-              children: [
-                CircleAvatar()
-              ],
-            ),
             Center(
               child: Padding(
                 padding: const EdgeInsets.all(20),
@@ -89,43 +84,43 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
                       color: Colors.white,
                       size: 50,
                     ),
-                    // onTap: () async {
-                    //   ImagePicker imagePicker = ImagePicker();
-                    //   XFile? file = await imagePicker.pickImage(
-                    //     source: ImageSource.gallery,
-                    //   );
-                    //   if (file == null) {
-                    //     return;
-                    //   }
-                    //   final Uint8List fileBytes = await file.readAsBytes();
+                    onTap: () async {
+                      ImagePicker imagePicker = ImagePicker();
+                      XFile? file = await imagePicker.pickImage(
+                        source: ImageSource.gallery,
+                      );
+                      if (file == null) {
+                        return;
+                      }
+                      final Uint8List fileBytes = await file.readAsBytes();
 
-                    //   Reference referenceRoot = FirebaseStorage.instance.ref();
-                    //   Reference referenceDirImages =
-                    //       referenceRoot.child('images');
+                      Reference referenceRoot = FirebaseStorage.instance.ref();
+                      Reference referenceDirImages =
+                          referenceRoot.child('images');
 
-                    //   String uniqueFileName =
-                    //       DateTime.now().millisecondsSinceEpoch.toString() +
-                    //           '.jpg';
-                    //   Reference referenceImageToUpload =
-                    //       referenceDirImages.child(uniqueFileName);
-                    //   try {
-                    //     await referenceImageToUpload.putData(
-                    //         fileBytes as Uint8List,
-                    //         SettableMetadata(contentType: 'image/jpeg'));
-                    //     ImageUrl =
-                    //         await referenceImageToUpload.getDownloadURL();
-                    //     print(ImageUrl);
-                    //   } catch (e) {
-                    //     print('Error uploading image: $e');
-                    //   }
-                    //   Future<Image> convertFileToImage(File picture) async {
-                    //     List<int> imageBase64 = picture.readAsBytesSync();
-                    //     String imageAsString = base64Encode(imageBase64);
-                    //     Uint8List uint8list = base64.decode(imageAsString);
-                    //     Image image = Image.memory(uint8list);
-                    //     return image;
-                    //   }
-                    // },
+                      String uniqueFileName =
+                          DateTime.now().millisecondsSinceEpoch.toString() +
+                              '.jpg';
+                      Reference referenceImageToUpload =
+                          referenceDirImages.child(uniqueFileName);
+                      try {
+                        await referenceImageToUpload.putData(
+                            fileBytes as Uint8List,
+                            SettableMetadata(contentType: 'image/jpeg'));
+                        ImageUrl =
+                            await referenceImageToUpload.getDownloadURL();
+                        print(ImageUrl);
+                      } catch (e) {
+                        print('Error uploading image: $e');
+                      }
+                      Future<Image> convertFileToImage(File picture) async {
+                        List<int> imageBase64 = picture.readAsBytesSync();
+                        String imageAsString = base64Encode(imageBase64);
+                        Uint8List uint8list = base64.decode(imageAsString);
+                        Image image = Image.memory(uint8list);
+                        return image;
+                      }
+                    },
                   ),
                 ),
               ),
@@ -251,7 +246,7 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
             const Padding(padding: EdgeInsets.symmetric(vertical: 40)),
             ElevatedButton(
               onPressed: () {
-                updateCabData(newNameValue);
+                Navigator.pop(context);
               },
               child: const Text(
                 'Save',

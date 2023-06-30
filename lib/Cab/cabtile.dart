@@ -42,6 +42,8 @@ class _cabTileState extends State<cabtile> {
 
   @override
   Widget build(BuildContext context) {
+    Size _size = MediaQuery.of(context).size;
+    print(_size.width);
     if (widget.snapshot.hasError) {
       return Center(
         child: Text('Error: ${widget.snapshot.error}'),
@@ -54,6 +56,7 @@ class _cabTileState extends State<cabtile> {
     }
     return Column(
       children: [
+        
         Padding(
           padding: const EdgeInsets.only(left: 10, right: 10, bottom: 50),
           child: Container(
@@ -105,7 +108,6 @@ class _cabTileState extends State<cabtile> {
               final String C_type = data['C_type'];
               final String C_RTO = data['C_RTO'];
               final String ImageUrl = data['ImageUrl'];
-             
 
               return Flex(
                 direction: Axis.horizontal,
@@ -130,7 +132,8 @@ class _cabTileState extends State<cabtile> {
                               C_id: C_id,
                               C_type: C_type,
                               C_RTO: C_RTO,
-                              ImageUrl: ImageUrl,  snapshot: widget.snapshot,
+                              ImageUrl: ImageUrl,
+                              snapshot: widget.snapshot,
                             ),
                           );
                         },
