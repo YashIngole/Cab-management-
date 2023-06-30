@@ -1,8 +1,11 @@
 import 'package:cab_management/Cab/UpdateCab.dart';
+import 'package:cab_management/Cab/therealcabpage.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_network/image_network.dart';
+import '../home.dart';
+import 'cabtile.dart';
 
 class CabProfile extends StatefulWidget {
   final String C_name;
@@ -11,6 +14,7 @@ class CabProfile extends StatefulWidget {
   final String C_RTO;
   final String ImageUrl;
   final AsyncSnapshot<QuerySnapshot<Object?>> snapshot;
+  final String AssignDriver;
 
   const CabProfile(
       {super.key,
@@ -19,7 +23,8 @@ class CabProfile extends StatefulWidget {
       required this.C_type,
       required this.C_RTO,
       required this.ImageUrl,
-      required this.snapshot});
+      required this.snapshot,
+      required this.AssignDriver});
 
   @override
   State<CabProfile> createState() => _CabProfileState();
@@ -33,6 +38,7 @@ class _CabProfileState extends State<CabProfile> {
           title: Text('Cab Profile'),
           centerTitle: true,
           actions: [
+            Padding(padding: EdgeInsets.all(5)),
             IconButton(
                 onPressed: () {
                   nextScreen(
@@ -42,12 +48,39 @@ class _CabProfileState extends State<CabProfile> {
                         C_id: widget.C_id,
                         C_name: widget.C_name,
                         C_type: widget.C_type,
-                        ImageUrl: widget.ImageUrl, snapshot: widget.snapshot,
+                        ImageUrl: widget.ImageUrl,
+                        snapshot: widget.snapshot,
                       ));
                 },
                 icon: Icon(Icons.edit)),
             Padding(padding: EdgeInsets.all(5)),
-            IconButton(onPressed: () {}, icon: Icon(Icons.delete)),
+            IconButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text("Delete"),
+                        content: const Text(
+                            "Are you sure you want to Delete the Cab?"),
+                        actions: [
+                          TextButton(
+                            child: const Text("No"),
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                          TextButton(
+                            child: const Text("Yes"),
+                            onPressed: () {
+                              deleteCabData();
+                              nextScreen(context, Home());
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                icon: Icon(Icons.delete)),
             Padding(padding: EdgeInsets.all(5)),
           ],
         ),
@@ -89,7 +122,7 @@ class _CabProfileState extends State<CabProfile> {
                           TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
                     ),
                     Text(
-                      "Driver Assigned :",
+                      "Cab Assigned : " + widget.AssignDriver,
                       style:
                           TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
                     ),
@@ -145,5 +178,28 @@ class _CabProfileState extends State<CabProfile> {
             fontWeight: FontWeight.w400,
           )),
     );
+  }
+
+  // delete Cab method
+
+  void deleteCabData() async {
+    var collection = FirebaseFirestore.instance.collection('Cabs');
+    print(widget.C_name);
+
+    var querySnapshot = await collection
+        .where("C_name", isEqualTo: widget.C_name.toString())
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      var documentSnapshot = querySnapshot.docs.first;
+
+      collection
+          .doc(documentSnapshot.id)
+          .delete()
+          .then((_) => print('Success'))
+          .catchError((error) => print('Failed: $error'));
+    } else {
+      print('Document not found');
+    }
   }
 }

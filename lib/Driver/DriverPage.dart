@@ -24,7 +24,6 @@ class _DriverPageState extends State<DriverPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      drawer: navBar(),
       appBar: AppBar(
         elevation: 0,
         forceMaterialTransparency: true,

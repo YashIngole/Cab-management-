@@ -50,9 +50,9 @@ class UpdateCabPage extends StatefulWidget {
 class _UpdateCabPageState extends State<UpdateCabPage> {
   String? selectedValue;
 
-  late String newNameValue;
-  late String newcabtypeValue;
-  late String newcabRTOValue;
+  String newNameValue = '';
+  String newcabtypeValue = '';
+  String newcabRTOValue = '';
 
   late String ImageUrl;
 
@@ -68,6 +68,9 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            Stack(
+              children: [CircleAvatar()],
+            ),
             Center(
               child: Padding(
                 padding: const EdgeInsets.all(20),
@@ -174,6 +177,7 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
                   ),
                   Expanded(
                     child: TextFormField(
+                      initialValue: widget.C_name,
                       onChanged: (value) {
                         newNameValue = value;
                       },
@@ -201,6 +205,7 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
                   ),
                   Expanded(
                     child: TextFormField(
+                      initialValue: widget.C_type,
                       onChanged: (value) {
                         newcabtypeValue = value;
                       },
@@ -227,6 +232,7 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
                   ),
                   Expanded(
                     child: TextFormField(
+                      initialValue: widget.C_RTO,
                       onChanged: (value) {
                         newcabRTOValue = value;
                       },
@@ -265,15 +271,13 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
 
     var querySnapshot =
         await collection.where('C_name', isEqualTo: widget.C_name).get();
-    await collection.where('C_type', isEqualTo: widget.C_type).get();
-    await collection.where('C_RTO', isEqualTo: widget.C_RTO).get();
 
     if (querySnapshot.docs.isNotEmpty) {
       var documentSnapshot = querySnapshot.docs.first;
 
       collection
           .doc(documentSnapshot.id)
-          .update({'C_name': newNameValue})
+          .update({'C_name': newNameValue.toUpperCase()})
           .then((_) => print('Success'))
           .catchError((error) => print('Failed: $error'));
     }

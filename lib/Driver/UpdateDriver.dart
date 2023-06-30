@@ -17,7 +17,8 @@ Future<void> main() async {
   runApp(MyApp());
 }
 
-final CollectionReference Cabs = FirebaseFirestore.instance.collection('drivers');
+final CollectionReference Cabs =
+    FirebaseFirestore.instance.collection('drivers');
 
 //final Database_c database_c = Database_c();
 
@@ -46,9 +47,9 @@ class UpdateDriverPage extends StatefulWidget {
 class _UpdatedriverPageState extends State<UpdateDriverPage> {
   String? selectedValue;
 
-  late String newNameValue;
-  late String newemail;
-  late String newphonenumber;
+  String newNameValue = '';
+  String newemail = '';
+  String newphonenumber = '';
 
   @override
   Widget build(BuildContext context) {
@@ -129,6 +130,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                   ),
                   Expanded(
                     child: TextFormField(
+                      initialValue: widget.DriverName,
                       onChanged: (value) {
                         newNameValue = value;
                       },
@@ -156,6 +158,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                   ),
                   Expanded(
                     child: TextFormField(
+                      initialValue: widget.Email,
                       onChanged: (value) {
                         newemail = value;
                       },
@@ -182,6 +185,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                   ),
                   Expanded(
                     child: TextFormField(
+                      initialValue: widget.Phone,
                       onChanged: (value) {
                         newphonenumber = value;
                       },
@@ -218,21 +222,19 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
     var collection = FirebaseFirestore.instance.collection('drivers');
     print(widget.DriverName);
 
-    var querySnapshot =
-        await collection.where('name', isEqualTo: widget.DriverName).get();
-    await collection.where('email', isEqualTo: widget.Email).get();
-    await collection.where('phone', isEqualTo: widget.Phone).get();
+    var querySnapshot = await collection
+        .where('name', isEqualTo: widget.DriverName.toUpperCase())
+        .get();
 
     if (querySnapshot.docs.isNotEmpty) {
       var documentSnapshot = querySnapshot.docs.first;
 
       collection
           .doc(documentSnapshot.id)
-          .update({'name': newNameValue})
+          .update({'name': newNameValue.toUpperCase()})
           .then((_) => print('Success'))
           .catchError((error) => print('Failed: $error'));
-      
-    } 
+    }
     if (querySnapshot.docs.isNotEmpty) {
       var documentSnapshot = querySnapshot.docs.first;
 
@@ -241,7 +243,6 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
           .update({'email': newemail})
           .then((_) => print('Success'))
           .catchError((error) => print('Failed: $error'));
-      
     }
     if (querySnapshot.docs.isNotEmpty) {
       var documentSnapshot = querySnapshot.docs.first;
@@ -251,9 +252,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
           .update({'phone': newphonenumber})
           .then((_) => print('Success'))
           .catchError((error) => print('Failed: $error'));
-      
-    }
-     else {
+    } else {
       print('Document not found');
     }
   }

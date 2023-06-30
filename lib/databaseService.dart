@@ -1,4 +1,6 @@
 import 'dart:math';
+import 'package:cab_management/Driver/DriverPage.dart';
+import 'package:cab_management/Driver/driverTile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 String UniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
@@ -14,7 +16,7 @@ class DatabaseService {
 
   // function to save the driver data to Firestore
   Future<void> saveDriverData(String name, String id, String email,
-      String phone, String ImageUrl) async {
+      String phone, String ImageUrl, String? AssignCab) async {
     // new document with a unique ID in the 'drivers' collection
     DocumentReference newDriverRef = driversRef.doc();
 
@@ -24,12 +26,11 @@ class DatabaseService {
       'id': generateDriverId(), // Driver ID Number
       'email': email, // Driver Email
       'phone': phone,
-      'ImageUrl': ImageUrl // Driver Phone Number
+      'ImageUrl': ImageUrl,
+      'AssignCab': AssignCab // Driver Phone Number
     });
   }
 
- 
-  
   //generates random driverId
   String generateDriverId() {
     // Generate a random 6 digit ID

@@ -108,6 +108,8 @@ class _cabTileState extends State<cabtile> {
               final String C_type = data['C_type'];
               final String C_RTO = data['C_RTO'];
               final String ImageUrl = data['ImageUrl'];
+                           final String AssignDriver = data['AssignDriver'];
+
 
               return Flex(
                 direction: Axis.horizontal,
@@ -128,13 +130,12 @@ class _cabTileState extends State<cabtile> {
                           nextScreen(
                             context,
                             CabProfile(
-                              C_name: C_name,
-                              C_id: C_id,
-                              C_type: C_type,
-                              C_RTO: C_RTO,
-                              ImageUrl: ImageUrl,
-                              snapshot: widget.snapshot,
-                            ),
+                                C_name: C_name,
+                                C_id: C_id,
+                                C_type: C_type,
+                                C_RTO: C_RTO,
+                                ImageUrl: ImageUrl,  snapshot: widget.snapshot,
+                                AssignDriver: AssignDriver),
                           );
                         },
                         child: Row(
