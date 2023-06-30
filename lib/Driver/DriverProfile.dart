@@ -1,7 +1,9 @@
 import 'package:cab_management/Driver/UpdateDriver.dart';
 import 'package:cab_management/constants.dart';
+import 'package:cab_management/home.dart';
 import 'package:flutter/material.dart';
 import 'package:image_network/image_network.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DriverProfile extends StatelessWidget {
   final String DriverName;
@@ -33,7 +35,33 @@ class DriverProfile extends StatelessWidget {
                 },
                 icon: Icon(Icons.edit)),
             Padding(padding: EdgeInsets.all(5)),
-            IconButton(onPressed: () {}, icon: Icon(Icons.delete)),
+            IconButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text("Delete"),
+                        content: const Text(
+                            "Are you sure you want to Delete the profile?"),
+                        actions: [
+                          TextButton(
+                            child: const Text("No"),
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                          TextButton(
+                            child: const Text("Yes"),
+                            onPressed: () {
+                              deletedriverData();
+                              nextScreen(context, Home());
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                icon: Icon(Icons.delete)),
             Padding(padding: EdgeInsets.all(5)),
           ],
         ),
@@ -131,5 +159,27 @@ class DriverProfile extends StatelessWidget {
             fontWeight: FontWeight.w400,
           )),
     );
+  }
+
+// delete drivers method
+
+  void deletedriverData() async {
+    var collection = FirebaseFirestore.instance.collection('drivers');
+    print(DriverName);
+
+    var querySnapshot =
+        await collection.where("name", isEqualTo: DriverName.toString()).get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      var documentSnapshot = querySnapshot.docs.first;
+
+      collection
+          .doc(documentSnapshot.id)
+          .delete()
+          .then((_) => print('Success'))
+          .catchError((error) => print('Failed: $error'));
+    } else {
+      print('Document not found');
+    }
   }
 }

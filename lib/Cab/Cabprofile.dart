@@ -1,8 +1,12 @@
 //import 'package:cab_management/Driver/UpdateDriver.dart';
+import 'package:cab_management/Cab/therealcabpage.dart';
 import 'package:cab_management/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:image_network/image_network.dart';
+import '../Driver/UpdateDriver.dart';
+import '../home.dart';
 import 'cabtile.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CabProfile extends StatelessWidget {
   final String C_name;
@@ -28,13 +32,40 @@ class CabProfile extends StatelessWidget {
           title: Text('Cab Profile'),
           centerTitle: true,
           actions: [
+            Padding(padding: EdgeInsets.all(5)),
             IconButton(
                 onPressed: () {
-                  //nextScreen(context, UpdateDriverPage());
+                  nextScreen(context, UpdateDriverPage());
                 },
                 icon: Icon(Icons.edit)),
             Padding(padding: EdgeInsets.all(5)),
-            IconButton(onPressed: () {}, icon: Icon(Icons.delete)),
+            IconButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text("Delete"),
+                        content: const Text(
+                            "Are you sure you want to Delete the Cab?"),
+                        actions: [
+                          TextButton(
+                            child: const Text("No"),
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                          TextButton(
+                            child: const Text("Yes"),
+                            onPressed: () {
+                              deleteCabData();
+                              nextScreen(context, Home());
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                icon: Icon(Icons.delete)),
             Padding(padding: EdgeInsets.all(5)),
           ],
         ),
@@ -132,5 +163,27 @@ class CabProfile extends StatelessWidget {
             fontWeight: FontWeight.w400,
           )),
     );
+  }
+
+  // delete Cab method
+
+  void deleteCabData() async {
+    var collection = FirebaseFirestore.instance.collection('Cabs');
+    print(C_name);
+
+    var querySnapshot =
+        await collection.where("C_name", isEqualTo: C_name.toString()).get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      var documentSnapshot = querySnapshot.docs.first;
+
+      collection
+          .doc(documentSnapshot.id)
+          .delete()
+          .then((_) => print('Success'))
+          .catchError((error) => print('Failed: $error'));
+    } else {
+      print('Document not found');
+    }
   }
 }
