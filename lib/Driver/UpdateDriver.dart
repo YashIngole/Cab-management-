@@ -105,8 +105,6 @@ class _UpdateDriverPageState extends State<UpdateDriverPage> {
           ),
           Expanded(
             child: TextFormField(
-              
-              
               style: TextStyle(),
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
