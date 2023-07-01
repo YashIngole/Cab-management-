@@ -71,6 +71,7 @@ class _HomeState extends State<Home> {
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
@@ -150,6 +151,7 @@ class _HomeState extends State<Home> {
       List<String> cabs = ['not selected'];
       querySnapshot.docs.forEach((doc) {
         var driverName = doc.data()['name'].toString().toUpperCase();
+
         cabs.add(driverName);
       });
 
@@ -379,7 +381,7 @@ class _HomeState extends State<Home> {
                             ImageUrl,
                             AssignDriver)
                         .whenComplete(() {
-                      Navigator.of(context).pop();
+                      nextScreen(context, Home());
                     });
 
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -645,7 +647,7 @@ class _HomeState extends State<Home> {
                         .saveDriverData(name.toUpperCase(), id.toUpperCase(),
                             email, phone, ImageUrl, AssignCab)
                         .whenComplete(() {
-                      Navigator.of(context).pop();
+                      nextScreen(context, Home());
                     });
 
                     ScaffoldMessenger.of(context).showSnackBar(
