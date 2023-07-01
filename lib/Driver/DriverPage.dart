@@ -37,37 +37,48 @@ class _DriverPageState extends State<DriverPage> {
         ),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: EdgeInsets.only(
-          left: 22,
-          right: 12,
-        ),
-        child: SafeArea(
-          child: StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance
-                .collection('drivers')
-                .orderBy('name')
-                .snapshots(),
-            builder: (
-              BuildContext context,
-              AsyncSnapshot<QuerySnapshot> snapshot,
-            ) {
-              if (snapshot.hasError) {
-                return Center(
-                  child: Text('Error: ${snapshot.error}'),
-                );
-              }
-              if (!snapshot.hasData) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
+      body: Driver_page(),
+    );
+  }
+}
 
-              return DriverTile(
-                snapshot: snapshot,
+class Driver_page extends StatelessWidget {
+  const Driver_page({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(
+        left: 22,
+        right: 12,
+      ),
+      child: SafeArea(
+        child: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection('drivers')
+              .orderBy('name')
+              .snapshots(),
+          builder: (
+            BuildContext context,
+            AsyncSnapshot<QuerySnapshot> snapshot,
+          ) {
+            if (snapshot.hasError) {
+              return Center(
+                child: Text('Error: ${snapshot.error}'),
               );
-            },
-          ),
+            }
+            if (!snapshot.hasData) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            return DriverTile(
+              snapshot: snapshot,
+            );
+          },
         ),
       ),
     );

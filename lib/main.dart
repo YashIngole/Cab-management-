@@ -1,5 +1,7 @@
 import 'package:cab_management/Auth/Signin.dart';
+import 'package:cab_management/Web_layout.dart';
 import 'package:cab_management/home.dart';
+import 'package:cab_management/responsive.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +71,8 @@ class _MyAppState extends State<MyApp> {
           scaffoldBackgroundColor: Color.fromARGB(255, 255, 255, 255),
           useMaterial3: true,
         ),
-        home: //Home());
-            _isSignedIn ? Home() : const Signin());
+        home: Responsive(Mobile: Home(), Desktop: Web_layout()));
+    //Home());
+    //  _isSignedIn ? Home() : const Signin());
   }
 }
