@@ -105,8 +105,7 @@ class _cabTileState extends State<cabtile> {
               final String C_type = data['C_type'];
               final String C_RTO = data['C_RTO'];
               final String ImageUrl = data['ImageUrl'];
-                           final String AssignDriver = data['AssignDriver'];
-
+              final String AssignDriver = data['AssignDriver'];
 
               return Flex(
                 direction: Axis.horizontal,
@@ -131,33 +130,36 @@ class _cabTileState extends State<cabtile> {
                                 C_id: C_id,
                                 C_type: C_type,
                                 C_RTO: C_RTO,
-                                ImageUrl: ImageUrl,  snapshot: widget.snapshot,
+                                ImageUrl: ImageUrl,
+                                snapshot: widget.snapshot,
                                 AssignDriver: AssignDriver),
                           );
                         },
                         child: Row(
                           children: [
-                            ImageNetwork(
-                                image: ImageUrl,
-                                borderRadius: BorderRadius.circular(15),
-                                height: 69,
-                                width: 77,
-                                fitWeb: BoxFitWeb.fill,
-                                fitAndroidIos: BoxFit.fill,
-                                onError: Container(
-                                  width: 77,
-                                  height: 69,
-                                  decoration: BoxDecoration(
-                                    color: Colors.black,
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      C_name.substring(0, 1).toUpperCase(),
-                                      style: TextStyle(color: Colors.white),
+                            ImageUrl.isEmpty
+                                ? Container(
+                                    width: 77,
+                                    height: 69,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
+                                    child: Center(
+                                      child: Text(
+                                        C_name.substring(0, 1).toUpperCase(),
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                  )
+                                : ImageNetwork(
+                                    image: ImageUrl,
+                                    borderRadius: BorderRadius.circular(15),
+                                    height: 69,
+                                    width: 77,
+                                    fitWeb: BoxFitWeb.fill,
+                                    fitAndroidIos: BoxFit.fill,
                                   ),
-                                )),
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 25),

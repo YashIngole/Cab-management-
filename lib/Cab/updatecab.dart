@@ -68,9 +68,6 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Stack(
-              children: [CircleAvatar()],
-            ),
             Center(
               child: Padding(
                 padding: const EdgeInsets.all(20),
