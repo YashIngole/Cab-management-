@@ -67,7 +67,7 @@ class _thecabState extends State<thecab> {
               }
 
               return cabtile(
-                snapshot: snapshot,
+                snapshot: snapshot, arguments: null,
               );
             },
           ),

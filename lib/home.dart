@@ -1,25 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-
-import 'package:cab_management/Auth/navBar.dart';
-import 'package:cab_management/Cab/cabtile.dart';
 import 'package:cab_management/Cab/therealcabpage.dart';
 import 'package:cab_management/Driver/DriverPage.dart';
-import 'package:cab_management/Cab/therealcabpage.dart';
 import 'package:cab_management/constants.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cab_management/responsive.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cab_management/databaseService.dart';
 import 'package:flutter/material.dart';
-import 'package:image_network/image_network.dart';
 import 'package:image_picker/image_picker.dart';
-import 'databaseService.dart';
 import 'Cab/database_c.dart';
-import 'firebase_options.dart';
-import 'dart:js_util';
-import 'package:js/js.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -72,24 +63,51 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PageView(
-        physics: NeverScrollableScrollPhysics(),
-        controller: _myPage,
-        children: <Widget>[DriverPage(), thecab()],
+    return Responsive(
+      mobile: Scaffold(
+        body: PageView(
+          physics: NeverScrollableScrollPhysics(),
+          controller: _myPage,
+          children: <Widget>[DriverPage(), thecab()],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            if (selectedPage == 0) {
+              addNewDriverPopUp(context);
+            } else {
+              addNewCabPopUp(context);
+            }
+          },
+          child: Icon(Icons.add, color: Colors.white),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: bottomNavBar(),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          if (selectedPage == 0) {
-            addNewDriverPopUp(context);
-          } else {
-            addNewCabPopUp(context);
-          }
-        },
-        child: Icon(Icons.add, color: Colors.white),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: bottomNavBar(),
+      desktop: Row(children: [
+        SizedBox(
+          width: 500,
+          child: Scaffold(
+            body: PageView(
+              physics: NeverScrollableScrollPhysics(),
+              controller: _myPage,
+              children: <Widget>[DriverPage(), thecab()],
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                if (selectedPage == 0) {
+                  addNewDriverPopUp(context);
+                } else {
+                  addNewCabPopUp(context);
+                }
+              },
+              child: Icon(Icons.add, color: Colors.white),
+            ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
+            bottomNavigationBar: bottomNavBar(),
+          ),
+        )
+      ]),
     );
   }
 
