@@ -1,12 +1,8 @@
-//import 'dart:html';
-
-//import 'package:cab_management/Cab/cabtile.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cab_management/firebase_options.dart';
 import 'package:cab_management/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-//import 'package:cab_management/Cab/database_c.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
