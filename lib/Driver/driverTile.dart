@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:cab_management/Driver/DriverProfile.dart';
 import 'package:cab_management/constants.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -140,27 +141,48 @@ class _DriverTileState extends State<DriverTile> {
                         },
                         child: Row(
                           children: [
-                            ImageNetwork(
-                                image: ImageUrl,
-                                borderRadius: BorderRadius.circular(15),
-                                height: 69,
-                                width: 77,
-                                fitWeb: BoxFitWeb.fill,
-                                fitAndroidIos: BoxFit.fill,
-                                onError: Container(
-                                  width: 77,
-                                  height: 69,
-                                  decoration: BoxDecoration(
-                                    color: Colors.black,
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      driverName.substring(0, 1).toUpperCase(),
-                                      style: TextStyle(color: Colors.white),
+                            // CachedNetworkImage(
+                            //   imageUrl: ImageUrl,
+                            //   imageBuilder: (context, imageProvider) =>
+                            //       Container(
+                            //     decoration: BoxDecoration(
+                            //       image: DecorationImage(
+                            //           image: imageProvider,
+                            //           fit: BoxFit.cover,
+                            //           colorFilter: ColorFilter.mode(
+                            //               Colors.red, BlendMode.colorBurn)),
+                            //     ),
+                            //   ),
+                            //   placeholder: (context, url) =>
+                            //       CircularProgressIndicator(),
+                            //   errorWidget: (context, url, error) =>
+                            //       Icon(Icons.error),
+                            // ),
+                            ImageUrl.isEmpty
+                                ? Container(
+                                    width: 77,
+                                    height: 69,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
+                                    child: Center(
+                                      child: Text(
+                                        driverName
+                                            .substring(0, 1)
+                                            .toUpperCase(),
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                  )
+                                : ImageNetwork(
+                                    image: ImageUrl,
+                                    borderRadius: BorderRadius.circular(15),
+                                    height: 69,
+                                    width: 77,
+                                    fitWeb: BoxFitWeb.fill,
+                                    fitAndroidIos: BoxFit.fill,
                                   ),
-                                )),
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 25),
