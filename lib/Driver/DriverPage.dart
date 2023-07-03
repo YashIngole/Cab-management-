@@ -67,10 +67,12 @@ class _DriverPageState extends State<DriverPage> {
                           );
                         }
                         if (!snapshot.hasData) {
+                          _isLoading == true;
                           return Center(
                             child: CircularProgressIndicator(),
                           );
                         }
+
                         return DriverTile(
                           snapshot: snapshot,
                         );

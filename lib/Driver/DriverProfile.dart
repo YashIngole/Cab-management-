@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:image_network/image_network.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class DriverProfile extends StatelessWidget {
+class DriverProfile extends StatefulWidget {
   final String DriverName;
   final String DriverID;
   final String Email;
@@ -26,6 +26,11 @@ class DriverProfile extends StatelessWidget {
       required this.AssignCab});
 
   @override
+  State<DriverProfile> createState() => _DriverProfileState();
+}
+
+class _DriverProfileState extends State<DriverProfile> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -37,12 +42,12 @@ class DriverProfile extends StatelessWidget {
                   nextScreen(
                       context,
                       UpdateDriverPage(
-                        DriverID: DriverID,
-                        DriverName: DriverName,
-                        Email: Email,
-                        ImageUrl: ImageUrl,
-                        Phone: Phone,
-                        snapshot: snapshot,
+                        DriverID: widget.DriverID,
+                        DriverName: widget.DriverName,
+                        Email: widget.Email,
+                        ImageUrl: widget.ImageUrl,
+                        Phone: widget.Phone,
+                        snapshot: widget.snapshot,
                       ));
                 },
                 icon: Icon(Icons.edit)),
@@ -86,7 +91,7 @@ class DriverProfile extends StatelessWidget {
                 child: Padding(
                     padding: const EdgeInsets.all(20),
                     child: ImageNetwork(
-                      image: ImageUrl,
+                      image: widget.ImageUrl,
                       height: 150,
                       width: 150,
                       fitAndroidIos: BoxFit.fill,
@@ -100,7 +105,7 @@ class DriverProfile extends StatelessWidget {
                             borderRadius: BorderRadius.circular(1000)),
                         child: Center(
                             child: Text(
-                          DriverName.substring(0, 1).toUpperCase(),
+                          widget.DriverName.substring(0, 1).toUpperCase(),
                           style: TextStyle(color: Colors.white, fontSize: 50),
                         )),
                       ),
@@ -110,12 +115,12 @@ class DriverProfile extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      DriverName,
+                      widget.DriverName,
                       style:
                           TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
                     ),
                     Text(
-                      "Cab Assigned : " + AssignCab,
+                      "Cab Assigned : " + widget.AssignCab,
                       style:
                           TextStyle(fontWeight: FontWeight.w400, fontSize: 15),
                     ),
@@ -136,15 +141,15 @@ class DriverProfile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     KTitle('Driver ID'),
-                    KSubtitle(DriverID),
+                    KSubtitle(widget.DriverID),
                     KTitle('Email'),
-                    KSubtitle(Email),
+                    KSubtitle(widget.Email),
                     KTitle('Phone'),
-                    KSubtitle(Phone),
+                    KSubtitle(widget.Phone),
                     KTitle('License Number'),
-                    KSubtitle(Phone),
+                    KSubtitle(widget.Phone),
                     KTitle('Driver Join date'),
-                    KSubtitle(Phone),
+                    KSubtitle(widget.Phone),
                   ],
                 ),
               )
@@ -174,13 +179,12 @@ class DriverProfile extends StatelessWidget {
   }
 
 // delete drivers method
-
   void deletedriverData() async {
     var collection = FirebaseFirestore.instance.collection('drivers');
-    print(DriverName);
+    print(widget.DriverName);
 
     var querySnapshot =
-        await collection.where("name", isEqualTo: DriverName.toString()).get();
+        await collection.where("name", isEqualTo: widget.DriverName.toString()).get();
 
     if (querySnapshot.docs.isNotEmpty) {
       var documentSnapshot = querySnapshot.docs.first;

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:js_interop';
 import 'dart:typed_data';
 
 import 'package:cab_management/Auth/navBar.dart';
@@ -148,7 +149,7 @@ class _HomeState extends State<Home> {
         .collection('drivers')
         .get()
         .then((querySnapshot) {
-      List<String> cabs = ['not selected'];
+      List<String> cabs = [];
       querySnapshot.docs.forEach((doc) {
         var driverName = doc.data()['name'].toString().toUpperCase();
 
@@ -240,11 +241,6 @@ class _HomeState extends State<Home> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 150),
                         child: DropdownButtonFormField<String>(
-                          validator: (value) {
-                            if (value == null) {
-                              return 'Relationship is required';
-                            }
-                          },
                           items: cabs.map((String item) {
                             return DropdownMenuItem<String>(
                               value: item,
@@ -257,7 +253,6 @@ class _HomeState extends State<Home> {
                             );
                           }).toList(),
                           hint: Text("Assign a Driver"),
-                          value: cabs[0],
                           onChanged: (String? value) {
                             setState(() {
                               AssignDriver = value;
@@ -379,9 +374,11 @@ class _HomeState extends State<Home> {
                             C_type.toUpperCase(),
                             C_RTO.toUpperCase(),
                             ImageUrl,
-                            AssignDriver)
+                            AssignDriver.isUndefinedOrNull
+                                ? AssignDriver = "Not selected "
+                                : AssignDriver)
                         .whenComplete(() {
-                      nextScreen(context, Home());
+                      Navigator.of(context).pop();
                     });
 
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -412,9 +409,7 @@ class _HomeState extends State<Home> {
 
   void addNewDriverPopUp(BuildContext context) {
     FirebaseFirestore.instance.collection('Cabs').get().then((querySnapshot) {
-      List<String> cabs = [
-        'not selected'
-      ]; // Create an empty list to store cab names
+      List<String> cabs = []; // Create an empty list to store cab names
       querySnapshot.docs.forEach((doc) {
         var cName = doc.data()['C_name'].toString().toUpperCase();
         var cRTO = doc.data()['C_RTO'].toString().toUpperCase();
@@ -511,11 +506,6 @@ class _HomeState extends State<Home> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 150),
                         child: DropdownButtonFormField<String>(
-                          validator: (value) {
-                            if (value == null) {
-                              return 'Relationship is required';
-                            }
-                          },
                           items: cabs.map((String item) {
                             return DropdownMenuItem<String>(
                               value: item,
@@ -528,7 +518,6 @@ class _HomeState extends State<Home> {
                             );
                           }).toList(),
                           hint: Text("Assign a Cab"),
-                          value: cabs[0],
                           onChanged: (String? value) {
                             setState(() {
                               AssignCab = value;
@@ -644,10 +633,21 @@ class _HomeState extends State<Home> {
                 ElevatedButton(
                   onPressed: () async {
                     await databaseService
-                        .saveDriverData(name.toUpperCase(), id.toUpperCase(),
-                            email, phone, ImageUrl, AssignCab)
+                        .saveDriverData(
+                            name.toUpperCase(),
+                            id.toUpperCase(),
+                            email,
+                            phone,
+                            ImageUrl,
+                            AssignCab.isUndefinedOrNull
+                                ? AssignCab = "Not selected "
+                                : AssignCab)
                         .whenComplete(() {
-                      nextScreen(context, Home());
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Home()),
+                      ).then((value) => setState(() {}));
+                      Navigator.of(context).pop();
                     });
 
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -657,6 +657,7 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                     );
+                    Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.lightGreen,
@@ -675,6 +676,17 @@ class _HomeState extends State<Home> {
       // Handle any potential errors here
       print('Error fetching cabs: $error');
     });
+  }
+
+  onTapFunction(BuildContext context) async {
+    final reLoadPage = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Home()),
+    );
+
+    if (reLoadPage) {
+      setState(() {});
+    }
   }
 
   Future<Image> convertFileToImage(File picture) async {
