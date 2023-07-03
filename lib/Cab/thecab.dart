@@ -1,8 +1,7 @@
-import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'database_c.dart';
+//import '../databaseService.dart';
 import 'cabtile.dart';
 
 class thecab extends StatefulWidget {
@@ -17,34 +16,12 @@ class _thecabState extends State<thecab> {
   String C_id = "";
   String C_type = "";
   String C_RTO = "";
-  String searchQuery = "";
-  Stream<QuerySnapshot<Map<String, dynamic>>>? cabStream;
-  String ImageUrl = "";
-  String AssignDriver = "";
+  // String searchQuery = "";
+  // Stream? Cabs;
+  // String ImageUrl = "";
 
   final Database_c database_c = Database_c();
-  final StreamController<QuerySnapshot<Map<String, dynamic>>>
-      _streamController =
-      StreamController<QuerySnapshot<Map<String, dynamic>>>();
-
-  @override
-  void initState() {
-    super.initState();
-    cabStream = FirebaseFirestore.instance
-        .collection('Cabs')
-        .orderBy('C_RTO')
-        .snapshots();
-
-    cabStream!.listen((snapshot) {
-      _streamController.add(snapshot);
-    });
-  }
-
-  @override
-  void dispose() {
-    _streamController.close();
-    super.dispose();
-  }
+  //final DatabaseService databaseService = DatabaseService();
 
   @override
   Widget build(BuildContext context) {
@@ -69,11 +46,14 @@ class _thecabState extends State<thecab> {
           right: 12,
         ),
         child: SafeArea(
-          child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-            stream: _streamController.stream,
+          child: StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('Cabs')
+                .orderBy('C_RTO')
+                .snapshots(),
             builder: (
               BuildContext context,
-              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot,
+              AsyncSnapshot<QuerySnapshot> snapshot,
             ) {
               if (snapshot.hasError) {
                 return Center(

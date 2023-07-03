@@ -3,10 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:cab_management/Cab/Cabprofile.dart';
-//import 'cabPage.dart';
-import 'database_c.dart';
-import 'package:cab_management/BottomNavBar.dart';
-import 'package:cab_management/home.dart';
+
 import 'package:cab_management/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -108,6 +105,7 @@ class _cabTileState extends State<cabtile> {
               final String C_type = data['C_type'];
               final String C_RTO = data['C_RTO'];
               final String ImageUrl = data['ImageUrl'];
+              final String AssignDriver = data['AssignDriver'];
 
               return Flex(
                 direction: Axis.horizontal,
@@ -128,37 +126,40 @@ class _cabTileState extends State<cabtile> {
                           nextScreen(
                             context,
                             CabProfile(
-                              C_name: C_name,
-                              C_id: C_id,
-                              C_type: C_type,
-                              C_RTO: C_RTO,
-                              ImageUrl: ImageUrl,
-                            ),
+                                C_name: C_name,
+                                C_id: C_id,
+                                C_type: C_type,
+                                C_RTO: C_RTO,
+                                ImageUrl: ImageUrl,
+                                snapshot: widget.snapshot,
+                                AssignDriver: AssignDriver),
                           );
                         },
                         child: Row(
                           children: [
-                            ImageNetwork(
-                                image: ImageUrl,
-                                borderRadius: BorderRadius.circular(15),
-                                height: 69,
-                                width: 77,
-                                fitWeb: BoxFitWeb.fill,
-                                fitAndroidIos: BoxFit.fill,
-                                onError: Container(
-                                  width: 77,
-                                  height: 69,
-                                  decoration: BoxDecoration(
-                                    color: Colors.black,
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      C_name.substring(0, 1).toUpperCase(),
-                                      style: TextStyle(color: Colors.white),
+                            ImageUrl.isEmpty
+                                ? Container(
+                                    width: 77,
+                                    height: 69,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
+                                    child: Center(
+                                      child: Text(
+                                        C_name.substring(0, 1).toUpperCase(),
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                  )
+                                : ImageNetwork(
+                                    image: ImageUrl,
+                                    borderRadius: BorderRadius.circular(15),
+                                    height: 69,
+                                    width: 77,
+                                    fitWeb: BoxFitWeb.fill,
+                                    fitAndroidIos: BoxFit.fill,
                                   ),
-                                )),
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 25),

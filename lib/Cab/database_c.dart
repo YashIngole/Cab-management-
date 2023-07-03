@@ -13,7 +13,7 @@ class Database_c {
 
   // function to save the driver data to Firestore
   Future<void> saveCabsData(String C_name, String C_id, String C_type,
-      String C_RTO, String ImageUrl) async {
+      String C_RTO, String ImageUrl, String? AssignDriver) async {
     // new document with a unique ID in the 'drivers' collection
     DocumentReference newCabsRef = CabsRef.doc();
 
@@ -23,7 +23,8 @@ class Database_c {
       'C_id': generateCabId(), // Driver ID Number
       'C_type': C_type, // Driver Email
       'C_RTO': C_RTO,
-      'ImageUrl': ImageUrl // Driver Phone Number
+      'ImageUrl': ImageUrl,
+      'AssignDriver': AssignDriver // Driver Phone Number
     });
   }
 

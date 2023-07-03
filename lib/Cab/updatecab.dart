@@ -1,13 +1,17 @@
-//import 'dart:html';
+import 'dart:convert';
+import 'dart:io';
 
-//import 'package:cab_management/Cab/cabtile.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cab_management/firebase_options.dart';
 import 'package:cab_management/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-//import 'package:cab_management/Cab/database_c.dart';
+import 'package:cab_management/Cab/database_c.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:image_picker/image_picker.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,45 +21,48 @@ Future<void> main() async {
   runApp(MyApp());
 }
 
-final CollectionReference Cabs =
-    FirebaseFirestore.instance.collection('drivers');
+final CollectionReference Cabs = FirebaseFirestore.instance.collection('Cabs');
 
-//final Database_c database_c = Database_c();
+final Database_c database_c = Database_c();
 
-class UpdateDriverPage extends StatefulWidget {
-  const UpdateDriverPage({
+class UpdateCabPage extends StatefulWidget {
+  const UpdateCabPage({
     Key? key,
-    required this.DriverName,
-    required this.DriverID,
-    required this.Email,
-    required this.Phone,
+    required this.C_name,
+    required this.C_id,
+    required this.C_type,
+    required this.C_RTO,
     required this.ImageUrl,
     required this.snapshot,
   }) : super(key: key);
 
-  final String DriverName;
-  final String DriverID;
-  final String Email;
-  final String Phone;
+  final String C_name;
+  final String C_id;
+  final String C_type;
+  final String C_RTO;
   final String ImageUrl;
   final AsyncSnapshot<QuerySnapshot<Object?>> snapshot;
 
   @override
-  State<UpdateDriverPage> createState() => _UpdatedriverPageState();
+  State<UpdateCabPage> createState() => _UpdateCabPageState();
 }
 
-class _UpdatedriverPageState extends State<UpdateDriverPage> {
+class _UpdateCabPageState extends State<UpdateCabPage> {
   String? selectedValue;
 
   String newNameValue = '';
-  String newemail = '';
-  String newphonenumber = '';
+  String newcabtypeValue = '';
+  String newcabRTOValue = '';
+
+  late String ImageUrl;
+
+  //Object? ImageUrl;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Update Driver'),
+        title: const Text('Update Cab'),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -71,12 +78,49 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                     color: Colors.black,
                     borderRadius: BorderRadius.circular(1000),
                   ),
-                  child: const Center(
+                  child: InkWell(
                     child: Icon(
                       Icons.add_a_photo,
                       color: Colors.white,
                       size: 50,
                     ),
+                    // onTap: () async {
+                    //   ImagePicker imagePicker = ImagePicker();
+                    //   XFile? file = await imagePicker.pickImage(
+                    //     source: ImageSource.gallery,
+                    //   );
+                    //   if (file == null) {
+                    //     return;
+                    //   }
+                    //   final Uint8List fileBytes = await file.readAsBytes();
+
+                    //   Reference referenceRoot = FirebaseStorage.instance.ref();
+                    //   Reference referenceDirImages =
+                    //       referenceRoot.child('images');
+
+                    //   String uniqueFileName =
+                    //       DateTime.now().millisecondsSinceEpoch.toString() +
+                    //           '.jpg';
+                    //   Reference referenceImageToUpload =
+                    //       referenceDirImages.child(uniqueFileName);
+                    //   try {
+                    //     await referenceImageToUpload.putData(
+                    //         fileBytes as Uint8List,
+                    //         SettableMetadata(contentType: 'image/jpeg'));
+                    //     ImageUrl =
+                    //         await referenceImageToUpload.getDownloadURL();
+                    //     print(ImageUrl);
+                    //   } catch (e) {
+                    //     print('Error uploading image: $e');
+                    //   }
+                    //   Future<Image> convertFileToImage(File picture) async {
+                    //     List<int> imageBase64 = picture.readAsBytesSync();
+                    //     String imageAsString = base64Encode(imageBase64);
+                    //     Uint8List uint8list = base64.decode(imageAsString);
+                    //     Image image = Image.memory(uint8list);
+                    //     return image;
+                    //   }
+                    // },
                   ),
                 ),
               ),
@@ -92,7 +136,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text("Assign a cab"),
+                  const Text("Assign a driver"),
                   const Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
                   DropdownButton<String>(
                     items: items
@@ -130,14 +174,14 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                   ),
                   Expanded(
                     child: TextFormField(
-                      initialValue: widget.DriverName,
+                      initialValue: widget.C_name,
                       onChanged: (value) {
                         newNameValue = value;
                       },
                       style: const TextStyle(),
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'Name',
+                        labelText: 'Cab Name',
                       ),
                     ),
                   ),
@@ -158,14 +202,14 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                   ),
                   Expanded(
                     child: TextFormField(
-                      initialValue: widget.Email,
+                      initialValue: widget.C_type,
                       onChanged: (value) {
-                        newemail = value;
+                        newcabtypeValue = value;
                       },
                       style: const TextStyle(),
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'Email',
+                        labelText: 'Cab Type',
                       ),
                     ),
                   ),
@@ -185,14 +229,14 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                   ),
                   Expanded(
                     child: TextFormField(
-                      initialValue: widget.Phone,
+                      initialValue: widget.C_RTO,
                       onChanged: (value) {
-                        newphonenumber = value;
+                        newcabRTOValue = value;
                       },
                       style: const TextStyle(),
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'phone number',
+                        labelText: 'RTO passing number',
                       ),
                     ),
                   ),
@@ -205,7 +249,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
             const Padding(padding: EdgeInsets.symmetric(vertical: 40)),
             ElevatedButton(
               onPressed: () {
-                updateDriverData(newNameValue);
+                updateCabData(newNameValue);
               },
               child: const Text(
                 'Save',
@@ -218,20 +262,19 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
     );
   }
 
-  void updateDriverData(String newNameValue) async {
-    var collection = FirebaseFirestore.instance.collection('drivers');
-    print(widget.DriverName);
+  void updateCabData(String newNameValue) async {
+    var collection = FirebaseFirestore.instance.collection('Cabs');
+    print(widget.C_name);
 
-    var querySnapshot = await collection
-        .where('name', isEqualTo: widget.DriverName.toUpperCase())
-        .get();
+    var querySnapshot =
+        await collection.where('C_name', isEqualTo: widget.C_name).get();
 
     if (querySnapshot.docs.isNotEmpty) {
       var documentSnapshot = querySnapshot.docs.first;
 
       collection
           .doc(documentSnapshot.id)
-          .update({'name': newNameValue.toUpperCase()})
+          .update({'C_name': newNameValue.toUpperCase()})
           .then((_) => print('Success'))
           .catchError((error) => print('Failed: $error'));
     }
@@ -240,7 +283,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
 
       collection
           .doc(documentSnapshot.id)
-          .update({'email': newemail})
+          .update({'C_type': newcabtypeValue})
           .then((_) => print('Success'))
           .catchError((error) => print('Failed: $error'));
     }
@@ -249,7 +292,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
 
       collection
           .doc(documentSnapshot.id)
-          .update({'phone': newphonenumber})
+          .update({'C_RTO': newcabRTOValue})
           .then((_) => print('Success'))
           .catchError((error) => print('Failed: $error'));
     } else {
