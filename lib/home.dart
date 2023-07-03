@@ -7,7 +7,9 @@ import 'package:cab_management/Cab/cabtile.dart';
 import 'package:cab_management/Cab/therealcabpage.dart';
 import 'package:cab_management/Driver/DriverPage.dart';
 import 'package:cab_management/Cab/therealcabpage.dart';
+import 'package:cab_management/Driver/DriverProfile.dart';
 import 'package:cab_management/constants.dart';
+import 'package:cab_management/responsive.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -72,24 +74,128 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PageView(
-        physics: NeverScrollableScrollPhysics(),
-        controller: _myPage,
-        children: <Widget>[DriverPage(), thecab()],
+    return Responsive(
+      Mobile: Scaffold(
+        body: PageView(
+          physics: NeverScrollableScrollPhysics(),
+          controller: _myPage,
+          children: <Widget>[DriverPage(), thecab()],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            if (selectedPage == 0) {
+              addNewDriverPopUp(context);
+            } else {
+              addNewCabPopUp(context);
+            }
+          },
+          child: Icon(Icons.add, color: Colors.white),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: bottomNavBar(),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          if (selectedPage == 0) {
-            addNewDriverPopUp(context);
-          } else {
-            addNewCabPopUp(context);
-          }
-        },
-        child: Icon(Icons.add, color: Colors.white),
+      Desktop: Row(
+        children: [
+          Column(
+            children: [
+              Expanded(
+                child: Container(
+                  width: 600,
+                  child: Scaffold(
+                    body: PageView(
+                      physics: NeverScrollableScrollPhysics(),
+                      controller: _myPage,
+                      children: <Widget>[DriverPage(), thecab()],
+                    ),
+
+                    floatingActionButton: Stack(
+                      children: [
+                        Positioned(
+                          left: 520,
+                          top: 830,
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 50,
+                                width: 50,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Color.fromARGB(255, 113, 191, 236),
+                                      Color.fromARGB(255, 113, 207, 245),
+                                      Color.fromARGB(255, 56, 181, 240)
+                                    ],
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: FloatingActionButton(
+                                    onPressed: () {
+                                      if (selectedPage == 0) {
+                                        addNewDriverPopUp(context);
+                                      } else {
+                                        addNewCabPopUp(context);
+                                      }
+                                    },
+                                    child: Icon(Icons.add, color: Colors.white),
+                                    backgroundColor: Colors.transparent),
+                              ),
+                              SizedBox(height: 7),
+                              Container(
+                                height: 50,
+                                width: 50,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Color.fromARGB(255, 113, 207, 245),
+                                      Color.fromARGB(255, 113, 191, 236),
+                                      Color.fromRGBO(110, 199, 240, 1)
+                                    ],
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: FloatingActionButton(
+                                  backgroundColor: Colors.transparent,
+                                  // splashColor: Colors.transparent,
+                                  onPressed: () {
+                                    nextScreen(context, thecab());
+                                  },
+                                  child: Icon(
+                                    Icons.car_rental,
+                                    size: 25,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    /*floatingActionButtonLocation:
+                        FloatingActionButtonLocation.centerDocked,*/
+                    //bottomNavigationBar: bottomNavBar(),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Expanded(
+            child: Container(
+              width: 800,
+              //MediaQuery.of(context).size.width *0.75 ,
+              color: Colors.black,
+              child: DriverProfile(
+                  DriverName: name.toString(),
+                  DriverID: id.toString(),
+                  Email: email.toString(),
+                  Phone: phone.toString(),
+                  ImageUrl: ImageUrl,
+                  snapshot: AsyncSnapshot.nothing(),
+                  AssignCab: AssignCab.toString()),
+            ),
+          ),
+        ],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: bottomNavBar(),
     );
   }
 

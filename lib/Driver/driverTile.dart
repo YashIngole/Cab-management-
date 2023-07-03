@@ -114,7 +114,7 @@ class _DriverTileState extends State<DriverTile> {
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: EdgeInsets.only(right: 10, bottom: 35),
+                      padding: EdgeInsets.only(right: 10, bottom: 12),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           disabledBackgroundColor: Colors.white,
