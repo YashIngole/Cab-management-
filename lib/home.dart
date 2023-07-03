@@ -2,13 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:js_interop';
 import 'dart:typed_data';
-
 import 'package:cab_management/Auth/navBar.dart';
 import 'package:cab_management/Cab/cabtile.dart';
 import 'package:cab_management/Cab/therealcabpage.dart';
 import 'package:cab_management/Driver/DriverPage.dart';
 import 'package:cab_management/Cab/therealcabpage.dart';
 import 'package:cab_management/constants.dart';
+import 'package:cab_management/responsive.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
