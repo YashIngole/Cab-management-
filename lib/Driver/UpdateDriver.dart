@@ -67,7 +67,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                     color: Colors.black,
                     borderRadius: BorderRadius.circular(1000),
                   ),
-                  child: const Center(
+                  child: Center(
                     child: Icon(
                       Icons.add_a_photo,
                       color: Colors.white,
