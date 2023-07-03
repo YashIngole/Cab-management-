@@ -17,6 +17,7 @@ class _DriverPageState extends State<DriverPage> {
   String email = "";
   String phone = "";
   String searchQuery = "";
+  bool _isLoading = false;
 
   final DatabaseService databaseService = DatabaseService();
 
@@ -37,43 +38,50 @@ class _DriverPageState extends State<DriverPage> {
         ),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: EdgeInsets.only(
-          left: 22,
-          right: 12,
-        ),
-        child: SafeArea(
-          child: StatefulBuilder(
-            builder: (BuildContext context, StateSetter setState) {
-              return StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection('drivers')
-                    .orderBy('name')
-                    .snapshots(),
-                builder: (
-                  BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot,
-                ) {
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text('Error: ${snapshot.error}'),
-                    );
-                  }
-                  if (!snapshot.hasData) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
+      body: _isLoading == true
+          ? Center(
+              child: CircularProgressIndicator(
+                color: Colors.blue,
+              ),
+            )
+          : Padding(
+              padding: EdgeInsets.only(
+                left: 22,
+                right: 12,
+              ),
+              child: SafeArea(
+                child: StatefulBuilder(
+                  builder: (BuildContext context, StateSetter setState) {
+                    return StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection('drivers')
+                          .orderBy('name')
+                          .snapshots(),
+                      builder: (
+                        BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> snapshot,
+                      ) {
+                        if (snapshot.hasError) {
+                          return Center(
+                            child: Text('Error: ${snapshot.error}'),
+                          );
+                        }
+                        if (!snapshot.hasData) {
+                          _isLoading == true;
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
 
-                  return DriverTile(
-                    snapshot: snapshot,
-                  );
-                },
-              );
-            },
-          ),
-        ),
-      ),
+                        return DriverTile(
+                          snapshot: snapshot,
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+            ),
     );
   }
 }

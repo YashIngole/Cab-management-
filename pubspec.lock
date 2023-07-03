@@ -604,7 +604,14 @@ packages:
       sha256: "53e943d4206a5e30df338fd4c6e7a077e02254531b138a15aec3bd143c1a8b3c"
       url: "https://pub.dev"
     source: hosted
+<<<<<<< HEAD
     version: "1.10.0"
+=======
+<<<<<<< HEAD
+    version: "1.10.0"
+=======
+    version: "1.9.1"
+>>>>>>> master
   sqflite:
     dependency: transitive
     description:
@@ -621,6 +628,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.5+1"
+>>>>>>> a600618443c7edac5249192e06d41b9d436ed669
   stack_trace:
     dependency: transitive
     description:

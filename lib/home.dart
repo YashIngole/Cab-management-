@@ -1,16 +1,26 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:js_interop';
 import 'dart:typed_data';
+
+import 'package:cab_management/Auth/navBar.dart';
+import 'package:cab_management/Cab/cabtile.dart';
 import 'package:cab_management/Cab/therealcabpage.dart';
 import 'package:cab_management/Driver/DriverPage.dart';
+import 'package:cab_management/Cab/therealcabpage.dart';
 import 'package:cab_management/constants.dart';
-import 'package:cab_management/responsive.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cab_management/databaseService.dart';
 import 'package:flutter/material.dart';
+import 'package:image_network/image_network.dart';
 import 'package:image_picker/image_picker.dart';
+import 'databaseService.dart';
 import 'Cab/database_c.dart';
+import 'firebase_options.dart';
+import 'dart:js_util';
+import 'package:js/js.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -62,52 +72,26 @@ class _HomeState extends State<Home> {
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
-    return Responsive(
-      mobile: Scaffold(
-        body: PageView(
-          physics: NeverScrollableScrollPhysics(),
-          controller: _myPage,
-          children: <Widget>[DriverPage(), thecab()],
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            if (selectedPage == 0) {
-              addNewDriverPopUp(context);
-            } else {
-              addNewCabPopUp(context);
-            }
-          },
-          child: Icon(Icons.add, color: Colors.white),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: bottomNavBar(),
+    return Scaffold(
+      body: PageView(
+        physics: NeverScrollableScrollPhysics(),
+        controller: _myPage,
+        children: <Widget>[DriverPage(), thecab()],
       ),
-      desktop: Row(children: [
-        SizedBox(
-          width: 500,
-          child: Scaffold(
-            body: PageView(
-              physics: NeverScrollableScrollPhysics(),
-              controller: _myPage,
-              children: <Widget>[DriverPage(), thecab()],
-            ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                if (selectedPage == 0) {
-                  addNewDriverPopUp(context);
-                } else {
-                  addNewCabPopUp(context);
-                }
-              },
-              child: Icon(Icons.add, color: Colors.white),
-            ),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerDocked,
-            bottomNavigationBar: bottomNavBar(),
-          ),
-        )
-      ]),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          if (selectedPage == 0) {
+            addNewDriverPopUp(context);
+          } else {
+            addNewCabPopUp(context);
+          }
+        },
+        child: Icon(Icons.add, color: Colors.white),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: bottomNavBar(),
     );
   }
 
@@ -165,9 +149,10 @@ class _HomeState extends State<Home> {
         .collection('drivers')
         .get()
         .then((querySnapshot) {
-      List<String> cabs = ['not selected'];
+      List<String> cabs = [];
       querySnapshot.docs.forEach((doc) {
         var driverName = doc.data()['name'].toString().toUpperCase();
+
         cabs.add(driverName);
       });
 
@@ -256,11 +241,6 @@ class _HomeState extends State<Home> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 150),
                         child: DropdownButtonFormField<String>(
-                          validator: (value) {
-                            if (value == null) {
-                              return 'Relationship is required';
-                            }
-                          },
                           items: cabs.map((String item) {
                             return DropdownMenuItem<String>(
                               value: item,
@@ -273,7 +253,6 @@ class _HomeState extends State<Home> {
                             );
                           }).toList(),
                           hint: Text("Assign a Driver"),
-                          value: cabs[0],
                           onChanged: (String? value) {
                             setState(() {
                               AssignDriver = value;
@@ -395,7 +374,9 @@ class _HomeState extends State<Home> {
                             C_type.toUpperCase(),
                             C_RTO.toUpperCase(),
                             ImageUrl,
-                            AssignDriver)
+                            AssignDriver.isUndefinedOrNull
+                                ? AssignDriver = "Not selected "
+                                : AssignDriver)
                         .whenComplete(() {
                       Navigator.of(context).pop();
                     });
@@ -428,9 +409,7 @@ class _HomeState extends State<Home> {
 
   void addNewDriverPopUp(BuildContext context) {
     FirebaseFirestore.instance.collection('Cabs').get().then((querySnapshot) {
-      List<String> cabs = [
-        'not selected'
-      ]; // Create an empty list to store cab names
+      List<String> cabs = []; // Create an empty list to store cab names
       querySnapshot.docs.forEach((doc) {
         var cName = doc.data()['C_name'].toString().toUpperCase();
         var cRTO = doc.data()['C_RTO'].toString().toUpperCase();
@@ -527,11 +506,6 @@ class _HomeState extends State<Home> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 150),
                         child: DropdownButtonFormField<String>(
-                          validator: (value) {
-                            if (value == null) {
-                              return 'Relationship is required';
-                            }
-                          },
                           items: cabs.map((String item) {
                             return DropdownMenuItem<String>(
                               value: item,
@@ -544,7 +518,6 @@ class _HomeState extends State<Home> {
                             );
                           }).toList(),
                           hint: Text("Assign a Cab"),
-                          value: cabs[0],
                           onChanged: (String? value) {
                             setState(() {
                               AssignCab = value;
@@ -660,9 +633,20 @@ class _HomeState extends State<Home> {
                 ElevatedButton(
                   onPressed: () async {
                     await databaseService
-                        .saveDriverData(name.toUpperCase(), id.toUpperCase(),
-                            email, phone, ImageUrl, AssignCab)
+                        .saveDriverData(
+                            name.toUpperCase(),
+                            id.toUpperCase(),
+                            email,
+                            phone,
+                            ImageUrl,
+                            AssignCab.isUndefinedOrNull
+                                ? AssignCab = "Not selected "
+                                : AssignCab)
                         .whenComplete(() {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Home()),
+                      ).then((value) => setState(() {}));
                       Navigator.of(context).pop();
                     });
 
@@ -673,6 +657,7 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                     );
+                    Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.lightGreen,
@@ -691,6 +676,17 @@ class _HomeState extends State<Home> {
       // Handle any potential errors here
       print('Error fetching cabs: $error');
     });
+  }
+
+  onTapFunction(BuildContext context) async {
+    final reLoadPage = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Home()),
+    );
+
+    if (reLoadPage) {
+      setState(() {});
+    }
   }
 
   Future<Image> convertFileToImage(File picture) async {
