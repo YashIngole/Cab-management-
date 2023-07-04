@@ -9,6 +9,11 @@ class welcome extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(image: AssetImage("assets/welcomebackground.png"),
+            fit : BoxFit.fill
+           ), ),
+          
             width: double.infinity,
             height: MediaQuery.of(context).size.height,
             padding: EdgeInsets.symmetric(horizontal: 30, vertical: 50),
