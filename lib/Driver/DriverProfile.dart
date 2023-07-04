@@ -29,7 +29,7 @@ class DriverProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Driver Profile'),
+          title: Text("Driver's Profile"),
           centerTitle: true,
           actions: [
             IconButton(
@@ -96,7 +96,7 @@ class DriverProfile extends StatelessWidget {
                         height: 150,
                         width: 150,
                         decoration: BoxDecoration(
-                            color: Colors.black,
+                            color: Color.fromARGB(226, 128, 177, 246),
                             borderRadius: BorderRadius.circular(1000)),
                         child: Center(
                             child: Text(
@@ -109,11 +109,15 @@ class DriverProfile extends StatelessWidget {
               Center(
                 child: Column(
                   children: [
-                    Text(
-                      DriverName,
-                      style:
-                          TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Text(
+                        DriverName,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
                     ),
+                    SizedBox(height: 15),
                     Text(
                       "Cab Assigned : " + AssignCab,
                       style:
@@ -122,32 +126,84 @@ class DriverProfile extends StatelessWidget {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(20),
+              /* Padding(
+                padding: const EdgeInsets.only(top: 15),
                 child: Container(
                     height: 31,
-                    width: double.infinity,
+                    width: 150,
                     decoration: BoxDecoration(color: Color(0xffF4F4F4)),
                     child: Center(child: Text("Driver Data:"))),
-              ),
+              ),*/
+
               Padding(
-                padding: const EdgeInsets.all(30.0),
+                padding: const EdgeInsets.only(left: 75, top: 80),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    KTitle('Driver ID'),
-                    KSubtitle(DriverID),
-                    KTitle('Email'),
-                    KSubtitle(Email),
-                    KTitle('Phone'),
-                    KSubtitle(Phone),
-                    KTitle('License Number'),
-                    KSubtitle(Phone),
-                    KTitle('Driver Join date'),
-                    KSubtitle(Phone),
+                    Row(
+                      children: [
+                        Icon(Icons.person, size: 30),
+                        Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 50),
+                            child: KTitle('Driver ID')),
+                      ],
+                      
+                    ),
+                    Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 77),
+                        child: KSubtitle(DriverID)),
+                    Divider(color: Colors.black, indent: 80, endIndent: 35),
+                    Row(
+                      children: [
+                        Icon(Icons.email_outlined, size: 30),
+                        Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 50),
+                            child: KTitle('Email')),
+                      ],
+                    ),
+                    Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 77),
+                        child: KSubtitle(Email)),
+                    Divider(color: Colors.black, indent: 80, endIndent: 35),
+                    Row(
+                      children: [
+                        Icon(Icons.phone, size: 30),
+                        Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 50),
+                            child: KTitle('Phone')),
+                      ],
+                    ),
+                    Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 77),
+                        child: KSubtitle(Phone)),
+                    Divider(color: Colors.black, indent: 80, endIndent: 35),
+                    Row(
+                      children: [
+                        Icon(Icons.numbers_outlined, size: 30),
+                        Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 50),
+                            child: KTitle('License Number')),
+                      ],
+                    ),
+                    Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 77),
+                        child: KSubtitle(Phone)),
+                    Divider(color: Colors.black, indent: 80, endIndent: 35),
+                    Row(
+                      children: [
+                        Icon(Icons.date_range, size: 30),
+                        Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 50),
+                            child: KTitle('Driver Join date')),
+                      ],
+                    ),
+                    Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 77),
+                        child: KSubtitle(Phone)),
+                    Divider(color: Colors.black, indent: 80, endIndent: 35),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ));
@@ -158,7 +214,8 @@ class DriverProfile extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 8),
       child: Text(
         TitleText,
-        style: TextStyle(color: Color(0xff959595)),
+        style:
+            TextStyle(color: Color.fromARGB(226, 128, 177, 246), fontSize: 12),
       ),
     );
   }

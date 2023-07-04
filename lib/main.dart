@@ -68,7 +68,7 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData().copyWith(
-          scaffoldBackgroundColor: Color.fromARGB(255, 255, 255, 255),
+          scaffoldBackgroundColor: Colors.white,
           useMaterial3: true,
         ),
         home:

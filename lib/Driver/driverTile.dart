@@ -57,20 +57,20 @@ class _DriverTileState extends State<DriverTile> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 10, right: 10, bottom: 50),
+          padding: const EdgeInsets.only(left: 7, right: 10, bottom: 50),
           child: Container(
             height: 45,
             decoration: BoxDecoration(
-              color: Color(0xffEBEDF3),
+              color: Color.fromARGB(200, 159, 197, 250),
               borderRadius: BorderRadius.circular(15),
             ),
             child: Row(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 5),
+                  padding: const EdgeInsets.only(left: 10, right: 10),
                   child: Icon(
                     Icons.search_sharp,
-                    color: Color(0xffB6B6B6),
+                    color: Colors.black,
                   ),
                 ),
                 Flexible(
@@ -84,7 +84,7 @@ class _DriverTileState extends State<DriverTile> {
                     },
                     decoration: InputDecoration(
                       hintText: 'Search',
-                      hintStyle: TextStyle(color: Color(0xffB6B6B6)),
+                      hintStyle: TextStyle(color: Colors.black),
                       focusedBorder: InputBorder.none,
                       enabledBorder: InputBorder.none,
                     ),
@@ -114,15 +114,14 @@ class _DriverTileState extends State<DriverTile> {
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: EdgeInsets.only(right: 10, bottom: 12),
+                      padding: EdgeInsets.only(right: 0, bottom: 5),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           disabledBackgroundColor: Colors.white,
-                          shadowColor: Colors.white,
+                          shadowColor: Color.fromARGB(248, 234, 225, 243),
                           shape: BeveledRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          side: BorderSide.none,
-                          backgroundColor: Color(0xffffffff),
+                              borderRadius: BorderRadius.circular(8)),
+                          backgroundColor: Colors.white,
                         ),
                         onPressed: () {
                           nextScreen(
@@ -144,14 +143,14 @@ class _DriverTileState extends State<DriverTile> {
                                 image: ImageUrl,
                                 borderRadius: BorderRadius.circular(15),
                                 height: 69,
-                                width: 77,
+                                width: 70,
                                 fitWeb: BoxFitWeb.fill,
                                 fitAndroidIos: BoxFit.fill,
                                 onError: Container(
                                   width: 77,
                                   height: 69,
                                   decoration: BoxDecoration(
-                                    color: Colors.black,
+                                    color: Color.fromARGB(226, 128, 177, 246),
                                     borderRadius: BorderRadius.circular(15),
                                   ),
                                   child: Center(
@@ -173,7 +172,9 @@ class _DriverTileState extends State<DriverTile> {
                                       child: Text(
                                         driverName,
                                         style: TextStyle(
-                                            fontSize: 12, color: Colors.black),
+                                            fontSize: 12,
+                                            color:
+                                                Color.fromARGB(255, 0, 2, 3)),
                                       ),
                                     ),
                                     Padding(
@@ -181,7 +182,8 @@ class _DriverTileState extends State<DriverTile> {
                                       child: Text(
                                         driverID,
                                         style: TextStyle(
-                                            fontSize: 12, color: Colors.black),
+                                            fontSize: 12,
+                                            color: Colors.black38),
                                       ),
                                     ),
                                   ],
@@ -190,11 +192,16 @@ class _DriverTileState extends State<DriverTile> {
                             ),
                             Icon(
                               Icons.chevron_right,
-                              color: Colors.black12,
+                              color: Color.fromARGB(226, 128, 177, 246),
                             ),
                           ],
                         ),
                       ),
+                      /* Divider(
+          color: Colors.black,
+          thickness: 3,
+          height: 2,
+        )*/
                     ),
                   )
                 ],
