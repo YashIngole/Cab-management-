@@ -1,12 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:js_interop';
+
 import 'dart:typed_data';
+import 'dart:ui';
 import 'package:cab_management/Auth/navBar.dart';
+import 'package:cab_management/Cab/Cabprofile.dart';
 import 'package:cab_management/Cab/cabtile.dart';
 import 'package:cab_management/Cab/therealcabpage.dart';
 import 'package:cab_management/Driver/DriverPage.dart';
 import 'package:cab_management/Cab/therealcabpage.dart';
+import 'package:cab_management/Driver/driverTile.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cab_management/responsive.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -19,8 +23,6 @@ import 'package:image_picker/image_picker.dart';
 import 'databaseService.dart';
 import 'Cab/database_c.dart';
 import 'firebase_options.dart';
-import 'dart:js_util';
-import 'package:js/js.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -42,6 +44,7 @@ class _HomeState extends State<Home> {
   String phone = "";
   final DatabaseService databaseService = DatabaseService();
   final Database_c database_c = Database_c();
+
   Stream? drivers;
   String ImageUrl = "";
   List<String> cabs = [];
@@ -71,7 +74,6 @@ class _HomeState extends State<Home> {
     });
   }
 
-  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -367,19 +369,17 @@ class _HomeState extends State<Home> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    await database_c
-                        .saveCabsData(
-                            C_name.toUpperCase(),
-                            C_id.toUpperCase(),
-                            C_type.toUpperCase(),
-                            C_RTO.toUpperCase(),
-                            ImageUrl,
-                            AssignDriver == null
-                                ? AssignDriver = "Not selected "
-                                : AssignDriver)
-                        .whenComplete(() {
-                      Navigator.of(context).pop();
-                    });
+                    await database_c.saveCabsData(
+                        C_name.toUpperCase(),
+                        C_id.toUpperCase(),
+                        C_type.toUpperCase(),
+                        C_RTO.toUpperCase(),
+                        ImageUrl,
+                        AssignDriver == null
+                            ? AssignDriver = "Not selected "
+                            : AssignDriver);
+                    cabtile.refreshIndicatorKey.currentState?.show();
+                    Navigator.of(context).pop();
 
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -632,23 +632,20 @@ class _HomeState extends State<Home> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    await databaseService
-                        .saveDriverData(
-                            name.toUpperCase(),
-                            id.toUpperCase(),
-                            email,
-                            phone,
-                            ImageUrl,
-                            AssignCab == null
-                                ? AssignCab = "Not selected "
-                                : AssignCab)
-                        .whenComplete(() {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Home()),
-                      ).then((value) => setState(() {}));
-                      Navigator.of(context).pop();
-                    });
+                    setState(
+                      () {},
+                    );
+                    await databaseService.saveDriverData(
+                        name.toUpperCase(),
+                        id.toUpperCase(),
+                        email,
+                        phone,
+                        ImageUrl,
+                        AssignCab == null
+                            ? AssignCab = "Not selected "
+                            : AssignCab);
+                    DriverTile.refreshIndicatorKey2.currentState?.show();
+                    Navigator.of(context).pop();
 
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -657,7 +654,6 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                     );
-                    Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.lightGreen,
@@ -676,17 +672,6 @@ class _HomeState extends State<Home> {
       // Handle any potential errors here
       print('Error fetching cabs: $error');
     });
-  }
-
-  onTapFunction(BuildContext context) async {
-    final reLoadPage = await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => Home()),
-    );
-
-    if (reLoadPage) {
-      setState(() {});
-    }
   }
 
   Future<Image> convertFileToImage(File picture) async {
