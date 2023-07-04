@@ -71,8 +71,7 @@ class _MyAppState extends State<MyApp> {
           scaffoldBackgroundColor: Color.fromARGB(255, 255, 255, 255),
           useMaterial3: true,
         ),
-        // home: Responsive(Mobile: Home(), Desktop: Web_layout()));
-        // Home());
-        home: _isSignedIn ? Home() : const Signin());
+        // home: Home());
+        home: _isSignedIn ? Home() : Signin());
   }
 }

@@ -232,7 +232,7 @@ class _SigninState extends State<Signin> {
           await helperFunctions.saveUserEmailSF(email);
           await helperFunctions.saveUsernameSF(snapshot.docs[0]['fullName']);
 
-          nextScreenReplace(context, const Home());
+          nextScreenReplace(context, const ());
         } else {
           _isLoading = false;
         }
