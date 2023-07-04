@@ -374,7 +374,7 @@ class _HomeState extends State<Home> {
                             C_type.toUpperCase(),
                             C_RTO.toUpperCase(),
                             ImageUrl,
-                            AssignDriver.isUndefinedOrNull
+                            AssignDriver == null
                                 ? AssignDriver = "Not selected "
                                 : AssignDriver)
                         .whenComplete(() {
@@ -639,7 +639,7 @@ class _HomeState extends State<Home> {
                             email,
                             phone,
                             ImageUrl,
-                            AssignCab.isUndefinedOrNull
+                            AssignCab == null
                                 ? AssignCab = "Not selected "
                                 : AssignCab)
                         .whenComplete(() {
