@@ -4,9 +4,7 @@ import 'dart:typed_data';
 
 import 'package:cab_management/Driver/DriverProfile.dart';
 import 'package:cab_management/constants.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:image_network/image_network.dart';
 

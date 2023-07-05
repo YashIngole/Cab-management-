@@ -1,6 +1,4 @@
 import 'dart:math';
-import 'package:cab_management/Driver/DriverPage.dart';
-import 'package:cab_management/Driver/driverTile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 String UniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
