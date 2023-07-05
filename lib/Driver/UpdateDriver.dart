@@ -9,13 +9,6 @@ import 'package:flutter/material.dart';
 //import 'package:cab_management/Cab/database_c.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  runApp(MyApp());
-}
 
 final CollectionReference Cabs =
     FirebaseFirestore.instance.collection('drivers');

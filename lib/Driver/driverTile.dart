@@ -30,12 +30,6 @@ class _DriverTileState extends State<DriverTile> {
     driverStream = FirebaseFirestore.instance.collection('drivers').snapshots();
   }
 
-  Future<void> refreshData() async {
-    setState(() {
-      filteredList = widget.snapshot.data!.docs;
-    });
-  }
-
   void filterData(String query) {
     final List<DocumentSnapshot> allDocs = widget.snapshot.data!.docs;
     final List<DocumentSnapshot> filteredDocs = allDocs.where((doc) {
@@ -122,7 +116,6 @@ class _DriverTileState extends State<DriverTile> {
                 final String phone = data['phone'];
                 final String ImageUrl = data['ImageUrl'];
                 final String AssignCab = data['AssignCab'];
-                refreshData();
 
                 return Flex(
                   direction: Axis.horizontal,

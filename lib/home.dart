@@ -30,14 +30,6 @@ class _HomeState extends State<Home> {
     selectedPage = 0;
   }
 
-  void _onItemTapped(int index) {
-    setState(() {
-      selectedPage = index;
-      _myPage.animateToPage(index,
-          duration: Duration(milliseconds: 500), curve: Curves.easeOut);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
