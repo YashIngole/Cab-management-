@@ -4,9 +4,7 @@ import 'dart:typed_data';
 
 import 'package:cab_management/Driver/DriverProfile.dart';
 import 'package:cab_management/constants.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:image_network/image_network.dart';
 
@@ -30,12 +28,6 @@ class _DriverTileState extends State<DriverTile> {
     super.initState();
     filteredList = widget.snapshot.data!.docs;
     driverStream = FirebaseFirestore.instance.collection('drivers').snapshots();
-  }
-
-  Future<void> refreshData() async {
-    setState(() {
-      filteredList = widget.snapshot.data!.docs;
-    });
   }
 
   void filterData(String query) {
@@ -124,7 +116,6 @@ class _DriverTileState extends State<DriverTile> {
                 final String phone = data['phone'];
                 final String ImageUrl = data['ImageUrl'];
                 final String AssignCab = data['AssignCab'];
-                refreshData();
 
                 return Flex(
                   direction: Axis.horizontal,

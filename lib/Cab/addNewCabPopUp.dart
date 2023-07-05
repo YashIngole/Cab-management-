@@ -73,7 +73,7 @@ void addNewCabPopUp(BuildContext context) {
                                   referenceDirImages.child(uniqueFileName);
                               try {
                                 await referenceImageToUpload.putData(
-                                    fileBytes as Uint8List,
+                                    fileBytes,
                                     SettableMetadata(
                                         contentType: 'image/jpeg'));
                                 ImageUrl = await referenceImageToUpload
