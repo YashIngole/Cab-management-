@@ -8,11 +8,12 @@ class welcome extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
+        
         child: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(image: AssetImage("assets/welcomebackground.png"),
-            fit : BoxFit.fill
-           ), ),
+          // decoration: const BoxDecoration(
+          //   image: DecorationImage(image: AssetImage("assets/welcomebackground.png"),
+          //   fit : BoxFit.fill
+          //  ), ),
           
             width: double.infinity,
             height: MediaQuery.of(context).size.height,
@@ -27,17 +28,19 @@ class welcome extends StatelessWidget {
                         child: Text(
                       "WELCOME",
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                          TextStyle(fontWeight: FontWeight.w900, fontSize: 30),
+                          
                     )),
                     SizedBox(
                       height: 20,
                     ),
                     Container(
                         child: Text(
-                      "Add some lines for app",
+                      "Bug aisa banao ki 4 logo ko feature lagay",
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.grey[700], fontSize: 15),
                     )),
+                    
                   ],
                 ),
                 Container(
@@ -45,12 +48,13 @@ class welcome extends StatelessWidget {
                   height: MediaQuery.of(context).size.height / 3,
                   decoration: BoxDecoration(
                       image:
-                          DecorationImage(image: AssetImage('assets/car.jpg'))),
+                          DecorationImage(image: AssetImage('assets/front_image.png'))),
                 )),
                 Column(children: <Widget>[
                   (MaterialButton(
-                    minWidth: 25,
-                    height: 35,
+                    minWidth: 80,
+                    height: 40,
+                    color: Color.fromARGB(255, 218, 234, 247),
                     onPressed: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => Signin()));
@@ -59,9 +63,9 @@ class welcome extends StatelessWidget {
                         side: BorderSide(color: Colors.black),
                         borderRadius: BorderRadius.circular(5000)),
                     child: Text(
-                      "Getstarted",
+                      "Get started",
                       style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                          TextStyle(fontWeight: FontWeight.w300, fontSize: 20),
                     ),
                   )),
                   SizedBox(

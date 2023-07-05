@@ -4,6 +4,7 @@ import 'package:cab_management/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:image_picker/image_picker.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -68,10 +69,18 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                     borderRadius: BorderRadius.circular(1000),
                   ),
                   child: Center(
-                    child: Icon(
-                      Icons.add_a_photo,
-                      color: Colors.white,
-                      size: 50,
+                    child: InkWell(
+                      child: Icon(
+                        Icons.add_a_photo,
+                        color: Colors.white,
+                        size: 50,
+                      ),
+                      onTap: () async {
+                        ImagePicker imagePicker = ImagePicker();
+                        XFile? file = await imagePicker.pickImage(
+                          source: ImageSource.gallery,
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -238,31 +247,31 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
     }
     if (querySnapshot.docs.isNotEmpty) {
       var documentSnapshot = querySnapshot.docs.first;
-      newemail.isNotEmpty?
-      collection
-          .doc(documentSnapshot.id)
-          .update({'email': newemail})
-          .then((_) => print('Success'))
-          .catchError((error) => print('Failed: $error'))
-      :collection
-          .doc(documentSnapshot.id)
-          .update({'email': widget.Email})
-          .then((_) => print('Success'))
-          .catchError((error) => print('Failed: $error'));
+      newemail.isNotEmpty
+          ? collection
+              .doc(documentSnapshot.id)
+              .update({'email': newemail})
+              .then((_) => print('Success'))
+              .catchError((error) => print('Failed: $error'))
+          : collection
+              .doc(documentSnapshot.id)
+              .update({'email': widget.Email})
+              .then((_) => print('Success'))
+              .catchError((error) => print('Failed: $error'));
     }
     if (querySnapshot.docs.isNotEmpty) {
       var documentSnapshot = querySnapshot.docs.first;
-      newphonenumber.isNotEmpty?
-      collection
-          .doc(documentSnapshot.id)
-          .update({'phone': newphonenumber})
-          .then((_) => print('Success'))
-          .catchError((error) => print('Failed: $error'))
-      :collection
-          .doc(documentSnapshot.id)
-          .update({'phone': widget.Phone})
-          .then((_) => print('Success'))
-          .catchError((error) => print('Failed: $error'));
+      newphonenumber.isNotEmpty
+          ? collection
+              .doc(documentSnapshot.id)
+              .update({'phone': newphonenumber})
+              .then((_) => print('Success'))
+              .catchError((error) => print('Failed: $error'))
+          : collection
+              .doc(documentSnapshot.id)
+              .update({'phone': widget.Phone})
+              .then((_) => print('Success'))
+              .catchError((error) => print('Failed: $error'));
     } else {
       print('Document not found');
     }
