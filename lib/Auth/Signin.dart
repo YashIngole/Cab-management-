@@ -1,5 +1,6 @@
 import 'package:cab_management/Auth/SignUp.dart';
 import 'package:cab_management/constants.dart';
+import 'package:cab_management/home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -231,7 +232,7 @@ class _SigninState extends State<Signin> {
           await helperFunctions.saveUserEmailSF(email);
           await helperFunctions.saveUsernameSF(snapshot.docs[0]['fullName']);
 
-          nextScreenReplace(context, const ());
+          nextScreenReplace(context, Home());
         } else {
           _isLoading = false;
         }
