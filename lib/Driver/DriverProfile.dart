@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cab_management/home.dart';
 import 'package:flutter/material.dart';
 import 'package:image_network/image_network.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DriverProfile extends StatefulWidget {
   final String DriverName;

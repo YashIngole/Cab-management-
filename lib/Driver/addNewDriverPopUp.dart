@@ -76,7 +76,7 @@ void addNewDriverPopUp(BuildContext context) {
                             try {
                               // Store the file
                               await referenceImageToUpload.putData(
-                                  fileBytes as Uint8List,
+                                  fileBytes,
                                   SettableMetadata(contentType: 'image/jpeg'));
                               ImageUrl =
                                   await referenceImageToUpload.getDownloadURL();
