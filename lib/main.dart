@@ -70,8 +70,8 @@ class _MyAppState extends State<MyApp> {
           useMaterial3: true,
         ),
         // home: Home());
-        // home: _isSignedIn ? Home() : Signin()
-        home: welcome()
+         home: _isSignedIn ? Home() : welcome()
+        // home: welcome()
         );
   }
 }

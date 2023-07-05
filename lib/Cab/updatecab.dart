@@ -259,28 +259,43 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
 
     if (querySnapshot.docs.isNotEmpty) {
       var documentSnapshot = querySnapshot.docs.first;
-
+newNameValue.isNotEmpty?
       collection
           .doc(documentSnapshot.id)
           .update({'C_name': newNameValue.toUpperCase()})
           .then((_) => print('Success'))
-          .catchError((error) => print('Failed: $error'));
-    }
-    if (querySnapshot.docs.isNotEmpty) {
-      var documentSnapshot = querySnapshot.docs.first;
-
-      collection
+          .catchError((error) => print('Failed: $error'))
+      :collection
           .doc(documentSnapshot.id)
-          .update({'C_type': newcabtypeValue})
+          .update({'C_name': widget.C_name.toUpperCase()})
           .then((_) => print('Success'))
           .catchError((error) => print('Failed: $error'));
     }
     if (querySnapshot.docs.isNotEmpty) {
       var documentSnapshot = querySnapshot.docs.first;
-
+newcabtypeValue.isNotEmpty?
+      collection
+          .doc(documentSnapshot.id)
+          .update({'C_type': newcabtypeValue})
+          .then((_) => print('Success'))
+          .catchError((error) => print('Failed: $error'))
+      :collection
+          .doc(documentSnapshot.id)
+          .update({'C_type': widget.C_type})
+          .then((_) => print('Success'))
+          .catchError((error) => print('Failed: $error'));
+    }
+    if (querySnapshot.docs.isNotEmpty) {
+      var documentSnapshot = querySnapshot.docs.first;
+newcabRTOValue.isNotEmpty?
       collection
           .doc(documentSnapshot.id)
           .update({'C_RTO': newcabRTOValue})
+          .then((_) => print('Success'))
+          .catchError((error) => print('Failed: $error'))
+      :collection
+          .doc(documentSnapshot.id)
+          .update({'C_RTO': widget.C_RTO})
           .then((_) => print('Success'))
           .catchError((error) => print('Failed: $error'));
     } else {

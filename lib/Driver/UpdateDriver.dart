@@ -1,14 +1,17 @@
-//import 'dart:html';
-
-//import 'package:cab_management/Cab/cabtile.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cab_management/firebase_options.dart';
 import 'package:cab_management/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-//import 'package:cab_management/Cab/database_c.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(MyApp());
+}
 
 final CollectionReference Cabs =
     FirebaseFirestore.instance.collection('drivers');
@@ -64,7 +67,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                     color: Colors.black,
                     borderRadius: BorderRadius.circular(1000),
                   ),
-                  child: const Center(
+                  child: Center(
                     child: Icon(
                       Icons.add_a_photo,
                       color: Colors.white,
@@ -221,28 +224,43 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
 
     if (querySnapshot.docs.isNotEmpty) {
       var documentSnapshot = querySnapshot.docs.first;
-
-      collection
-          .doc(documentSnapshot.id)
-          .update({'name': newNameValue.toUpperCase()})
-          .then((_) => print('Success'))
-          .catchError((error) => print('Failed: $error'));
+      newNameValue.isNotEmpty
+          ? collection
+              .doc(documentSnapshot.id)
+              .update({'name': newNameValue.toUpperCase()})
+              .then((_) => print('Success'))
+              .catchError((error) => print('Failed: $error'))
+          : collection
+              .doc(documentSnapshot.id)
+              .update({'name': widget.DriverName.toUpperCase()})
+              .then((_) => print('Success'))
+              .catchError((error) => print('Failed: $error'));
     }
     if (querySnapshot.docs.isNotEmpty) {
       var documentSnapshot = querySnapshot.docs.first;
-
+      newemail.isNotEmpty?
       collection
           .doc(documentSnapshot.id)
           .update({'email': newemail})
           .then((_) => print('Success'))
+          .catchError((error) => print('Failed: $error'))
+      :collection
+          .doc(documentSnapshot.id)
+          .update({'email': widget.Email})
+          .then((_) => print('Success'))
           .catchError((error) => print('Failed: $error'));
     }
     if (querySnapshot.docs.isNotEmpty) {
       var documentSnapshot = querySnapshot.docs.first;
-
+      newphonenumber.isNotEmpty?
       collection
           .doc(documentSnapshot.id)
           .update({'phone': newphonenumber})
+          .then((_) => print('Success'))
+          .catchError((error) => print('Failed: $error'))
+      :collection
+          .doc(documentSnapshot.id)
+          .update({'phone': widget.Phone})
           .then((_) => print('Success'))
           .catchError((error) => print('Failed: $error'));
     } else {
