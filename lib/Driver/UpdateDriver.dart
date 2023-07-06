@@ -1,7 +1,4 @@
-import 'dart:io';
-import 'dart:ui_web';
 import 'dart:typed_data';
-import 'package:cab_management/Cab/addNewCabPopUp.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cab_management/firebase_options.dart';
 import 'package:cab_management/main.dart';
@@ -313,19 +310,19 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
     }
     if (querySnapshot.docs.isNotEmpty) {
       var documentSnapshot = querySnapshot.docs.first;
-      if (querySnapshot.docs.isNotEmpty) {
-        var documentSnapshot = querySnapshot.docs.first;
-        if (newImageURL.isNotEmpty) {
-          // Update the ImageURL field in the Firestore document
-          collection
+      newImageURL.isNotEmpty
+          ? collection
               .doc(documentSnapshot.id)
               .update({'ImageURL': newImageURL})
               .then((_) => print('Success'))
+              .catchError((error) => print('Failed: $error'))
+          : collection
+              .doc(documentSnapshot.id)
+              .update({'ImageURL': widget.ImageUrl})
+              .then((_) => print('Success'))
               .catchError((error) => print('Failed: $error'));
-        }
-      } else {
-        print('Document not found');
-      }
+    } else {
+      print('Document not found');
     }
   }
 }
