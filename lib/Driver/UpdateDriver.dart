@@ -1,7 +1,11 @@
+import 'dart:typed_data';
+
+import 'package:cab_management/Driver/addNewDriverPopUp.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cab_management/firebase_options.dart';
 import 'package:cab_management/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:image_picker/image_picker.dart';
@@ -47,6 +51,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
   String newNameValue = '';
   String newemail = '';
   String newphonenumber = '';
+  String newImageURL = '';
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +85,22 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                         XFile? file = await imagePicker.pickImage(
                           source: ImageSource.gallery,
                         );
+                        if (file == null) {
+                          return;
+                        }
+                        //convert file to data
+                        final Uint8List fileBytes = await file.readAsBytes();
+                        try {
+                              // Store the file
+                              await newImageURL.putData(
+                                  fileBytes,
+                                  SettableMetadata(contentType: 'image/jpeg'));
+                              ImageUrl =
+                                  await newImageURL.getDownloadURL();
+                              print(ImageUrl);
+                            } catch (e) {
+                              print('Error uploading image: $e');
+                            }
                       },
                     ),
                   ),
@@ -256,6 +277,20 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
           : collection
               .doc(documentSnapshot.id)
               .update({'email': widget.Email})
+              .then((_) => print('Success'))
+              .catchError((error) => print('Failed: $error'));
+    }
+    if (querySnapshot.docs.isNotEmpty) {
+      var documentSnapshot = querySnapshot.docs.first;
+      newImageURL.isNotEmpty
+          ? collection
+              .doc(documentSnapshot.id)
+              .update({'ImageURL': newImageURL})
+              .then((_) => print('Success'))
+              .catchError((error) => print('Failed: $error'))
+          : collection
+              .doc(documentSnapshot.id)
+              .update({'ImageURL': widget.ImageUrl})
               .then((_) => print('Success'))
               .catchError((error) => print('Failed: $error'));
     }
