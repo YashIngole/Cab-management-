@@ -88,19 +88,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                         if (file == null) {
                           return;
                         }
-                        //convert file to data
-                        final Uint8List fileBytes = await file.readAsBytes();
-                        try {
-                              // Store the file
-                              await newImageURL.putData(
-                                  fileBytes,
-                                  SettableMetadata(contentType: 'image/jpeg'));
-                              ImageUrl =
-                                  await newImageURL.getDownloadURL();
-                              print(ImageUrl);
-                            } catch (e) {
-                              print('Error uploading image: $e');
-                            }
+                        
                       },
                     ),
                   ),
