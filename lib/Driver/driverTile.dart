@@ -4,6 +4,9 @@ import 'dart:typed_data';
 
 import 'package:cab_management/Driver/DriverProfile.dart';
 import 'package:cab_management/constants.dart';
+import 'package:cab_management/home.dart';
+import 'package:cab_management/responsive2.dart';
+import 'package:cab_management/sideScreenDesktop.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_network/image_network.dart';
@@ -134,18 +137,32 @@ class _DriverTileState extends State<DriverTile> {
                           ),
                           onPressed: () {
                             setState(() {
-                              nextScreen(
-                                context,
-                                DriverProfile(
-                                  DriverName: driverName,
-                                  DriverID: driverID,
-                                  Email: email,
-                                  Phone: phone,
-                                  ImageUrl: ImageUrl,
-                                  snapshot: widget.snapshot,
-                                  AssignCab: AssignCab,
-                                ),
-                              );
+                              Responsive2.isMobile(context)
+                                  ? nextScreen(
+                                      context,
+                                      DriverProfile(
+                                        DriverName: driverName,
+                                        DriverID: driverID,
+                                        Email: email,
+                                        Phone: phone,
+                                        ImageUrl: ImageUrl,
+                                        snapshot: widget.snapshot,
+                                        AssignCab: AssignCab,
+                                      ),
+                                    )
+                                  : nextScreen(
+                                      SideScreenDesktop
+                                          .sidescreenkey.currentContext,
+                                      DriverProfile(
+                                        DriverName: driverName,
+                                        DriverID: driverID,
+                                        Email: email,
+                                        Phone: phone,
+                                        ImageUrl: ImageUrl,
+                                        snapshot: widget.snapshot,
+                                        AssignCab: AssignCab,
+                                      ),
+                                    );
                             });
                           },
                           child: Row(
