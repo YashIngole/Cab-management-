@@ -1,6 +1,7 @@
+import 'dart:io';
+import 'dart:ui_web';
 import 'dart:typed_data';
-
-import 'package:cab_management/Driver/addNewDriverPopUp.dart';
+import 'package:cab_management/Cab/addNewCabPopUp.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cab_management/firebase_options.dart';
 import 'package:cab_management/main.dart';
@@ -88,7 +89,34 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                         if (file == null) {
                           return;
                         }
-                        
+                        //convert file to data
+                        final Uint8List fileBytes = await file.readAsBytes();
+
+                        // Reference to storage root of Firebase Storage
+                        Reference referenceRoot =
+                            FirebaseStorage.instance.ref();
+                        Reference referenceDirImages =
+                            referenceRoot.child('images');
+
+                        // Reference for the image to be stored
+                        String uniqueFileName =
+                            DateTime.now().millisecondsSinceEpoch.toString() +
+                                '.jpg';
+                        Reference referenceImageToUpload =
+                            referenceDirImages.child(uniqueFileName);
+                        try {
+                          // Store the file
+                          await referenceImageToUpload.putData(fileBytes,
+                              SettableMetadata(contentType: 'image/jpeg'));
+                          newImageURL =
+                              await referenceImageToUpload.getDownloadURL();
+                          print(newImageURL);
+                          // setState(() {
+                          //   ImageUrl = newImageURL;
+                          // });
+                        } catch (e) {
+                          print('Error uploading image: $e');
+                        }
                       },
                     ),
                   ),
@@ -268,20 +296,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
               .then((_) => print('Success'))
               .catchError((error) => print('Failed: $error'));
     }
-    if (querySnapshot.docs.isNotEmpty) {
-      var documentSnapshot = querySnapshot.docs.first;
-      newImageURL.isNotEmpty
-          ? collection
-              .doc(documentSnapshot.id)
-              .update({'ImageURL': newImageURL})
-              .then((_) => print('Success'))
-              .catchError((error) => print('Failed: $error'))
-          : collection
-              .doc(documentSnapshot.id)
-              .update({'ImageURL': widget.ImageUrl})
-              .then((_) => print('Success'))
-              .catchError((error) => print('Failed: $error'));
-    }
+
     if (querySnapshot.docs.isNotEmpty) {
       var documentSnapshot = querySnapshot.docs.first;
       newphonenumber.isNotEmpty
@@ -295,8 +310,22 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
               .update({'phone': widget.Phone})
               .then((_) => print('Success'))
               .catchError((error) => print('Failed: $error'));
-    } else {
-      print('Document not found');
+    }
+    if (querySnapshot.docs.isNotEmpty) {
+      var documentSnapshot = querySnapshot.docs.first;
+      if (querySnapshot.docs.isNotEmpty) {
+        var documentSnapshot = querySnapshot.docs.first;
+        if (newImageURL.isNotEmpty) {
+          // Update the ImageURL field in the Firestore document
+          collection
+              .doc(documentSnapshot.id)
+              .update({'ImageURL': newImageURL})
+              .then((_) => print('Success'))
+              .catchError((error) => print('Failed: $error'));
+        }
+      } else {
+        print('Document not found');
+      }
     }
   }
 }
