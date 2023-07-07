@@ -7,7 +7,8 @@ import 'package:cab_management/Cab/database_c.dart';
 import 'package:image_network/image_network.dart';
 import 'package:image_picker/image_picker.dart';
 
-final CollectionReference Cabs = FirebaseFirestore.instance.collection('Cabs');
+final CollectionReference Cabs = 
+FirebaseFirestore.instance.collection('Cabs');
 
 final Database_c database_c = Database_c();
 
@@ -41,8 +42,6 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
   String newcabRTOValue = '';
   String NewImageUrl = '';
 
-  //Object? ImageUrl;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +56,7 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: InkWell(
-                    borderRadius: BorderRadius.circular(1000),
+                    borderRadius: BorderRadius.circular(100),
                     onTap: () async {
                       ImagePicker imagePicker = ImagePicker();
                       XFile? file = await imagePicker.pickImage(

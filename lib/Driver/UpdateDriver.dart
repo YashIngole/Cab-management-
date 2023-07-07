@@ -1,19 +1,18 @@
 import 'dart:typed_data';
-import 'package:cab_management/Auth/DBservice.dart';
+import 'package:cab_management/Driver/addNewDriverPopUp.dart';
 import 'package:cab_management/constants.dart';
-import 'package:cab_management/firebase_options.dart';
-import 'package:cab_management/main.dart';
+import 'package:cab_management/databaseService.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:image_network/image_network.dart';
 import 'package:image_picker/image_picker.dart';
+import 'dart:ui_web';
 
 final CollectionReference drivers =
     FirebaseFirestore.instance.collection('drivers');
 
-final databaseService DatabaseService = databaseService();
+final DatabaseService databaseService = DatabaseService();
 
 class UpdateDriverPage extends StatefulWidget {
   const UpdateDriverPage({
@@ -59,7 +58,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: InkWell(
-                    borderRadius: BorderRadius.circular(1000),
+                    borderRadius: BorderRadius.circular(100),
                     onTap: () async {
                       ImagePicker imagePicker = ImagePicker();
                       XFile? file = await imagePicker.pickImage(
@@ -86,15 +85,21 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                         newImageURL =
                             await referenceImageToUpload.getDownloadURL();
                         print(newImageURL);
-                        setState(() {
-                          newImageURL;
-                        });
+                        setState(
+                          () {
+                            newImageURL;
+                          },
+                        );
+                        onChanged: (value) {
+                        newImageURL = value;
+                      };
                       } catch (e) {
                         print('Error uploading image: $e');
                       }
                     },
                     child: newImageURL.isEmpty
                         ? Container(
+                          
                             height: 150,
                             width: 150,
                             decoration: BoxDecoration(
@@ -110,6 +115,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                             ),
                           )
                         : ImageNetwork(
+                        
                             image: newImageURL, height: 150, width: 150)),
               ),
             ),
@@ -237,7 +243,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
             const Padding(padding: EdgeInsets.symmetric(vertical: 40)),
             ElevatedButton(
               onPressed: () {
-                updateDriverData(newNameValue);
+                updateDriverData(newNameValue, newImageURL);
               },
               child: const Text(
                 'Save',
@@ -250,7 +256,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
     );
   }
 
-  void updateDriverData(String newNameValue) async {
+  void updateDriverData(String newNameValue, String newImageUrl) async {
     var collection = FirebaseFirestore.instance.collection('drivers');
     print(widget.DriverName);
 
@@ -275,6 +281,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
 
       if (querySnapshot.docs.isNotEmpty) {
         var documentSnapshot = querySnapshot.docs.first;
+
         newImageURL.isNotEmpty
             ? collection
                 .doc(documentSnapshot.id)
@@ -283,7 +290,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                 .catchError((error) => print('Failed: $error'))
             : collection
                 .doc(documentSnapshot.id)
-                .update({'ImageURL': widget.ImageUrl})
+                .update({'ImageURL': newImageURL})
                 .then((_) => print('Success'))
                 .catchError((error) => print('Failed: $error'));
       }
