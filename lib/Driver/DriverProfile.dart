@@ -130,30 +130,54 @@ class _DriverProfileState extends State<DriverProfile> {
                 ],
               ),
             ),
-            Padding(
+            /*Padding(
               padding: const EdgeInsets.all(20),
               child: Container(
                   width: double.infinity,
                   height: 31,
                   decoration: BoxDecoration(color: Color(0xffF4F4F4)),
                   child: Center(child: Text("Driver Data:"))),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(30.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  KTitle('Driver ID'),
-                  KSubtitle(widget.DriverID),
-                  KTitle('Email'),
-                  KSubtitle(widget.Email),
-                  KTitle('Phone'),
-                  KSubtitle(widget.Phone),
-                  KTitle('License Number'),
-                  KSubtitle(widget.Phone),
-                  KTitle('Driver Join date'),
-                  KSubtitle(widget.Phone),
-                ],
+            ),*/
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Container(
+                  height: 400,
+                  width: 400,
+                  decoration: BoxDecoration(
+                      color: kProfileContainerColor,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: kProfileContainerShadowColor,
+                          blurRadius: 15,
+                          offset: Offset(3, 3),
+                          //blurStyle: BlurStyle.normal,
+                        ),
+                      ]),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Driver's Info",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w700, fontSize: 17)),
+                        SizedBox(height: 18),
+                        KTitle('Driver ID'),
+                        KSubtitle(widget.DriverID),
+                        KTitle('Email'),
+                        KSubtitle(widget.Email),
+                        KTitle('Phone'),
+                        KSubtitle(widget.Phone),
+                        KTitle('License Number'),
+                        KSubtitle(widget.Phone),
+                        KTitle('Driver Join date'),
+                        KSubtitle(widget.Phone),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             )
           ],

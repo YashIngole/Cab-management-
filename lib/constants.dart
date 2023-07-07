@@ -6,6 +6,10 @@ const kChevronArrowColor = Color.fromARGB(226, 128, 177, 246);
 const kSearchbarColor = Color.fromARGB(234, 193, 219, 255);
 const kDriverTileShadowColor = Color.fromARGB(248, 99, 31, 167);
 
+//driver/cab profile info container
+const kProfileContainerColor = Color.fromARGB(244, 237, 246, 255);
+const kProfileContainerShadowColor = Color.fromARGB(255, 226, 216, 252);
+
 //home page
 const kSelectedIconColor = Colors.blue;
 const kUnselectedIconColor = Colors.grey;

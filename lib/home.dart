@@ -75,7 +75,6 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     
       body: PageView(
         physics: NeverScrollableScrollPhysics(),
         controller: _myPage,
@@ -241,10 +240,16 @@ class _HomeState extends State<Home> {
                           style: TextStyle(fontSize: 15),
                         ),
                       ),
-                      Padding(padding: EdgeInsets.only(top: 50)),
+                      Padding(padding: EdgeInsets.only(top: 30)),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 150),
+                        padding: const EdgeInsets.only(),
                         child: DropdownButtonFormField<String>(
+                          iconSize: 32,
+                          decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black)),
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black))),
                           items: cabs.map((String item) {
                             return DropdownMenuItem<String>(
                               value: item,
@@ -282,7 +287,14 @@ class _HomeState extends State<Home> {
                                 },
                                 style: TextStyle(),
                                 decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black54),
+                                      borderRadius: BorderRadius.circular(13)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(12)),
                                   labelText: 'Cab Name',
                                 ),
                               ),
@@ -312,7 +324,14 @@ class _HomeState extends State<Home> {
                                 },
                                 style: TextStyle(),
                                 decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black54),
+                                      borderRadius: BorderRadius.circular(13)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(12)),
                                   labelText: 'Cab Type',
                                 ),
                               ),
@@ -342,8 +361,15 @@ class _HomeState extends State<Home> {
                                 },
                                 style: TextStyle(),
                                 decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'RTO Passing no.',
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black54),
+                                      borderRadius: BorderRadius.circular(13)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(12)),
+                                  labelText: 'RTO Passing No.',
                                 ),
                               ),
                             ),
@@ -507,10 +533,16 @@ class _HomeState extends State<Home> {
                           style: TextStyle(fontSize: 15),
                         ),
                       ),
-                      Padding(padding: EdgeInsets.only(top: 50)),
+                      Padding(padding: EdgeInsets.only(top: 30)),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 150),
+                        padding: const EdgeInsets.only(
+                            left: 170, right: 170, bottom: 18),
                         child: DropdownButtonFormField<String>(
+                          decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black)),
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black))),
                           items: cabs.map((String item) {
                             return DropdownMenuItem<String>(
                               value: item,
@@ -548,7 +580,14 @@ class _HomeState extends State<Home> {
                                 },
                                 style: TextStyle(),
                                 decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black54),
+                                      borderRadius: BorderRadius.circular(13)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(12)),
                                   labelText: 'Name',
                                 ),
                               ),
@@ -578,7 +617,14 @@ class _HomeState extends State<Home> {
                                 },
                                 style: TextStyle(),
                                 decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black54),
+                                      borderRadius: BorderRadius.circular(13)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(12)),
                                   labelText: 'Email',
                                 ),
                               ),
@@ -608,7 +654,14 @@ class _HomeState extends State<Home> {
                                 },
                                 style: TextStyle(),
                                 decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black54),
+                                      borderRadius: BorderRadius.circular(13)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(12)),
                                   labelText: 'Phone',
                                 ),
                               ),

@@ -179,7 +179,7 @@ class _cabTileState extends State<cabtile> {
                                       child: Text(
                                         C_id,
                                         style: TextStyle(
-                                            fontSize: 12, color: Colors.black),
+                                            fontSize: 12, color: Colors.black38),
                                       ),
                                     ),
                                   ],
