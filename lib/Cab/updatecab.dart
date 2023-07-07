@@ -1,10 +1,10 @@
+import 'dart:typed_data';
 import 'package:cab_management/constants.dart';
-import 'package:cab_management/firebase_options.dart';
-import 'package:cab_management/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cab_management/Cab/database_c.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:image_network/image_network.dart';
 import 'package:image_picker/image_picker.dart';
 
 final CollectionReference Cabs = FirebaseFirestore.instance.collection('Cabs');
@@ -39,9 +39,7 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
   String newNameValue = '';
   String newcabtypeValue = '';
   String newcabRTOValue = '';
-  //String newimageurl ='';
-
-  late String ImageUrl;
+  String NewImageUrl = '';
 
   //Object? ImageUrl;
 
@@ -58,27 +56,60 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
             Center(
               child: Padding(
                 padding: const EdgeInsets.all(20),
-                child: Container(
-                  height: 150,
-                  width: 150,
-                  decoration: BoxDecoration(
-                    color: Colors.black,
+                child: InkWell(
                     borderRadius: BorderRadius.circular(1000),
-                  ),
-                  child: InkWell(
-                    child: Icon(
-                      Icons.add_a_photo,
-                      color: Colors.white,
-                      size: 50,
-                    ),
                     onTap: () async {
                       ImagePicker imagePicker = ImagePicker();
                       XFile? file = await imagePicker.pickImage(
                         source: ImageSource.gallery,
                       );
+                      if (file == null) {
+                        return;
+                      }
+                      final Uint8List fileBytes = await file.readAsBytes();
+
+                      Reference referenceRoot = FirebaseStorage.instance.ref();
+                      Reference referenceDirImages =
+                          referenceRoot.child('images');
+
+                      String uniqueFileName =
+                          DateTime.now().millisecondsSinceEpoch.toString() +
+                              '.jpg';
+                      Reference referenceImageToUpload =
+                          referenceDirImages.child(uniqueFileName);
+                      try {
+                        await referenceImageToUpload.putData(fileBytes,
+                            SettableMetadata(contentType: 'image/jpeg'));
+                        NewImageUrl =
+                            await referenceImageToUpload.getDownloadURL();
+                        print(NewImageUrl);
+                        setState(
+                          () {
+                            NewImageUrl;
+                          },
+                        );
+                      } catch (e) {
+                        print('Error uploading image: $e');
+                      }
                     },
-                  ),
-                ),
+                    child: NewImageUrl.isEmpty
+                        ? Container(
+                            height: 150,
+                            width: 150,
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(1000),
+                            ),
+                            child: Center(
+                              child: Icon(
+                                Icons.add_a_photo,
+                                color: Colors.white,
+                                size: 50,
+                              ),
+                            ),
+                          )
+                        : ImageNetwork(
+                            image: NewImageUrl, height: 150, width: 150)),
               ),
             ),
             const Center(
@@ -222,11 +253,12 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
     var collection = FirebaseFirestore.instance.collection('Cabs');
     print(widget.C_name);
 
-    var querySnapshot =
-        await collection.where('C_name', isEqualTo: widget.C_name).get();
-
+    var querySnapshot = await collection
+        .where('C_name', isEqualTo: widget.C_name.toUpperCase())
+        .get();
     if (querySnapshot.docs.isNotEmpty) {
       var documentSnapshot = querySnapshot.docs.first;
+
       newNameValue.isNotEmpty
           ? collection
               .doc(documentSnapshot.id)
@@ -238,50 +270,52 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
               .update({'C_name': widget.C_name.toUpperCase()})
               .then((_) => print('Success'))
               .catchError((error) => print('Failed: $error'));
-    }
-    if (querySnapshot.docs.isNotEmpty) {
-      var documentSnapshot = querySnapshot.docs.first;
-      //newimageurl.isNotEmpty
-           collection
-              .doc(documentSnapshot.id)
-              .update({'ImageUrl': ImageUrl})
-              .then((_) => print('Success'))
-              .catchError((error) => print('Failed: $error'));
-          // : collection
-          //     .doc(documentSnapshot.id)
-          //     .update({'ImageUrl': widget.ImageUrl})
-          //     .then((_) => print('Success'))
-          //     .catchError((error) => print('Failed: $error'));
-    }
-    if (querySnapshot.docs.isNotEmpty) {
-      var documentSnapshot = querySnapshot.docs.first;
-      newcabtypeValue.isNotEmpty
-          ? collection
-              .doc(documentSnapshot.id)
-              .update({'C_type': newcabtypeValue})
-              .then((_) => print('Success'))
-              .catchError((error) => print('Failed: $error'))
-          : collection
-              .doc(documentSnapshot.id)
-              .update({'C_type': widget.C_type})
-              .then((_) => print('Success'))
-              .catchError((error) => print('Failed: $error'));
-    }
-    if (querySnapshot.docs.isNotEmpty) {
-      var documentSnapshot = querySnapshot.docs.first;
-      newcabRTOValue.isNotEmpty
-          ? collection
-              .doc(documentSnapshot.id)
-              .update({'C_RTO': newcabRTOValue})
-              .then((_) => print('Success'))
-              .catchError((error) => print('Failed: $error'))
-          : collection
-              .doc(documentSnapshot.id)
-              .update({'C_RTO': widget.C_RTO})
-              .then((_) => print('Success'))
-              .catchError((error) => print('Failed: $error'));
-    } else {
-      print('Document not found');
+      if (querySnapshot.docs.isNotEmpty) {
+        var documentSnapshot = querySnapshot.docs.first;
+        NewImageUrl.isNotEmpty
+            ? collection
+                .doc(documentSnapshot.id)
+                .update({'ImageUrl': NewImageUrl})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'))
+            : collection
+                .doc(documentSnapshot.id)
+                .update({'ImageUrl': widget.ImageUrl})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'));
+      }
+      if (querySnapshot.docs.isNotEmpty) {
+        var documentSnapshot = querySnapshot.docs.first;
+
+        newcabtypeValue.isNotEmpty
+            ? collection
+                .doc(documentSnapshot.id)
+                .update({'C_type': newcabtypeValue})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'))
+            : collection
+                .doc(documentSnapshot.id)
+                .update({'C_type': widget.C_type})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'));
+      }
+      if (querySnapshot.docs.isNotEmpty) {
+        var documentSnapshot = querySnapshot.docs.first;
+
+        newcabRTOValue.isNotEmpty
+            ? collection
+                .doc(documentSnapshot.id)
+                .update({'C_RTO': newcabRTOValue})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'))
+            : collection
+                .doc(documentSnapshot.id)
+                .update({'C_RTO': widget.C_RTO})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'));
+      } else {
+        print('Document not found');
+      }
     }
   }
 }

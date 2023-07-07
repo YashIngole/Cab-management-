@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:cab_management/Auth/DBservice.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cab_management/firebase_options.dart';
 import 'package:cab_management/main.dart';
@@ -6,20 +7,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:image_network/image_network.dart';
 import 'package:image_picker/image_picker.dart';
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  runApp(MyApp());
-}
-
-final CollectionReference Cabs =
+final CollectionReference drivers =
     FirebaseFirestore.instance.collection('drivers');
 
-//final Database_c database_c = Database_c();
+final databaseService DatabaseService = databaseService();
 
 class UpdateDriverPage extends StatefulWidget {
   const UpdateDriverPage({
@@ -64,60 +58,59 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
             Center(
               child: Padding(
                 padding: const EdgeInsets.all(20),
-                child: Container(
-                  height: 150,
-                  width: 150,
-                  decoration: BoxDecoration(
-                    color: Colors.black,
+                child: InkWell(
                     borderRadius: BorderRadius.circular(1000),
-                  ),
-                  child: Center(
-                    child: InkWell(
-                      child: Icon(
-                        Icons.add_a_photo,
-                        color: Colors.white,
-                        size: 50,
-                      ),
-                      onTap: () async {
-                        ImagePicker imagePicker = ImagePicker();
-                        XFile? file = await imagePicker.pickImage(
-                          source: ImageSource.gallery,
-                        );
-                        if (file == null) {
-                          return;
-                        }
-                        //convert file to data
-                        final Uint8List fileBytes = await file.readAsBytes();
+                    onTap: () async {
+                      ImagePicker imagePicker = ImagePicker();
+                      XFile? file = await imagePicker.pickImage(
+                        source: ImageSource.gallery,
+                      );
+                      if (file == null) {
+                        return;
+                      }
 
-                        // Reference to storage root of Firebase Storage
-                        Reference referenceRoot =
-                            FirebaseStorage.instance.ref();
-                        Reference referenceDirImages =
-                            referenceRoot.child('images');
+                      final Uint8List fileBytes = await file.readAsBytes();
 
-                        // Reference for the image to be stored
-                        String uniqueFileName =
-                            DateTime.now().millisecondsSinceEpoch.toString() +
-                                '.jpg';
-                        Reference referenceImageToUpload =
-                            referenceDirImages.child(uniqueFileName);
-                        try {
-                          // Store the file
-                          await referenceImageToUpload.putData(fileBytes,
-                              SettableMetadata(contentType: 'image/jpeg'));
-                          newImageURL =
-                              await referenceImageToUpload.getDownloadURL();
-                          print(newImageURL);
-                          // setState(() {
-                          //   ImageUrl = newImageURL;
-                          // });
-                        } catch (e) {
-                          print('Error uploading image: $e');
-                        }
-                      },
-                    ),
-                  ),
-                ),
+                      Reference referenceRoot = FirebaseStorage.instance.ref();
+                      Reference referenceDirImages =
+                          referenceRoot.child('images');
+
+                      String uniqueFileName =
+                          DateTime.now().millisecondsSinceEpoch.toString() +
+                              '.jpg';
+                      Reference referenceImageToUpload =
+                          referenceDirImages.child(uniqueFileName);
+                      try {
+                        await referenceImageToUpload.putData(fileBytes,
+                            SettableMetadata(contentType: 'image/jpeg'));
+                        newImageURL =
+                            await referenceImageToUpload.getDownloadURL();
+                        print(newImageURL);
+                        setState(() {
+                          newImageURL;
+                        });
+                      } catch (e) {
+                        print('Error uploading image: $e');
+                      }
+                    },
+                    child: newImageURL.isEmpty
+                        ? Container(
+                            height: 150,
+                            width: 150,
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(1000),
+                            ),
+                            child: Center(
+                              child: Icon(
+                                Icons.add_a_photo,
+                                color: Colors.white,
+                                size: 50,
+                              ),
+                            ),
+                          )
+                        : ImageNetwork(
+                            image: newImageURL, height: 150, width: 150)),
               ),
             ),
             const Center(
@@ -267,6 +260,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
 
     if (querySnapshot.docs.isNotEmpty) {
       var documentSnapshot = querySnapshot.docs.first;
+
       newNameValue.isNotEmpty
           ? collection
               .doc(documentSnapshot.id)
@@ -278,51 +272,52 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
               .update({'name': widget.DriverName.toUpperCase()})
               .then((_) => print('Success'))
               .catchError((error) => print('Failed: $error'));
-    }
-    if (querySnapshot.docs.isNotEmpty) {
-      var documentSnapshot = querySnapshot.docs.first;
-      newemail.isNotEmpty
-          ? collection
-              .doc(documentSnapshot.id)
-              .update({'email': newemail})
-              .then((_) => print('Success'))
-              .catchError((error) => print('Failed: $error'))
-          : collection
-              .doc(documentSnapshot.id)
-              .update({'email': widget.Email})
-              .then((_) => print('Success'))
-              .catchError((error) => print('Failed: $error'));
-    }
 
-    if (querySnapshot.docs.isNotEmpty) {
-      var documentSnapshot = querySnapshot.docs.first;
-      newphonenumber.isNotEmpty
-          ? collection
-              .doc(documentSnapshot.id)
-              .update({'phone': newphonenumber})
-              .then((_) => print('Success'))
-              .catchError((error) => print('Failed: $error'))
-          : collection
-              .doc(documentSnapshot.id)
-              .update({'phone': widget.Phone})
-              .then((_) => print('Success'))
-              .catchError((error) => print('Failed: $error'));
-    }
-    if (querySnapshot.docs.isNotEmpty) {
-      var documentSnapshot = querySnapshot.docs.first;
-      newImageURL.isNotEmpty
-          ? collection
-              .doc(documentSnapshot.id)
-              .update({'ImageURL': newImageURL})
-              .then((_) => print('Success'))
-              .catchError((error) => print('Failed: $error'))
-          : collection
-              .doc(documentSnapshot.id)
-              .update({'ImageURL': widget.ImageUrl})
-              .then((_) => print('Success'))
-              .catchError((error) => print('Failed: $error'));
-    } else {
-      print('Document not found');
+      if (querySnapshot.docs.isNotEmpty) {
+        var documentSnapshot = querySnapshot.docs.first;
+        newImageURL.isNotEmpty
+            ? collection
+                .doc(documentSnapshot.id)
+                .update({'ImageURL': newImageURL})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'))
+            : collection
+                .doc(documentSnapshot.id)
+                .update({'ImageURL': widget.ImageUrl})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'));
+      }
+      if (querySnapshot.docs.isNotEmpty) {
+        var documentSnapshot = querySnapshot.docs.first;
+        newemail.isNotEmpty
+            ? collection
+                .doc(documentSnapshot.id)
+                .update({'email': newemail})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'))
+            : collection
+                .doc(documentSnapshot.id)
+                .update({'email': widget.Email})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'));
+      }
+
+      if (querySnapshot.docs.isNotEmpty) {
+        var documentSnapshot = querySnapshot.docs.first;
+        newphonenumber.isNotEmpty
+            ? collection
+                .doc(documentSnapshot.id)
+                .update({'phone': newphonenumber})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'))
+            : collection
+                .doc(documentSnapshot.id)
+                .update({'phone': widget.Phone})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'));
+      } else {
+        print('Document not found');
+      }
     }
   }
 }
