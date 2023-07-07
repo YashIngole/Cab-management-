@@ -150,7 +150,7 @@ class _DriverTileState extends State<DriverTile> {
                                   width: 77,
                                   height: 69,
                                   decoration: BoxDecoration(
-                                    color: Color.fromARGB(226, 128, 177, 246),
+                                    color: kImgColor,
                                     borderRadius: BorderRadius.circular(15),
                                   ),
                                   child: Center(
@@ -172,9 +172,7 @@ class _DriverTileState extends State<DriverTile> {
                                       child: Text(
                                         driverName,
                                         style: TextStyle(
-                                            fontSize: 12,
-                                            color:
-                                                Color.fromARGB(255, 0, 2, 3)),
+                                            fontSize: 12, color: Colors.black),
                                       ),
                                     ),
                                     Padding(

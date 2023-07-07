@@ -55,7 +55,7 @@ class _cabTileState extends State<cabtile> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 10, right: 10, bottom: 50),
+          padding: const EdgeInsets.only(left: 7, right: 10, bottom: 40),
           child: Container(
             height: 45,
             decoration: BoxDecoration(
@@ -68,7 +68,7 @@ class _cabTileState extends State<cabtile> {
                   padding: const EdgeInsets.only(left: 10, right: 5),
                   child: Icon(
                     Icons.search_sharp,
-                    color: Color(0xffB6B6B6),
+                    color: Colors.black,
                   ),
                 ),
                 Flexible(
@@ -81,8 +81,8 @@ class _cabTileState extends State<cabtile> {
                       filterData(value);
                     },
                     decoration: InputDecoration(
-                      hintText: 'Search',
-                      hintStyle: TextStyle(color: Color(0xffB6B6B6)),
+                      hintText: 'Search Cabs',
+                      hintStyle: TextStyle(color: Colors.black45),
                       focusedBorder: InputBorder.none,
                       enabledBorder: InputBorder.none,
                     ),
@@ -112,15 +112,16 @@ class _cabTileState extends State<cabtile> {
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: EdgeInsets.only(right: 10, bottom: 35),
+                      padding: EdgeInsets.only(right: 0, bottom: 5),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
+                          elevation: 2,
                           disabledBackgroundColor: Colors.white,
                           shadowColor: kDriverTileShadowColor,
                           shape: BeveledRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
+                              borderRadius: BorderRadius.circular(8)),
                           side: BorderSide.none,
-                          backgroundColor: Color(0xffffffff),
+                          backgroundColor: Colors.white,
                         ),
                         onPressed: () {
                           nextScreen(
