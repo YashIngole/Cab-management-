@@ -1,3 +1,5 @@
+import 'package:cab_management/Auth/navBar.dart';
+import 'package:cab_management/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +25,7 @@ class _DriverPageState extends State<DriverPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: kbackgroundColor,
       appBar: AppBar(
         elevation: 0,
         forceMaterialTransparency: true,
@@ -31,15 +33,15 @@ class _DriverPageState extends State<DriverPage> {
         title: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            'Drivers',
+            'Caby',
             style: TextStyle(fontWeight: FontWeight.w800, fontSize: 24),
           ),
         ),
         centerTitle: true,
       ),
+      drawer: navBar(),
       body: Driver_page(),
     );
-    
   }
 }
 

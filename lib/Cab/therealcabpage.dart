@@ -1,3 +1,4 @@
+import 'package:cab_management/Auth/navBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'database_c.dart';
@@ -40,6 +41,7 @@ class _thecabState extends State<thecab> {
         ),
         centerTitle: true,
       ),
+      drawer: navBar(),
       body: Padding(
         padding: EdgeInsets.only(
           left: 22,

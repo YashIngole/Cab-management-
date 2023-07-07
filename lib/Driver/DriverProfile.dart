@@ -3,10 +3,10 @@ import 'package:cab_management/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cab_management/home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_network/image_network.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
-class DriverProfile extends StatelessWidget {
+class DriverProfile extends StatefulWidget {
   final String DriverName;
   final String DriverID;
   final String Email;
@@ -26,196 +26,148 @@ class DriverProfile extends StatelessWidget {
       required this.AssignCab});
 
   @override
+  State<DriverProfile> createState() => _DriverProfileState();
+}
+
+class _DriverProfileState extends State<DriverProfile> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Driver's Profile"),
-          centerTitle: true,
-          actions: [
-            IconButton(
-                onPressed: () {
-                  nextScreen(
-                      context,
-                      UpdateDriverPage(
-                        DriverID: DriverID,
-                        DriverName: DriverName,
-                        Email: Email,
-                        ImageUrl: ImageUrl,
-                        Phone: Phone,
-                        snapshot: snapshot,
-                      ));
-                },
-                icon: Icon(Icons.edit)),
-            Padding(padding: EdgeInsets.all(5)),
-            IconButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: const Text("Delete"),
-                        content: const Text(
-                            "Are you sure you want to Delete the profile?"),
-                        actions: [
-                          TextButton(
-                            child: const Text("No"),
-                            onPressed: () => Navigator.pop(context),
-                          ),
-                          TextButton(
-                            child: const Text("Yes"),
-                            onPressed: () {
-                              deletedriverData();
-                              nextScreen(context, Home());
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
-                icon: Icon(Icons.delete)),
-            Padding(padding: EdgeInsets.all(5)),
-          ],
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: Text(
+          'Driver Profile',
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: ImageNetwork(
-                      image: ImageUrl,
+        centerTitle: true,
+        actions: [
+          IconButton(
+              onPressed: () {
+                nextScreen(
+                    context,
+                    UpdateDriverPage(
+                      DriverID: widget.DriverID,
+                      DriverName: widget.DriverName,
+                      Email: widget.Email,
+                      ImageUrl: widget.ImageUrl,
+                      Phone: widget.Phone,
+                      snapshot: widget.snapshot,
+                    ));
+              },
+              icon: Icon(Icons.edit)),
+          Padding(padding: EdgeInsets.all(5)),
+          IconButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: const Text("Delete"),
+                      content: const Text(
+                          "Are you sure you want to Delete the profile?"),
+                      actions: [
+                        TextButton(
+                          child: const Text("No"),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                        TextButton(
+                          child: const Text("Yes"),
+                          onPressed: () {
+                            deletedriverData();
+                            nextScreen(context, Home());
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              icon: Icon(Icons.delete_forever_outlined)),
+          Padding(padding: EdgeInsets.all(5)),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: ImageNetwork(
+                    image: widget.ImageUrl,
+                    height: 150,
+                    width: 150,
+                    fitAndroidIos: BoxFit.fill,
+                    fitWeb: BoxFitWeb.fill,
+                    borderRadius: BorderRadius.circular(1000),
+                    onError: Container(
                       height: 150,
                       width: 150,
-                      fitAndroidIos: BoxFit.fill,
-                      fitWeb: BoxFitWeb.fill,
-                      borderRadius: BorderRadius.circular(1000),
-                      onError: Container(
-                        height: 150,
-                        width: 150,
-                        decoration: BoxDecoration(
-                            color: Color.fromARGB(226, 128, 177, 246),
-                            borderRadius: BorderRadius.circular(1000)),
-                        child: Center(
-                            child: Text(
-                          DriverName.substring(0, 1).toUpperCase(),
-                          style: TextStyle(color: Colors.white, fontSize: 50),
-                        )),
-                      ),
-                    )),
+                      decoration: BoxDecoration(
+                          color: kImgColor,
+                          borderRadius: BorderRadius.circular(1000)),
+                      child: Center(
+                          child: Text(
+                        widget.DriverName.substring(0, 1).toUpperCase(),
+                        style: TextStyle(color: Colors.white, fontSize: 50),
+                      )),
+                    ),
+                  )),
+            ),
+            Center(
+              child: Column(
+                children: [
+                  Text(
+                    widget.DriverName,
+                    style: TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    "Cab Assigned : " + widget.AssignCab,
+                    style: TextStyle(fontWeight: FontWeight.w400, fontSize: 15),
+                  ),
+                ],
               ),
-              Center(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: Text(
-                        DriverName,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                    ),
-                    SizedBox(height: 15),
-                    Text(
-                      "Cab Assigned : " + AssignCab,
-                      style:
-                          TextStyle(fontWeight: FontWeight.w400, fontSize: 15),
-                    ),
-                  ],
-                ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Container(
+                  width: double.infinity,
+                  height: 31,
+                  decoration: BoxDecoration(color: Color(0xffF4F4F4)),
+                  child: Center(child: Text("Driver Data:"))),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  KTitle('Driver ID'),
+                  KSubtitle(widget.DriverID),
+                  KTitle('Email'),
+                  KSubtitle(widget.Email),
+                  KTitle('Phone'),
+                  KSubtitle(widget.Phone),
+                  KTitle('License Number'),
+                  KSubtitle(widget.Phone),
+                  KTitle('Driver Join date'),
+                  KSubtitle(widget.Phone),
+                ],
               ),
-              /* Padding(
-                padding: const EdgeInsets.only(top: 15),
-                child: Container(
-                    height: 31,
-                    width: 150,
-                    decoration: BoxDecoration(color: Color(0xffF4F4F4)),
-                    child: Center(child: Text("Driver Data:"))),
-              ),*/
-
-              Padding(
-                padding: const EdgeInsets.only(left: 75, top: 80),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(Icons.person, size: 30),
-                        Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 50),
-                            child: KTitle('Driver ID')),
-                      ],
-                      
-                    ),
-                    Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 77),
-                        child: KSubtitle(DriverID)),
-                    Divider(color: Colors.black, indent: 80, endIndent: 35),
-                    Row(
-                      children: [
-                        Icon(Icons.email_outlined, size: 30),
-                        Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 50),
-                            child: KTitle('Email')),
-                      ],
-                    ),
-                    Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 77),
-                        child: KSubtitle(Email)),
-                    Divider(color: Colors.black, indent: 80, endIndent: 35),
-                    Row(
-                      children: [
-                        Icon(Icons.phone, size: 30),
-                        Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 50),
-                            child: KTitle('Phone')),
-                      ],
-                    ),
-                    Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 77),
-                        child: KSubtitle(Phone)),
-                    Divider(color: Colors.black, indent: 80, endIndent: 35),
-                    Row(
-                      children: [
-                        Icon(Icons.numbers_outlined, size: 30),
-                        Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 50),
-                            child: KTitle('License Number')),
-                      ],
-                    ),
-                    Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 77),
-                        child: KSubtitle(Phone)),
-                    Divider(color: Colors.black, indent: 80, endIndent: 35),
-                    Row(
-                      children: [
-                        Icon(Icons.date_range, size: 30),
-                        Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 50),
-                            child: KTitle('Driver Join date')),
-                      ],
-                    ),
-                    Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 77),
-                        child: KSubtitle(Phone)),
-                    Divider(color: Colors.black, indent: 80, endIndent: 35),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ));
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   Padding KTitle(TitleText) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(bottom: 12),
       child: Text(
         TitleText,
-        style:
-            TextStyle(color: Color.fromARGB(226, 128, 177, 246), fontSize: 12),
+        style: TextStyle(color: Colors.black),
       ),
     );
   }
@@ -225,19 +177,19 @@ class DriverProfile extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 20),
       child: Text(SubtitleText,
           style: TextStyle(
-            fontWeight: FontWeight.w400,
-          )),
+              fontWeight: FontWeight.w400,
+              color: Color.fromARGB(192, 68, 68, 70))),
     );
   }
 
 // delete drivers method
-
   void deletedriverData() async {
     var collection = FirebaseFirestore.instance.collection('drivers');
-    print(DriverName);
+    print(widget.DriverName);
 
-    var querySnapshot =
-        await collection.where("name", isEqualTo: DriverName.toString()).get();
+    var querySnapshot = await collection
+        .where("name", isEqualTo: widget.DriverName.toString())
+        .get();
 
     if (querySnapshot.docs.isNotEmpty) {
       var documentSnapshot = querySnapshot.docs.first;

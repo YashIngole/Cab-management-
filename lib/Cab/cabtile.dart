@@ -59,7 +59,7 @@ class _cabTileState extends State<cabtile> {
           child: Container(
             height: 45,
             decoration: BoxDecoration(
-              color: Color(0xffEBEDF3),
+              color: kSearchbarColor,
               borderRadius: BorderRadius.circular(15),
             ),
             child: Row(
@@ -105,8 +105,7 @@ class _cabTileState extends State<cabtile> {
               final String C_type = data['C_type'];
               final String C_RTO = data['C_RTO'];
               final String ImageUrl = data['ImageUrl'];
-                           final String AssignDriver = data['AssignDriver'];
-
+              final String AssignDriver = data['AssignDriver'];
 
               return Flex(
                 direction: Axis.horizontal,
@@ -117,7 +116,7 @@ class _cabTileState extends State<cabtile> {
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           disabledBackgroundColor: Colors.white,
-                          shadowColor: Colors.white,
+                          shadowColor: kDriverTileShadowColor,
                           shape: BeveledRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
                           side: BorderSide.none,
@@ -131,7 +130,8 @@ class _cabTileState extends State<cabtile> {
                                 C_id: C_id,
                                 C_type: C_type,
                                 C_RTO: C_RTO,
-                                ImageUrl: ImageUrl,  snapshot: widget.snapshot,
+                                ImageUrl: ImageUrl,
+                                snapshot: widget.snapshot,
                                 AssignDriver: AssignDriver),
                           );
                         },
@@ -148,7 +148,7 @@ class _cabTileState extends State<cabtile> {
                                   width: 77,
                                   height: 69,
                                   decoration: BoxDecoration(
-                                    color: Colors.black,
+                                    color: kImgColor,
                                     borderRadius: BorderRadius.circular(15),
                                   ),
                                   child: Center(
@@ -187,7 +187,7 @@ class _cabTileState extends State<cabtile> {
                             ),
                             Icon(
                               Icons.chevron_right,
-                              color: Colors.black12,
+                              color: kChevronArrowColor,
                             ),
                           ],
                         ),

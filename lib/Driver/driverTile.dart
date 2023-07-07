@@ -61,7 +61,7 @@ class _DriverTileState extends State<DriverTile> {
           child: Container(
             height: 45,
             decoration: BoxDecoration(
-              color: Color.fromARGB(200, 159, 197, 250),
+              color: kSearchbarColor,
               borderRadius: BorderRadius.circular(15),
             ),
             child: Row(
@@ -83,8 +83,8 @@ class _DriverTileState extends State<DriverTile> {
                       filterData(value);
                     },
                     decoration: InputDecoration(
-                      hintText: 'Search',
-                      hintStyle: TextStyle(color: Colors.black),
+                      hintText: 'Search Drivers',
+                      hintStyle: TextStyle(color: Colors.black45),
                       focusedBorder: InputBorder.none,
                       enabledBorder: InputBorder.none,
                     ),
@@ -117,8 +117,8 @@ class _DriverTileState extends State<DriverTile> {
                       padding: EdgeInsets.only(right: 0, bottom: 5),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          disabledBackgroundColor: Colors.white,
-                          shadowColor: Color.fromARGB(248, 234, 225, 243),
+                          elevation: 2,
+                          shadowColor: kDriverTileShadowColor,
                           shape: BeveledRectangleBorder(
                               borderRadius: BorderRadius.circular(8)),
                           backgroundColor: Colors.white,
@@ -190,10 +190,8 @@ class _DriverTileState extends State<DriverTile> {
                                 ),
                               ),
                             ),
-                            Icon(
-                              Icons.chevron_right,
-                              color: Color.fromARGB(226, 128, 177, 246),
-                            ),
+                            Icon(Icons.chevron_right,
+                                color: kChevronArrowColor),
                           ],
                         ),
                       ),

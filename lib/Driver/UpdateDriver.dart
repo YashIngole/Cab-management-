@@ -225,11 +225,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
             Container(
               decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [
-                      Color.fromARGB(255, 63, 113, 221),
-                      Color.fromARGB(255, 62, 80, 243),
-                      Color.fromARGB(255, 56, 181, 240)
-                    ],
+                    colors: [kGrad1, kGrad2, kGrad3],
                   ),
                   borderRadius: BorderRadius.circular(12)),
               child: ElevatedButton(

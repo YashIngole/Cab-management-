@@ -75,12 +75,14 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+     
       body: PageView(
         physics: NeverScrollableScrollPhysics(),
         controller: _myPage,
         children: <Widget>[DriverPage(), thecab()],
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: kFloatingActionbuttonColor,
         onPressed: () {
           if (selectedPage == 0) {
             addNewDriverPopUp(context);
@@ -131,7 +133,9 @@ class _HomeState extends State<Home> {
                     selectedPage = 1;
                   });
                 },
-                color: selectedPage == 1 ? Colors.blue : Colors.grey,
+                color: selectedPage == 1
+                    ? kSelectedIconColor
+                    : kUnselectedIconColor,
                 icon: Icon(
                   Icons.car_rental,
                   size: 25,
@@ -217,7 +221,7 @@ class _HomeState extends State<Home> {
                               height: 150,
                               width: 150,
                               decoration: BoxDecoration(
-                                color: Colors.black,
+                                color: kImgColor,
                                 borderRadius: BorderRadius.circular(1000),
                               ),
                               child: Center(
@@ -359,7 +363,8 @@ class _HomeState extends State<Home> {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: kCancelbuttonColor),
                   child: const Text(
                     "CANCEL",
                     style: TextStyle(color: Colors.black),
@@ -390,7 +395,7 @@ class _HomeState extends State<Home> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.lightGreen,
+                    backgroundColor: kRegisterbuttonColor,
                   ),
                   child: const Text(
                     "Register",
@@ -482,7 +487,7 @@ class _HomeState extends State<Home> {
                               height: 150,
                               width: 150,
                               decoration: BoxDecoration(
-                                color: Colors.black,
+                                color: kImgColor,
                                 borderRadius: BorderRadius.circular(1000),
                               ),
                               child: Center(
@@ -624,7 +629,8 @@ class _HomeState extends State<Home> {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: kCancelbuttonColor),
                   child: const Text(
                     "CANCEL",
                     style: TextStyle(color: Colors.black),
@@ -660,7 +666,7 @@ class _HomeState extends State<Home> {
                     Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.lightGreen,
+                    backgroundColor: kRegisterbuttonColor,
                   ),
                   child: const Text(
                     "Register",
