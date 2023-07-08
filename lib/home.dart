@@ -48,6 +48,7 @@ class _HomeState extends State<Home> {
           children: <Widget>[DriverPage(), thecab()],
         ),
         floatingActionButton: FloatingActionButton(
+          backgroundColor: kFloatingActionbuttonColor,
           onPressed: () {
             if (selectedPage == 0) {
               addNewDriverPopUp(context);
@@ -95,7 +96,7 @@ class _HomeState extends State<Home> {
   BottomAppBar bottomNavBar() {
     return BottomAppBar(
       height: 70,
-      color: kbackgroundColor,
+      color: kbottomNavColor,
       shape: CircularNotchedRectangle(),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20),
@@ -104,7 +105,9 @@ class _HomeState extends State<Home> {
           children: [
             Expanded(
               child: IconButton(
-                color: selectedPage == 0 ? Colors.blue : Colors.grey,
+                color: selectedPage == 0
+                    ? kSelectedIconColor
+                    : kUnselectedIconColor,
                 icon: Icon(
                   Icons.person,
                   size: 25,

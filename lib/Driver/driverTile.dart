@@ -178,7 +178,7 @@ class _DriverTileState extends State<DriverTile> {
                                           driverName,
                                           style: TextStyle(
                                               fontSize: 12,
-                                              color: Colors.black),
+                                              color: kdrivertitle),
                                         ),
                                       ),
                                       Padding(
@@ -187,7 +187,7 @@ class _DriverTileState extends State<DriverTile> {
                                           driverID,
                                           style: TextStyle(
                                               fontSize: 12,
-                                              color: Colors.black38),
+                                              color: kdriversubtitle),
                                         ),
                                       ),
                                       Padding(
