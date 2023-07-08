@@ -9,11 +9,6 @@ import 'package:cab_management/Driver/DriverProfile.dart';
 import 'package:cab_management/Driver/addNewDriverPopUp.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cab_management/responsive.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:cab_management/databaseService.dart';
-import 'package:cab_management/responsive.dart';
 import 'package:cab_management/sideScreenDesktop.dart';
 import 'package:flutter/material.dart';
 
@@ -48,7 +43,6 @@ class _HomeState extends State<Home> {
           children: <Widget>[DriverPage(), thecab()],
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: kFloatingActionbuttonColor,
           onPressed: () {
             if (selectedPage == 0) {
               addNewDriverPopUp(context);
@@ -96,7 +90,7 @@ class _HomeState extends State<Home> {
   BottomAppBar bottomNavBar() {
     return BottomAppBar(
       height: 70,
-      color: kbottomNavColor,
+      color: kbackgroundColor,
       shape: CircularNotchedRectangle(),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20),
@@ -105,9 +99,9 @@ class _HomeState extends State<Home> {
           children: [
             Expanded(
               child: IconButton(
-                color: kSelectedIconColor,
+                color: selectedPage == 0 ? Colors.blue : Colors.grey,
                 icon: Icon(
-                  selectedPage == 0 ? Icons.person : Icons.person_outlined,
+                  Icons.person,
                   size: 25,
                 ),
                 onPressed: () {
@@ -129,11 +123,9 @@ class _HomeState extends State<Home> {
                     selectedPage = 1;
                   });
                 },
-                color: kSelectedIconColor,
+                color: selectedPage == 1 ? Colors.blue : Colors.grey,
                 icon: Icon(
-                  selectedPage == 1
-                      ? Icons.directions_car
-                      : Icons.directions_car_outlined,
+                  Icons.car_rental,
                   size: 25,
                 ),
               ),
