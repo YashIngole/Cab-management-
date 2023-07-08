@@ -26,17 +26,17 @@ import 'package:flutter/material.dart';
 // const kUnselectedIconColor = Color(0xffe6ccb2);
 // const kbottomNavColor = Color(0xffddb892);
 
-const kbackgroundColor = Color(0xffD7E0F4);
-const kImgColor = Color(0xff16324F);
+const kbackgroundColor = Color(0xffECECEC);
+const kImgColor = Color(0xff8FB2B9);
 const kChevronArrowColor = Color.fromARGB(226, 128, 177, 246);
-const kSearchbarColor = Color(0xffC6DEA6);
-const kDriverTileShadowColor = Color.fromARGB(248, 99, 31, 167);
-const kdriversubtitle = Color(0xffCED097);
-const kdrivertitle = Color(0xff7A6263);
-const kFloatingActionbuttonColor = Color(0xff4a6fa5);
+const kSearchbarColor = Color(0xffC2C2C2);
+const kDriverTileShadowColor = Color.fromARGB(223, 199, 156, 242);
+const kdriversubtitle = Color(0xff9E9E9E);
+const kdrivertitle = Color.fromARGB(255, 70, 70, 70);
+const kFloatingActionbuttonColor = Color(0xff4f6d7a);
 const kSelectedIconColor = Color(0xff4f6d7a);
-const kUnselectedIconColor = Colors.grey;
-const kbottomNavColor = Color(0xffc0d6df);
+const kUnselectedIconColor = Color.fromARGB(255, 197, 213, 215);
+const kbottomNavColor = Color(0xff9E9E9E);
 
 //driver/cab profile info container
 const kProfileContainerColor = Color.fromARGB(244, 237, 246, 255);

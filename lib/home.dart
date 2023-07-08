@@ -105,11 +105,9 @@ class _HomeState extends State<Home> {
           children: [
             Expanded(
               child: IconButton(
-                color: selectedPage == 0
-                    ? kSelectedIconColor
-                    : kUnselectedIconColor,
+                color: kSelectedIconColor,
                 icon: Icon(
-                  Icons.person,
+                  selectedPage == 0 ? Icons.person : Icons.person_outlined,
                   size: 25,
                 ),
                 onPressed: () {
@@ -131,11 +129,11 @@ class _HomeState extends State<Home> {
                     selectedPage = 1;
                   });
                 },
-                color: selectedPage == 1
-                    ? kSelectedIconColor
-                    : kUnselectedIconColor,
+                color: kSelectedIconColor,
                 icon: Icon(
-                  Icons.car_rental,
+                  selectedPage == 1
+                      ? Icons.directions_car
+                      : Icons.directions_car_outlined,
                   size: 25,
                 ),
               ),
