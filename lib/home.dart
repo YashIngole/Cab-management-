@@ -9,6 +9,11 @@ import 'package:cab_management/Driver/DriverProfile.dart';
 import 'package:cab_management/Driver/addNewDriverPopUp.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cab_management/responsive.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cab_management/databaseService.dart';
+import 'package:cab_management/responsive.dart';
 import 'package:cab_management/sideScreenDesktop.dart';
 import 'package:flutter/material.dart';
 
@@ -123,7 +128,9 @@ class _HomeState extends State<Home> {
                     selectedPage = 1;
                   });
                 },
-                color: selectedPage == 1 ? Colors.blue : Colors.grey,
+                color: selectedPage == 1
+                    ? kSelectedIconColor
+                    : kUnselectedIconColor,
                 icon: Icon(
                   Icons.car_rental,
                   size: 25,
