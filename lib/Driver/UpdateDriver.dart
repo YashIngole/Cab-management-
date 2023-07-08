@@ -7,7 +7,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_network/image_network.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:ui_web';
 
 final CollectionReference drivers =
     FirebaseFirestore.instance.collection('drivers');
@@ -90,16 +89,12 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                             newImageURL;
                           },
                         );
-                        onChanged: (value) {
-                        newImageURL = value;
-                      };
                       } catch (e) {
                         print('Error uploading image: $e');
                       }
                     },
                     child: newImageURL.isEmpty
                         ? Container(
-                          
                             height: 150,
                             width: 150,
                             decoration: BoxDecoration(
@@ -115,7 +110,6 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                             ),
                           )
                         : ImageNetwork(
-                        
                             image: newImageURL, height: 150, width: 150)),
               ),
             ),
@@ -243,7 +237,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
             const Padding(padding: EdgeInsets.symmetric(vertical: 40)),
             ElevatedButton(
               onPressed: () {
-                updateDriverData(newNameValue, newImageURL);
+                updateDriverData(newNameValue);
               },
               child: const Text(
                 'Save',
@@ -256,7 +250,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
     );
   }
 
-  void updateDriverData(String newNameValue, String newImageUrl) async {
+  void updateDriverData(String newNameValue) async {
     var collection = FirebaseFirestore.instance.collection('drivers');
     print(widget.DriverName);
 
@@ -285,12 +279,12 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
         newImageURL.isNotEmpty
             ? collection
                 .doc(documentSnapshot.id)
-                .update({'ImageURL': newImageURL})
+                .update({'ImageUrl': newImageURL})
                 .then((_) => print('Success'))
                 .catchError((error) => print('Failed: $error'))
             : collection
                 .doc(documentSnapshot.id)
-                .update({'ImageURL': newImageURL})
+                .update({'ImageUrl': ImageUrl})
                 .then((_) => print('Success'))
                 .catchError((error) => print('Failed: $error'));
       }
