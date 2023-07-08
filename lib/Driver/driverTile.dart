@@ -114,41 +114,32 @@ class _DriverTileState extends State<DriverTile> {
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: EdgeInsets.only(right: 0, bottom: 5),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          elevation: 2,
-                          shadowColor: kDriverTileShadowColor,
-                          shape: BeveledRectangleBorder(
-                              borderRadius: BorderRadius.circular(8)),
-                          backgroundColor: Colors.white,
-                        ),
-                        onPressed: () {
+                      padding: EdgeInsets.only(right: 0, bottom: 10),
+                      child: InkWell(
+                        onTap: () {
                           nextScreen(
-                            context,
-                            DriverProfile(
-                              DriverName: driverName,
-                              DriverID: driverID,
-                              Email: email,
-                              Phone: phone,
-                              ImageUrl: ImageUrl,
-                              snapshot: widget.snapshot,
-                              AssignCab: AssignCab,
-                            ),
-                          );
+                              context,
+                              DriverProfile(
+                                  DriverName: driverName,
+                                  DriverID: driverID,
+                                  Email: email,
+                                  Phone: phone,
+                                  ImageUrl: ImageUrl,
+                                  snapshot: widget.snapshot,
+                                  AssignCab: AssignCab));
                         },
                         child: Row(
                           children: [
                             ImageNetwork(
                                 image: ImageUrl,
                                 borderRadius: BorderRadius.circular(15),
-                                height: 69,
+                                height: 60,
                                 width: 70,
                                 fitWeb: BoxFitWeb.fill,
                                 fitAndroidIos: BoxFit.fill,
                                 onError: Container(
                                   width: 77,
-                                  height: 69,
+                                  height: 60,
                                   decoration: BoxDecoration(
                                     color: kImgColor,
                                     borderRadius: BorderRadius.circular(15),
@@ -184,20 +175,22 @@ class _DriverTileState extends State<DriverTile> {
                                             color: Colors.black38),
                                       ),
                                     ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 8, left: 8, right: 8),
+                                      child: Divider(
+                                        color: Colors.black,
+                                        thickness: 0.1,
+                                        height: 0.6,
+                                      ),
+                                    )
                                   ],
                                 ),
                               ),
                             ),
-                            Icon(Icons.chevron_right,
-                                color: kChevronArrowColor),
                           ],
                         ),
                       ),
-                      /* Divider(
-          color: Colors.black,
-          thickness: 3,
-          height: 2,
-        )*/
                     ),
                   )
                 ],
