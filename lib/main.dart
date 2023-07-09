@@ -1,6 +1,7 @@
 import 'package:cab_management/Auth/Signin.dart';
 
 import 'package:cab_management/home.dart';
+import 'package:cab_management/responsive.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +68,7 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData().copyWith(
-          scaffoldBackgroundColor: Color.fromARGB(255, 255, 255, 255),
+          scaffoldBackgroundColor: Colors.white,
           useMaterial3: true,
         ),
         // home: Home());

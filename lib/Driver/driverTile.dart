@@ -60,20 +60,20 @@ class _DriverTileState extends State<DriverTile> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 10, right: 10, bottom: 50),
+          padding: const EdgeInsets.only(left: 7, right: 10, bottom: 50),
           child: Container(
             height: 45,
             decoration: BoxDecoration(
-              color: Color(0xffEBEDF3),
+              color: kSearchbarColor,
               borderRadius: BorderRadius.circular(15),
             ),
             child: Row(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 5),
+                  padding: const EdgeInsets.only(left: 10, right: 10),
                   child: Icon(
                     Icons.search_sharp,
-                    color: Color(0xffB6B6B6),
+                    color: Colors.black,
                   ),
                 ),
                 Flexible(
@@ -86,8 +86,8 @@ class _DriverTileState extends State<DriverTile> {
                       });
                     },
                     decoration: InputDecoration(
-                      hintText: 'Search',
-                      hintStyle: TextStyle(color: Color(0xffB6B6B6)),
+                      hintText: 'Search Drivers',
+                      hintStyle: TextStyle(color: Colors.black45),
                       focusedBorder: InputBorder.none,
                       enabledBorder: InputBorder.none,
                     ),
@@ -125,73 +125,45 @@ class _DriverTileState extends State<DriverTile> {
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsets.only(right: 10, bottom: 35),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            disabledBackgroundColor: Colors.white,
-                            shadowColor: Colors.white,
-                            shape: BeveledRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            side: BorderSide.none,
-                            backgroundColor: Color(0xffffffff),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              Responsive2.isMobile(context)
-                                  ? nextScreen(
-                                      context,
-                                      DriverProfile(
-                                        DriverName: driverName,
-                                        DriverID: driverID,
-                                        Email: email,
-                                        Phone: phone,
-                                        ImageUrl: ImageUrl,
-                                        snapshot: widget.snapshot,
-                                        AssignCab: AssignCab,
-                                      ),
-                                    )
-                                  : nextScreen(
-                                      SideScreenDesktop
-                                          .sidescreenkey.currentContext,
-                                      DriverProfile(
-                                        DriverName: driverName,
-                                        DriverID: driverID,
-                                        Email: email,
-                                        Phone: phone,
-                                        ImageUrl: ImageUrl,
-                                        snapshot: widget.snapshot,
-                                        AssignCab: AssignCab,
-                                      ),
-                                    );
-                            });
+                        padding: EdgeInsets.only(right: 0, bottom: 10),
+                        child: InkWell(
+                          onTap: () {
+                            nextScreen(
+                                context,
+                                DriverProfile(
+                                    DriverName: driverName,
+                                    DriverID: driverID,
+                                    Email: email,
+                                    Phone: phone,
+                                    ImageUrl: ImageUrl,
+                                    snapshot: widget.snapshot,
+                                    AssignCab: AssignCab));
                           },
                           child: Row(
                             children: [
-                              ImageUrl.isEmpty
-                                  ? Container(
-                                      width: 77,
-                                      height: 69,
-                                      decoration: BoxDecoration(
-                                        color: Colors.black,
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          driverName
-                                              .substring(0, 1)
-                                              .toUpperCase(),
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                    )
-                                  : ImageNetwork(
-                                      image: ImageUrl,
+                              ImageNetwork(
+                                  image: ImageUrl,
+                                  borderRadius: BorderRadius.circular(15),
+                                  height: 60,
+                                  width: 70,
+                                  fitWeb: BoxFitWeb.fill,
+                                  fitAndroidIos: BoxFit.fill,
+                                  onError: Container(
+                                    width: 77,
+                                    height: 60,
+                                    decoration: BoxDecoration(
+                                      color: kImgColor,
                                       borderRadius: BorderRadius.circular(15),
-                                      height: 69,
-                                      width: 77,
-                                      fitWeb: BoxFitWeb.fill,
-                                      fitAndroidIos: BoxFit.fill,
                                     ),
+                                    child: Center(
+                                      child: Text(
+                                        driverName
+                                            .substring(0, 1)
+                                            .toUpperCase(),
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                  )),
                               Expanded(
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 25),
@@ -206,7 +178,7 @@ class _DriverTileState extends State<DriverTile> {
                                           driverName,
                                           style: TextStyle(
                                               fontSize: 12,
-                                              color: Colors.black),
+                                              color: kdrivertitle),
                                         ),
                                       ),
                                       Padding(
@@ -215,16 +187,21 @@ class _DriverTileState extends State<DriverTile> {
                                           driverID,
                                           style: TextStyle(
                                               fontSize: 12,
-                                              color: Colors.black),
+                                              color: kdriversubtitle),
                                         ),
                                       ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 8, left: 8, right: 8),
+                                        child: Divider(
+                                          color: Colors.black,
+                                          thickness: 0.1,
+                                          height: 0.6,
+                                        ),
+                                      )
                                     ],
                                   ),
                                 ),
-                              ),
-                              Icon(
-                                Icons.chevron_right,
-                                color: Colors.black12,
                               ),
                             ],
                           ),
@@ -236,7 +213,7 @@ class _DriverTileState extends State<DriverTile> {
               },
             ),
           ),
-        ),
+        )
       ],
     );
   }

@@ -1,3 +1,5 @@
+import 'package:cab_management/Auth/navBar.dart';
+import 'package:cab_management/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../databaseService.dart';
@@ -23,7 +25,7 @@ class _DriverPageState extends State<DriverPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: kbackgroundColor,
       appBar: AppBar(
         elevation: 0,
         forceMaterialTransparency: true,
@@ -50,7 +52,6 @@ class _DriverPageState extends State<DriverPage> {
               ),
               child: SafeArea(
                 child: StatefulBuilder(
-                  
                   builder: (BuildContext context, StateSetter setState) {
                     return StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance

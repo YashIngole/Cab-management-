@@ -47,7 +47,10 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Update Driver'),
+        title: const Text(
+          'Update Driver',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -61,7 +64,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                           height: 150,
                           width: 150,
                           decoration: BoxDecoration(
-                            color: Colors.black,
+                            color: Color.fromARGB(226, 128, 177, 246),
                             borderRadius: BorderRadius.circular(1000),
                           ),
                           child: const Center(
@@ -77,9 +80,10 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
             const Center(
               child: Text(
                 'Update Profile Picture',
-                style: TextStyle(fontSize: 15),
+                style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
               ),
             ),
+            SizedBox(height: 20),
             Center(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -119,7 +123,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Icon(Icons.local_taxi),
+                    child: Icon(Icons.person),
                   ),
                   Expanded(
                     child: TextFormField(
@@ -129,7 +133,12 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                       },
                       style: const TextStyle(),
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                            borderRadius: BorderRadius.circular(13)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                            borderRadius: BorderRadius.circular(12)),
                         labelText: 'Name',
                       ),
                     ),
@@ -147,7 +156,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Icon(Icons.local_taxi),
+                    child: Icon(Icons.email),
                   ),
                   Expanded(
                     child: TextFormField(
@@ -157,7 +166,12 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                       },
                       style: const TextStyle(),
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                            borderRadius: BorderRadius.circular(13)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                            borderRadius: BorderRadius.circular(12)),
                         labelText: 'Email',
                       ),
                     ),
@@ -174,7 +188,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Icon(Icons.local_taxi),
+                    child: Icon(Icons.phone),
                   ),
                   Expanded(
                     child: TextFormField(
@@ -184,7 +198,12 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                       },
                       style: const TextStyle(),
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                            borderRadius: BorderRadius.circular(13)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                            borderRadius: BorderRadius.circular(12)),
                         labelText: 'phone number',
                       ),
                     ),
@@ -195,14 +214,28 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                 ],
               ),
             ),
-            const Padding(padding: EdgeInsets.symmetric(vertical: 40)),
-            ElevatedButton(
-              onPressed: () {
-                updateDriverData(newNameValue);
-              },
-              child: const Text(
-                'Save',
-                style: TextStyle(color: Colors.black),
+            const Padding(padding: EdgeInsets.symmetric(vertical: 35)),
+            Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [kGrad1, kGrad2, kGrad3],
+                  ),
+                  borderRadius: BorderRadius.circular(12)),
+              child: ElevatedButton(
+                onPressed: () {
+                  updateDriverData(newNameValue);
+                },
+                child: const Text(
+                  'Save',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold),
+                ),
+                style: ElevatedButton.styleFrom(
+                    fixedSize: Size(200, 50),
+                    backgroundColor: Colors.transparent,
+                    shadowColor: Colors.transparent),
               ),
             ),
           ],
