@@ -1,4 +1,5 @@
 import 'package:cab_management/Auth/Signin.dart';
+import 'package:cab_management/Auth/Welcome.dart';
 
 import 'package:cab_management/home.dart';
 import 'package:cab_management/responsive.dart';
@@ -72,7 +73,7 @@ class _MyAppState extends State<MyApp> {
           useMaterial3: true,
         ),
         home:
-            //Home());
-            _isSignedIn ? Home() : const Signin());
+            Welcome());
+            //_isSignedIn ? Home() : const Signin());
   }
 }

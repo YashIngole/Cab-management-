@@ -5,6 +5,7 @@ import 'package:cab_management/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_network/image_network.dart';
+import 'package:rive/rive.dart';
 
 class DriverProfile extends StatefulWidget {
   final String DriverName;
@@ -91,6 +92,10 @@ class _DriverProfileState extends State<DriverProfile> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(
+                height: 50,
+                width: 50,
+                child: RiveAnimation.asset("assets/vehicle_loader.riv")),
             Center(
               child: Padding(
                   padding: const EdgeInsets.all(20),
