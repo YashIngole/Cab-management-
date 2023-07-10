@@ -115,32 +115,22 @@ class _cabTileState extends State<cabtile> {
                 final String ImageUrl = data['ImageUrl'];
                 final String AssignDriver = data['AssignDriver'];
 
-              return Flex(
-                direction: Axis.horizontal,
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 0, bottom: 5),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          elevation: 2,
-                          disabledBackgroundColor: Colors.white,
-                          shadowColor: kDriverTileShadowColor,
-                          shape: BeveledRectangleBorder(
-                              borderRadius: BorderRadius.circular(8)),
-                          side: BorderSide.none,
-                          backgroundColor: Colors.white,
-                        ),
-                        onPressed: () {
-                          nextScreen(
-                            context,
-                            CabProfile(
+                return Flex(
+                  direction: Axis.horizontal,
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 0, bottom: 10),
+                        child: InkWell(
+                          onTap: () {
+                            nextScreen(
+                              context,
+                              CabProfile(
                                 C_name: C_name,
                                 C_id: C_id,
                                 C_type: C_type,
                                 C_RTO: C_RTO,
                                 ImageUrl: ImageUrl,
-                              
                                 snapshot: widget.snapshot,
                                 AssignDriver: AssignDriver,
                               ),
@@ -197,13 +187,18 @@ class _cabTileState extends State<cabtile> {
                                               color: Colors.black38),
                                         ),
                                       ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 8, left: 8, right: 8),
+                                        child: Divider(
+                                          color: Colors.black,
+                                          thickness: 0.1,
+                                          height: 0.6,
+                                        ),
+                                      )
                                     ],
                                   ),
                                 ),
-                              ),
-                              Icon(
-                                Icons.chevron_right,
-                                color: Colors.black12,
                               ),
                             ],
                           ),

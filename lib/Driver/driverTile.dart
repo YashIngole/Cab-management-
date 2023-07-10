@@ -198,7 +198,7 @@ class _DriverTileState extends State<DriverTile> {
                                           thickness: 0.1,
                                           height: 0.6,
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ),
