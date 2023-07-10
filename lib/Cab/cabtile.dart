@@ -57,7 +57,7 @@ class _cabTileState extends State<cabtile> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 7, right: 10, bottom: 40),
+          padding: const EdgeInsets.only(left: 7, right: 10, bottom: 30),
           child: Container(
             height: 45,
             decoration: BoxDecoration(
@@ -150,8 +150,8 @@ class _cabTileState extends State<cabtile> {
                             children: [
                               ImageUrl.isEmpty
                                   ? Container(
-                                      width: 77,
-                                      height: 69,
+                                      width: 70,
+                                      height: 60,
                                       decoration: BoxDecoration(
                                         color: kImgColor,
                                         borderRadius: BorderRadius.circular(15),
@@ -166,7 +166,7 @@ class _cabTileState extends State<cabtile> {
                                   : ImageNetwork(
                                       image: ImageUrl,
                                       borderRadius: BorderRadius.circular(15),
-                                      height: 69,
+                                      height: 60,
                                       width: 77,
                                       fitWeb: BoxFitWeb.fill,
                                       fitAndroidIos: BoxFit.fill,

@@ -34,8 +34,9 @@ class _DriverProfileState extends State<DriverProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kbackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: kbackgroundColor,
         title: Text(
           'Driver Profile',
           style: TextStyle(fontWeight: FontWeight.bold),
@@ -92,7 +93,6 @@ class _DriverProfileState extends State<DriverProfile> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            
             Center(
               child: Padding(
                   padding: const EdgeInsets.all(20),

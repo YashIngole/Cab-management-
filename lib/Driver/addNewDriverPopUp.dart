@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:cab_management/Driver/driverTile.dart';
+import 'package:cab_management/constants.dart';
 import 'package:cab_management/databaseService.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -49,6 +50,8 @@ void addNewDriverPopUp(BuildContext context) {
       builder: (context) {
         return StatefulBuilder(builder: (context, setState) {
           return AlertDialog(
+            backgroundColor: kbackgroundColor,
+            surfaceTintColor: kbackgroundColor,
             insetPadding: EdgeInsets.all(10),
             contentPadding: EdgeInsets.zero,
             clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -116,7 +119,7 @@ void addNewDriverPopUp(BuildContext context) {
                                       height: 150,
                                       width: 150,
                                       decoration: BoxDecoration(
-                                        color: Colors.black,
+                                        color: kImgColor,
                                         borderRadius:
                                             BorderRadius.circular(1000),
                                       ),
@@ -136,32 +139,33 @@ void addNewDriverPopUp(BuildContext context) {
                       ),
                       Center(
                         child: Text(
-                          'Update Profile Picture',
+                          'Upload Driver Picture',
                           style: TextStyle(fontSize: 15),
                         ),
                       ),
                       Padding(padding: EdgeInsets.only(top: 50)),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 150),
-                        child: DropdownButtonFormField<String>(
-                          items: cabs.map((String item) {
-                            return DropdownMenuItem<String>(
-                              value: item,
-                              child: Text(
-                                item,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                ),
+                      DropdownButtonFormField<String>(
+                        decoration: InputDecoration(
+                            constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width * 0.5,
+                        )),
+                        items: cabs.map((String item) {
+                          return DropdownMenuItem<String>(
+                            value: item,
+                            child: Text(
+                              item,
+                              style: const TextStyle(
+                                fontSize: 14,
                               ),
-                            );
-                          }).toList(),
-                          hint: Text("Assign a Cab"),
-                          onChanged: (String? value) {
-                            setState(() {
-                              AssignCab = value;
-                            });
-                          },
-                        ),
+                            ),
+                          );
+                        }).toList(),
+                        hint: Text("Assign a Cab"),
+                        onChanged: (String? value) {
+                          setState(() {
+                            AssignCab = value;
+                          });
+                        },
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 15),
@@ -181,7 +185,26 @@ void addNewDriverPopUp(BuildContext context) {
                                 },
                                 style: TextStyle(),
                                 decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(12)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(12)),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                      color: Color.fromARGB(255, 243, 65, 65),
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color.fromARGB(255, 0, 0, 5),
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
                                   labelText: 'Name',
                                 ),
                                 controller: nameController,
@@ -225,7 +248,26 @@ void addNewDriverPopUp(BuildContext context) {
                                 // },
                                 style: TextStyle(),
                                 decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(13)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(12)),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                      color: Color.fromARGB(255, 243, 65, 65),
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color.fromARGB(255, 0, 0, 5),
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
                                   labelText: 'Email',
                                 ),
                                 controller: emailController,
@@ -266,10 +308,20 @@ void addNewDriverPopUp(BuildContext context) {
 
                                 validator: (value) {
                                   if (value!.isEmpty) {
-                                    return 'Please Enter Name';
+                                    return "Please Enter a Phone Number";
+                                  } else if (!RegExp(
+                                          r'^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$')
+                                      .hasMatch(value)) {
+                                    return "Please Enter a Valid Phone Number";
                                   }
-                                  return null;
                                 },
+
+                                // validator: (value) {
+                                //   if (phone.length < 10 && value!.isEmpty) {
+                                //     return 'Phone must be atleast 10 digits';
+                                //   }
+                                //   return null;
+                                // },
                                 // validator: (value) {
                                 //   if (phone.length < 10) {
                                 //     return 'Phone must be atleast 10 digits';
@@ -283,8 +335,27 @@ void addNewDriverPopUp(BuildContext context) {
                                 // },
                                 style: TextStyle(),
                                 decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Phone',
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(13)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(12)),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                      color: Color.fromARGB(255, 243, 65, 65),
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color.fromARGB(255, 0, 0, 5),
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  labelText: 'Phone no.',
                                 ),
                               ),
                             ),

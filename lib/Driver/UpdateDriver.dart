@@ -46,7 +46,9 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kbackgroundColor,
       appBar: AppBar(
+        backgroundColor: kbackgroundColor,
         title: const Text(
           'Update Driver',
           style: TextStyle(fontWeight: FontWeight.bold),
@@ -64,7 +66,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                           height: 150,
                           width: 150,
                           decoration: BoxDecoration(
-                            color: Color.fromARGB(226, 128, 177, 246),
+                            color: kImgColor,
                             borderRadius: BorderRadius.circular(1000),
                           ),
                           child: const Center(
@@ -139,6 +141,12 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.black),
                             borderRadius: BorderRadius.circular(12)),
+                        errorBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 243, 65, 65),
+                          ),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         labelText: 'Name',
                       ),
                     ),
@@ -172,6 +180,12 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.black),
                             borderRadius: BorderRadius.circular(12)),
+                        errorBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 243, 65, 65),
+                          ),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         labelText: 'Email',
                       ),
                     ),
@@ -204,6 +218,12 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.black),
                             borderRadius: BorderRadius.circular(12)),
+                        errorBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 243, 65, 65),
+                          ),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         labelText: 'phone number',
                       ),
                     ),

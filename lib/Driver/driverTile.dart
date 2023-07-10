@@ -60,7 +60,7 @@ class _DriverTileState extends State<DriverTile> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 7, right: 10, bottom: 50),
+          padding: const EdgeInsets.only(left: 7, right: 10, bottom: 30),
           child: Container(
             height: 45,
             decoration: BoxDecoration(
