@@ -43,6 +43,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Responsive(
       Mobile: Scaffold(
+        backgroundColor: kbackgroundColor,
         appBar: AppBar(
           elevation: 0,
           forceMaterialTransparency: true,

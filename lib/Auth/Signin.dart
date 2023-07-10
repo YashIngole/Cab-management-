@@ -26,8 +26,9 @@ class _SigninState extends State<Signin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: kbackgroundColor,
         body: _isLoading
-            ? const Center(
+            ? Center(
                 child: CircularProgressIndicator(),
               )
             : SingleChildScrollView(
@@ -37,7 +38,7 @@ class _SigninState extends State<Signin> {
                   Padding(
                     padding: const EdgeInsets.only(top: 50),
                     child: Center(
-                      child: const Text(
+                      child: Text(
                         'Sign In',
                         style: TextStyle(
                             fontSize: 45,
@@ -48,7 +49,7 @@ class _SigninState extends State<Signin> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(25),
-                    child: Image.asset("assets/family-car.png"),
+                    child: Image.asset("assets/taxi22.png"),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 3),
