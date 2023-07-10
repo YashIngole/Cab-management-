@@ -27,9 +27,9 @@ final phoneController = TextEditingController();
 
 @override
 void dispose() {
-  nameController.dispose();
-  emailController.dispose();
-  phoneController.dispose();
+  nameController.text = '';
+  emailController.text = '';
+  phoneController.text = '';
 }
 
 final DatabaseService databaseService = DatabaseService();
@@ -306,6 +306,7 @@ void addNewDriverPopUp(BuildContext context) {
                   setState(
                     () {
                       ImageUrl = '';
+                      dispose();
                     },
                   );
                   Navigator.of(context).pop();
@@ -340,6 +341,7 @@ void addNewDriverPopUp(BuildContext context) {
                           : AssignCab);
                   DriverTile.refreshIndicatorKey2.currentState?.show();
                   Navigator.of(context).pop();
+                  dispose();
 
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
