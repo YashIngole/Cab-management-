@@ -1,15 +1,14 @@
 import 'dart:typed_data';
-
 import 'package:cab_management/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cab_management/Cab/database_c.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:image_network/image_network.dart';
+import 'package:image_picker/image_picker.dart';
 
-
-
-final CollectionReference Cabs = FirebaseFirestore.instance.collection('Cabs');
+final CollectionReference Cabs = 
+FirebaseFirestore.instance.collection('Cabs');
 
 final Database_c database_c = Database_c();
 
@@ -41,10 +40,7 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
   String newNameValue = '';
   String newcabtypeValue = '';
   String newcabRTOValue = '';
-
-  late String ImageUrl;
-
-  //Object? ImageUrl;
+  String NewImageUrl = '';
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +56,7 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: InkWell(
-                    borderRadius: BorderRadius.circular(1000),
+                    borderRadius: BorderRadius.circular(100),
                     onTap: () async {
                       ImagePicker imagePicker = ImagePicker();
                       XFile? file = await imagePicker.pickImage(
@@ -262,20 +258,33 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
     if (querySnapshot.docs.isNotEmpty) {
       var documentSnapshot = querySnapshot.docs.first;
 
-      collection
-          .doc(documentSnapshot.id)
-          .update({'C_name': newNameValue.toUpperCase()})
-          .then((_) => print('Success'))
-          .catchError((error) => print('Failed: $error'));
-
-      collection
-          .doc(documentSnapshot.id)
-          .update({'ImageUrl': NewImageUrl})
-          .then((_) => print('Success'))
-          .catchError((error) => print('Failed: $error'));
-    }
-    if (querySnapshot.docs.isNotEmpty) {
-      var documentSnapshot = querySnapshot.docs.first;
+      newNameValue.isNotEmpty
+          ? collection
+              .doc(documentSnapshot.id)
+              .update({'C_name': newNameValue.toUpperCase()})
+              .then((_) => print('Success'))
+              .catchError((error) => print('Failed: $error'))
+          : collection
+              .doc(documentSnapshot.id)
+              .update({'C_name': widget.C_name.toUpperCase()})
+              .then((_) => print('Success'))
+              .catchError((error) => print('Failed: $error'));
+      if (querySnapshot.docs.isNotEmpty) {
+        var documentSnapshot = querySnapshot.docs.first;
+        NewImageUrl.isNotEmpty
+            ? collection
+                .doc(documentSnapshot.id)
+                .update({'ImageUrl': NewImageUrl})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'))
+            : collection
+                .doc(documentSnapshot.id)
+                .update({'ImageUrl': widget.ImageUrl})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'));
+      }
+      if (querySnapshot.docs.isNotEmpty) {
+        var documentSnapshot = querySnapshot.docs.first;
 
         newcabtypeValue.isNotEmpty
             ? collection

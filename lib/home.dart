@@ -5,8 +5,12 @@ import 'dart:typed_data';
 import 'package:cab_management/Cab/addNewCabPopUp.dart';
 import 'package:cab_management/Cab/therealcabpage.dart';
 import 'package:cab_management/Driver/DriverPage.dart';
+import 'package:cab_management/Driver/DriverProfile.dart';
 import 'package:cab_management/Driver/addNewDriverPopUp.dart';
 import 'package:cab_management/constants.dart';
+import 'package:cab_management/responsive.dart';
+//import 'package:cab_management/sideScreenDesktop.dart';
+import 'package:cab_management/sideScren.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -32,31 +36,62 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PageView(
-        physics: NeverScrollableScrollPhysics(),
-        controller: _myPage,
-        children: <Widget>[DriverPage(), thecab()],
+    return Responsive(
+      Mobile: Scaffold(
+        body: PageView(
+          physics: NeverScrollableScrollPhysics(),
+          controller: _myPage,
+          children: <Widget>[DriverPage(), thecab()],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            if (selectedPage == 0) {
+              addNewDriverPopUp(context);
+            } else {
+              addNewCabPopUp(context);
+            }
+          },
+          child: Icon(Icons.add, color: Colors.white),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: bottomNavBar(),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          if (selectedPage == 0) {
-            addNewDriverPopUp(context);
-          } else {
-            addNewCabPopUp(context);
-          }
-        },
-        child: Icon(Icons.add, color: Colors.white),
+      Desktop: Row(
+        children: [
+          Expanded(
+            child: Scaffold(
+              body: PageView(
+                physics: NeverScrollableScrollPhysics(),
+                controller: _myPage,
+                children: <Widget>[DriverPage(), thecab()],
+              ),
+              floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  if (selectedPage == 0) {
+                    addNewDriverPopUp(context);
+                  } else {
+                    addNewCabPopUp(context);
+                  }
+                },
+                child: Icon(Icons.add, color: Colors.white),
+              ),
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.centerDocked,
+              bottomNavigationBar: bottomNavBar(),
+            ),
+          ),
+          Expanded(
+            child: SideScreenDesktop(),
+          )
+        ],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: bottomNavBar(),
     );
   }
 
   BottomAppBar bottomNavBar() {
     return BottomAppBar(
       height: 70,
-      color: kbottomNavColor,
+      color: kbackgroundColor,
       shape: CircularNotchedRectangle(),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20),
@@ -65,9 +100,9 @@ class _HomeState extends State<Home> {
           children: [
             Expanded(
               child: IconButton(
-                color: kSelectedIconColor,
+                color: selectedPage == 0 ? Colors.blue : Colors.grey,
                 icon: Icon(
-                  selectedPage == 0 ? Icons.person : Icons.person_outlined,
+                  Icons.person,
                   size: 25,
                 ),
                 onPressed: () {
@@ -89,11 +124,9 @@ class _HomeState extends State<Home> {
                     selectedPage = 1;
                   });
                 },
-                color: kSelectedIconColor,
+                color: selectedPage == 1 ? Colors.blue : Colors.grey,
                 icon: Icon(
-                  selectedPage == 1
-                      ? Icons.directions_car
-                      : Icons.directions_car_outlined,
+                  Icons.car_rental,
                   size: 25,
                 ),
               ),

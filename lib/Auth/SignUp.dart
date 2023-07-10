@@ -238,7 +238,11 @@ class _LoginPageState extends State<LoginPage> {
                       child: Container(
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
-                            colors: [kGrad1, kGrad2, kGrad3],
+                            colors: [
+                              Color.fromARGB(255, 63, 113, 221),
+                              Color.fromARGB(255, 62, 80, 243),
+                              Color.fromARGB(255, 56, 181, 240)
+                            ],
                           ),
                           borderRadius: BorderRadius.circular(12),
                         ),

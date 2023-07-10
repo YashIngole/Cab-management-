@@ -1,17 +1,14 @@
-//import 'dart:html';
-
-//import 'package:cab_management/Cab/cabtile.dart';
-import 'package:cab_management/Cab/addNewCabPopUp.dart';
+import 'dart:typed_data';
+import 'package:cab_management/Driver/addNewDriverPopUp.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cab_management/databaseService.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-//import 'package:cab_management/Cab/database_c.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:image_network/image_network.dart';
+import 'package:image_picker/image_picker.dart';
 
-
-final CollectionReference Cabs =
+final CollectionReference drivers =
     FirebaseFirestore.instance.collection('drivers');
 
 final DatabaseService databaseService = DatabaseService();
@@ -50,10 +47,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Update Driver',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+        title: const Text('Update Driver'),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -62,30 +56,69 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
             Center(
               child: Padding(
                 padding: const EdgeInsets.all(20),
-                child: Container(
-                  height: 150,
-                  width: 150,
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(1000),
-                  ),
-                  child: const Center(
-                    child: Icon(
-                      Icons.add_a_photo,
-                      color: Colors.white,
-                      size: 50,
-                    ),
-                  ),
-                ),
+                child: InkWell(
+                    borderRadius: BorderRadius.circular(100),
+                    onTap: () async {
+                      ImagePicker imagePicker = ImagePicker();
+                      XFile? file = await imagePicker.pickImage(
+                        source: ImageSource.gallery,
+                      );
+                      if (file == null) {
+                        return;
+                      }
+
+                      final Uint8List fileBytes = await file.readAsBytes();
+
+                      Reference referenceRoot = FirebaseStorage.instance.ref();
+                      Reference referenceDirImages =
+                          referenceRoot.child('images');
+
+                      String uniqueFileName =
+                          DateTime.now().millisecondsSinceEpoch.toString() +
+                              '.jpg';
+                      Reference referenceImageToUpload =
+                          referenceDirImages.child(uniqueFileName);
+                      try {
+                        await referenceImageToUpload.putData(fileBytes,
+                            SettableMetadata(contentType: 'image/jpeg'));
+                        newImageURL =
+                            await referenceImageToUpload.getDownloadURL();
+                        print(newImageURL);
+                        setState(
+                          () {
+                            newImageURL;
+                          },
+                        );
+                      } catch (e) {
+                        print('Error uploading image: $e');
+                      }
+                    },
+                    child: newImageURL.isEmpty
+                        ? Container(
+                            height: 150,
+                            width: 150,
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(1000),
+                            ),
+                            child: Center(
+                              child: Icon(
+                                Icons.add_a_photo,
+                                color: Colors.white,
+                                size: 50,
+                              ),
+                            ),
+                          )
+                        : ImageNetwork(
+                            image: newImageURL, height: 150, width: 150)),
               ),
             ),
             const Center(
               child: Text(
                 'Update Profile Picture',
-                style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 15),
               ),
             ),
-            SizedBox(height: 20),
             Center(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -125,7 +158,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Icon(Icons.person),
+                    child: Icon(Icons.local_taxi),
                   ),
                   Expanded(
                     child: TextFormField(
@@ -135,12 +168,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                       },
                       style: const TextStyle(),
                       decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                            borderRadius: BorderRadius.circular(13)),
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                            borderRadius: BorderRadius.circular(12)),
+                        border: OutlineInputBorder(),
                         labelText: 'Name',
                       ),
                     ),
@@ -158,7 +186,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Icon(Icons.email),
+                    child: Icon(Icons.local_taxi),
                   ),
                   Expanded(
                     child: TextFormField(
@@ -168,12 +196,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                       },
                       style: const TextStyle(),
                       decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                            borderRadius: BorderRadius.circular(13)),
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                            borderRadius: BorderRadius.circular(12)),
+                        border: OutlineInputBorder(),
                         labelText: 'Email',
                       ),
                     ),
@@ -190,7 +213,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Icon(Icons.phone),
+                    child: Icon(Icons.local_taxi),
                   ),
                   Expanded(
                     child: TextFormField(
@@ -200,12 +223,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                       },
                       style: const TextStyle(),
                       decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                            borderRadius: BorderRadius.circular(13)),
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                            borderRadius: BorderRadius.circular(12)),
+                        border: OutlineInputBorder(),
                         labelText: 'phone number',
                       ),
                     ),
@@ -216,28 +234,14 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                 ],
               ),
             ),
-            const Padding(padding: EdgeInsets.symmetric(vertical: 35)),
-            Container(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [kGrad1, kGrad2, kGrad3],
-                  ),
-                  borderRadius: BorderRadius.circular(12)),
-              child: ElevatedButton(
-                onPressed: () {
-                  updateDriverData(newNameValue);
-                },
-                child: const Text(
-                  'Save',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
-                ),
-                style: ElevatedButton.styleFrom(
-                    fixedSize: Size(200, 50),
-                    backgroundColor: Colors.transparent,
-                    shadowColor: Colors.transparent),
+            const Padding(padding: EdgeInsets.symmetric(vertical: 40)),
+            ElevatedButton(
+              onPressed: () {
+                updateDriverData(newNameValue);
+              },
+              child: const Text(
+                'Save',
+                style: TextStyle(color: Colors.black),
               ),
             ),
           ],
