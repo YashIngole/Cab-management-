@@ -57,11 +57,11 @@ class _cabTileState extends State<cabtile> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 10, right: 10, bottom: 50),
+          padding: const EdgeInsets.only(left: 7, right: 10, bottom: 40),
           child: Container(
             height: 45,
             decoration: BoxDecoration(
-              color: Color(0xffEBEDF3),
+              color: kSearchbarColor,
               borderRadius: BorderRadius.circular(15),
             ),
             child: Row(
@@ -70,7 +70,7 @@ class _cabTileState extends State<cabtile> {
                   padding: const EdgeInsets.only(left: 10, right: 5),
                   child: Icon(
                     Icons.search_sharp,
-                    color: Color(0xffB6B6B6),
+                    color: Colors.black,
                   ),
                 ),
                 Flexible(
@@ -83,8 +83,8 @@ class _cabTileState extends State<cabtile> {
                       filterData(value);
                     },
                     decoration: InputDecoration(
-                      hintText: 'Search',
-                      hintStyle: TextStyle(color: Color(0xffB6B6B6)),
+                      hintText: 'Search Cabs',
+                      hintStyle: TextStyle(color: Colors.black45),
                       focusedBorder: InputBorder.none,
                       enabledBorder: InputBorder.none,
                     ),
@@ -115,30 +115,32 @@ class _cabTileState extends State<cabtile> {
                 final String ImageUrl = data['ImageUrl'];
                 final String AssignDriver = data['AssignDriver'];
 
-                return Flex(
-                  direction: Axis.horizontal,
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 10, bottom: 35),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            disabledBackgroundColor: Colors.white,
-                            shadowColor: Colors.white,
-                            shape: BeveledRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            side: BorderSide.none,
-                            backgroundColor: Color(0xffffffff),
-                          ),
-                          onPressed: () {
-                            nextScreen(
-                              context,
-                              CabProfile(
+              return Flex(
+                direction: Axis.horizontal,
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(right: 0, bottom: 5),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 2,
+                          disabledBackgroundColor: Colors.white,
+                          shadowColor: kDriverTileShadowColor,
+                          shape: BeveledRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                          side: BorderSide.none,
+                          backgroundColor: Colors.white,
+                        ),
+                        onPressed: () {
+                          nextScreen(
+                            context,
+                            CabProfile(
                                 C_name: C_name,
                                 C_id: C_id,
                                 C_type: C_type,
                                 C_RTO: C_RTO,
                                 ImageUrl: ImageUrl,
+                              
                                 snapshot: widget.snapshot,
                                 AssignDriver: AssignDriver,
                               ),
@@ -151,7 +153,7 @@ class _cabTileState extends State<cabtile> {
                                       width: 77,
                                       height: 69,
                                       decoration: BoxDecoration(
-                                        color: Colors.black,
+                                        color: kImgColor,
                                         borderRadius: BorderRadius.circular(15),
                                       ),
                                       child: Center(
@@ -192,7 +194,7 @@ class _cabTileState extends State<cabtile> {
                                           C_id,
                                           style: TextStyle(
                                               fontSize: 12,
-                                              color: Colors.black),
+                                              color: Colors.black38),
                                         ),
                                       ),
                                     ],

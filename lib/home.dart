@@ -5,12 +5,8 @@ import 'dart:typed_data';
 import 'package:cab_management/Cab/addNewCabPopUp.dart';
 import 'package:cab_management/Cab/therealcabpage.dart';
 import 'package:cab_management/Driver/DriverPage.dart';
-import 'package:cab_management/Driver/DriverProfile.dart';
 import 'package:cab_management/Driver/addNewDriverPopUp.dart';
 import 'package:cab_management/constants.dart';
-import 'package:cab_management/responsive.dart';
-//import 'package:cab_management/sideScreenDesktop.dart';
-import 'package:cab_management/sideScren.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -36,62 +32,31 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Responsive(
-      Mobile: Scaffold(
-        body: PageView(
-          physics: NeverScrollableScrollPhysics(),
-          controller: _myPage,
-          children: <Widget>[DriverPage(), thecab()],
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            if (selectedPage == 0) {
-              addNewDriverPopUp(context);
-            } else {
-              addNewCabPopUp(context);
-            }
-          },
-          child: Icon(Icons.add, color: Colors.white),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: bottomNavBar(),
+    return Scaffold(
+      body: PageView(
+        physics: NeverScrollableScrollPhysics(),
+        controller: _myPage,
+        children: <Widget>[DriverPage(), thecab()],
       ),
-      Desktop: Row(
-        children: [
-          Expanded(
-            child: Scaffold(
-              body: PageView(
-                physics: NeverScrollableScrollPhysics(),
-                controller: _myPage,
-                children: <Widget>[DriverPage(), thecab()],
-              ),
-              floatingActionButton: FloatingActionButton(
-                onPressed: () {
-                  if (selectedPage == 0) {
-                    addNewDriverPopUp(context);
-                  } else {
-                    addNewCabPopUp(context);
-                  }
-                },
-                child: Icon(Icons.add, color: Colors.white),
-              ),
-              floatingActionButtonLocation:
-                  FloatingActionButtonLocation.centerDocked,
-              bottomNavigationBar: bottomNavBar(),
-            ),
-          ),
-          Expanded(
-            child: SideScreenDesktop(),
-          )
-        ],
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          if (selectedPage == 0) {
+            addNewDriverPopUp(context);
+          } else {
+            addNewCabPopUp(context);
+          }
+        },
+        child: Icon(Icons.add, color: Colors.white),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: bottomNavBar(),
     );
   }
 
   BottomAppBar bottomNavBar() {
     return BottomAppBar(
       height: 70,
-      color: kbackgroundColor,
+      color: kbottomNavColor,
       shape: CircularNotchedRectangle(),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20),
@@ -100,9 +65,9 @@ class _HomeState extends State<Home> {
           children: [
             Expanded(
               child: IconButton(
-                color: selectedPage == 0 ? Colors.blue : Colors.grey,
+                color: kSelectedIconColor,
                 icon: Icon(
-                  Icons.person,
+                  selectedPage == 0 ? Icons.person : Icons.person_outlined,
                   size: 25,
                 ),
                 onPressed: () {
@@ -124,9 +89,11 @@ class _HomeState extends State<Home> {
                     selectedPage = 1;
                   });
                 },
-                color: selectedPage == 1 ? Colors.blue : Colors.grey,
+                color: kSelectedIconColor,
                 icon: Icon(
-                  Icons.car_rental,
+                  selectedPage == 1
+                      ? Icons.directions_car
+                      : Icons.directions_car_outlined,
                   size: 25,
                 ),
               ),
