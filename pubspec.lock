@@ -605,7 +605,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.1"
-<<<<<<< HEAD
   sqflite:
     dependency: transitive
     description:
@@ -622,8 +621,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.5+1"
-=======
->>>>>>> prasad
   stack_trace:
     dependency: transitive
     description:
