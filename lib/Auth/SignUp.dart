@@ -268,13 +268,7 @@ class _LoginPageState extends State<LoginPage> {
                     Text('Already have an Account?'),
                     TextButton(
                       onPressed: () {
-                        nextScreen(
-                          context,
-                          Padding(
-                            padding: const EdgeInsets.only(top: 50),
-                            child: Signin(),
-                          ),
-                        );
+                        nextScreen(context, Signin());
                       },
                       child: Text('Sign In.'),
                     ),
