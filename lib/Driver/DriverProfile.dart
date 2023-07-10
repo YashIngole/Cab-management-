@@ -46,7 +46,7 @@ class _DriverProfileState extends State<DriverProfile> {
                         Email: widget.Email,
                         ImageUrl: widget.ImageUrl,
                         Phone: widget.Phone,
-                        snapshot: widget.snapshot,
+                        snapshot: widget.snapshot
                       ));
                 },
                 icon: Icon(Icons.edit)),
