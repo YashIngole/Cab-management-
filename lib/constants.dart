@@ -49,9 +49,9 @@ const kRegisterbuttonColor =
 const kCancelbuttonColor = Color.fromARGB(255, 182, 179, 179);
 
 //Save/register button lineargradients
-const kGrad1 = Color.fromARGB(255, 63, 113, 221);
-const kGrad2 = Color.fromARGB(255, 62, 80, 243);
-const kGrad3 = Color.fromARGB(255, 56, 181, 240);
+const kGrad1 = Color.fromARGB(255, 56, 148, 125);
+const kGrad2 = Color.fromARGB(255, 56, 148, 125);
+const kGrad3 = Color.fromARGB(255, 56, 148, 125);
 
 class constansts {
   static String appId = "1:548481446524:web:eccf274548459200c30ff9";

@@ -48,7 +48,7 @@ class _SigninState extends State<Signin> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(25),
-                    child: Image.asset("assets/taxi22.png"),
+                    child: Image.asset("assets/taxi222.png"),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 3),

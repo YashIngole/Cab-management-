@@ -98,7 +98,7 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
                             height: 150,
                             width: 150,
                             decoration: BoxDecoration(
-                              color: Color.fromARGB(226, 128, 177, 246),
+                              color: kImgColor,
                               borderRadius: BorderRadius.circular(1000),
                             ),
                             child: const Center(

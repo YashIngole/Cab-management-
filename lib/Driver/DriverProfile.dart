@@ -1,10 +1,14 @@
 import 'package:cab_management/Driver/UpdateDriver.dart';
+import 'package:cab_management/Driver/addNewDriverPopUp.dart';
 import 'package:cab_management/constants.dart';
+import 'package:cab_management/databaseService.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cab_management/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_network/image_network.dart';
+
+final DatabaseService databaseService = DatabaseService();
 
 class DriverProfile extends StatefulWidget {
   final String DriverName;
@@ -52,6 +56,7 @@ class _DriverProfileState extends State<DriverProfile> {
                       ImageUrl: widget.ImageUrl,
                       Phone: widget.Phone,
                       snapshot: widget.snapshot,
+                      AssignCab: AssignCab,
                     ));
               },
               icon: Icon(Icons.edit)),
@@ -130,14 +135,6 @@ class _DriverProfileState extends State<DriverProfile> {
                 ],
               ),
             ),
-            /*Padding(
-              padding: const EdgeInsets.all(20),
-              child: Container(
-                  width: double.infinity,
-                  height: 31,
-                  decoration: BoxDecoration(color: Color(0xffF4F4F4)),
-                  child: Center(child: Text("Driver Data:"))),
-            ),*/
             Center(
               child: Padding(
                 padding: const EdgeInsets.all(20),

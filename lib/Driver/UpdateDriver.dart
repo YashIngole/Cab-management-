@@ -1,8 +1,4 @@
-//import 'dart:html';
-
-//import 'package:cab_management/Cab/cabtile.dart';
 import 'dart:typed_data';
-
 import 'package:cab_management/Cab/addNewCabPopUp.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cab_management/firebase_options.dart';
@@ -19,21 +15,23 @@ final CollectionReference Cabs =
 //final Database_c database_c = Database_c();
 
 class UpdateDriverPage extends StatefulWidget {
-  const UpdateDriverPage({
-    Key? key,
-    required this.DriverName,
-    required this.DriverID,
-    required this.Email,
-    required this.Phone,
-    required this.ImageUrl,
-    required this.snapshot,
-  }) : super(key: key);
+  const UpdateDriverPage(
+      {Key? key,
+      required this.DriverName,
+      required this.DriverID,
+      required this.Email,
+      required this.Phone,
+      required this.ImageUrl,
+      required this.snapshot,
+      required this.AssignCab})
+      : super(key: key);
 
   final String DriverName;
   final String DriverID;
   final String Email;
   final String Phone;
   final String ImageUrl;
+  final String? AssignCab;
   final AsyncSnapshot<QuerySnapshot<Object?>> snapshot;
 
   @override
@@ -106,7 +104,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                               height: 150,
                               width: 150,
                               decoration: BoxDecoration(
-                                color: Color.fromARGB(226, 128, 177, 246),
+                                color: kImgColor,
                                 borderRadius: BorderRadius.circular(1000),
                               ),
                               child: const Center(
@@ -174,6 +172,12 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                       onChanged: (value) {
                         newNameValue = value;
                       },
+                      validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter a name';
+                          }
+                          return null;
+                        },
                       style: const TextStyle(),
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
@@ -308,7 +312,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
               .update({'name': widget.DriverName.toUpperCase()})
               .then((_) => print('Success'))
               .catchError((error) => print('Failed: $error'));
- if (querySnapshot.docs.isNotEmpty) {
+      if (querySnapshot.docs.isNotEmpty) {
         var documentSnapshot = querySnapshot.docs.first;
         NewImageUrl.isNotEmpty
             ? collection
