@@ -92,10 +92,7 @@ class _DriverProfileState extends State<DriverProfile> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-                height: 50,
-                width: 50,
-                child: RiveAnimation.asset("assets/vehicle_loader.riv")),
+            
             Center(
               child: Padding(
                   padding: const EdgeInsets.all(20),

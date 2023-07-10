@@ -26,20 +26,6 @@ class _DriverPageState extends State<DriverPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kbackgroundColor,
-      appBar: AppBar(
-        elevation: 0,
-        forceMaterialTransparency: true,
-        toolbarHeight: 70,
-        title: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'Caby',
-            style: TextStyle(fontWeight: FontWeight.w800, fontSize: 24),
-          ),
-        ),
-        centerTitle: true,
-      ),
-      drawer: navBar(),
       body: Driver_page(),
     );
   }

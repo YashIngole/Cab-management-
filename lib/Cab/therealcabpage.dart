@@ -1,4 +1,5 @@
 import 'package:cab_management/Auth/navBar.dart';
+import 'package:cab_management/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'database_c.dart';
@@ -27,21 +28,7 @@ class _thecabState extends State<thecab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        elevation: 0,
-        forceMaterialTransparency: true,
-        toolbarHeight: 70,
-        title: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'Cabs',
-            style: TextStyle(fontWeight: FontWeight.w800, fontSize: 24),
-          ),
-        ),
-        centerTitle: true,
-      ),
-      drawer: navBar(),
+      backgroundColor: kbackgroundColor,
       body: Padding(
         padding: EdgeInsets.only(
           left: 22,

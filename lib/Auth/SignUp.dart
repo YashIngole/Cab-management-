@@ -25,6 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kbackgroundColor,
       body: _isLoading
           ? const Center(
               child: CircularProgressIndicator(),
