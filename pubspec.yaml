@@ -37,13 +37,10 @@ dependencies:
   firebase_storage: ^11.2.3
   flutter:
     sdk: flutter
-<<<<<<< HEAD
-  rive: ^0.7.16
-=======
   image_network: ^2.5.4+1
-  image_picker: ^0.8.9
-  shared_preferences: ^2.1.2
->>>>>>> 0e5b6a427963fc56487bcd701e4ca70ac38eaa78
+  image_picker: ^1.0.0
+  rive: ^0.7.16
+  shared_preferences: ^2.2.0
 
 dev_dependencies:
   flutter_test:

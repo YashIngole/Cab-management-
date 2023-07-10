@@ -72,7 +72,7 @@ class _MyAppState extends State<MyApp> {
           scaffoldBackgroundColor: Colors.white,
           useMaterial3: true,
         ),
-        // home: Home());
-        home: _isSignedIn ? Home() : Signin());
+        home: Welcome());
+    // home: _isSignedIn ? Home() : Signin()  );
   }
 }

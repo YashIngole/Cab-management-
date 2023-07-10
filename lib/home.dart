@@ -16,6 +16,7 @@ import 'package:cab_management/databaseService.dart';
 import 'package:cab_management/responsive.dart';
 import 'package:cab_management/sideScreenDesktop.dart';
 import 'package:flutter/material.dart';
+import 'Auth/navBar.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -42,6 +43,25 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Responsive(
       Mobile: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          forceMaterialTransparency: true,
+          toolbarHeight: 70,
+          title: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: selectedPage == 0
+                ? Text(
+                    'Drivers',
+                    style: TextStyle(fontWeight: FontWeight.w800, fontSize: 24),
+                  )
+                : Text(
+                    'Cabs',
+                    style: TextStyle(fontWeight: FontWeight.w800, fontSize: 24),
+                  ),
+          ),
+          centerTitle: true,
+        ),
+        drawer: navBar(),
         body: PageView(
           physics: NeverScrollableScrollPhysics(),
           controller: _myPage,

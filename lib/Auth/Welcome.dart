@@ -3,15 +3,16 @@ import "package:flutter/material.dart";
 import 'package:rive/rive.dart';
 
 import '../constants.dart';
+import 'Signin.dart';
 
 class Welcome extends StatefulWidget {
   const Welcome({super.key});
 
   @override
-  State<Welcome> createState() => _WelcomrState();
+  State<Welcome> createState() => _WelcomeState();
 }
 
-class _WelcomrState extends State<Welcome> {
+class _WelcomeState extends State<Welcome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,35 +20,41 @@ class _WelcomrState extends State<Welcome> {
       backgroundColor: Color(0xffECECEC),
 
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 30, bottom: 5),
+            padding: const EdgeInsets.only(top: 1, bottom: 5),
             child: Stack(
+              alignment: AlignmentDirectional.topStart,
               children: [
-                Image.asset('assets/location.png'),
-                Image.asset("assets/welcome.png")
+                Padding(
+                  padding: const EdgeInsets.only(left: 100, right: 100),
+                  child: Container(
+                      color: Colors.transparent,
+                      child: Image.asset("assets/welcome.png")),
+                )
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 30),
-            child: Container(
-              alignment: Alignment.topCenter,
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.5,
-              child: RiveAnimation.asset("assets/vehicle_loader.riv"),
-            ),
+          Container(
+            alignment: AlignmentDirectional.topStart,
+            width: 400,
+            height: 400,
+            child: RiveAnimation.asset("assets/vehicle_loader.riv"),
           ),
-          Text(
-            "Let's Get \n Started!",
-            style: TextStyle(
-              fontSize: 27,
-              color: Colors.black,
-            ),
+          Stack(
+            children: [
+              Text(
+                "Let's Get \n Started!",
+                style: TextStyle(
+                  fontSize: 27,
+                  color: Colors.black,
+                ),
+              ),
+            ],
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 120),
+            padding: const EdgeInsets.only(top: 70),
             child: Container(
               alignment: Alignment.bottomCenter,
               height: 40,
@@ -74,7 +81,21 @@ class _WelcomrState extends State<Welcome> {
                 ),
               ),
             ),
-          )
+          ),
+          SizedBox(height: 20),
+          Text('Already have an Account?'),
+          TextButton(
+            onPressed: () {
+              nextScreen(
+                context,
+                Padding(
+                  padding: const EdgeInsets.only(top: 50),
+                  child: Signin(),
+                ),
+              );
+            },
+            child: Text('Sign In.'),
+          ),
         ],
       ),
     );
