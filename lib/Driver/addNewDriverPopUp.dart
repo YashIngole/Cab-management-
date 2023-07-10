@@ -1,10 +1,11 @@
 import 'dart:typed_data';
-import 'dart:ui_web';
+
 import 'package:cab_management/Driver/driverTile.dart';
 import 'package:cab_management/databaseService.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_network/image_network.dart';
 import 'package:image_picker/image_picker.dart';
 
 Stream? Cabs;
@@ -47,60 +48,68 @@ void addNewDriverPopUp(BuildContext context) {
                       child: Padding(
                         padding: const EdgeInsets.all(20),
                         child: InkWell(
-                          borderRadius: BorderRadius.circular(1000),
-                          onTap: () async {
-                            ImagePicker imagePicker = ImagePicker();
-                            XFile? file = await imagePicker.pickImage(
-                              source: ImageSource.gallery,
-                            );
-                            if (file == null) {
-                              return;
-                            }
-                            //convert file to data
-                            final Uint8List fileBytes =
-                                await file.readAsBytes();
+                            borderRadius: BorderRadius.circular(1000),
+                            onTap: () async {
+                              ImagePicker imagePicker = ImagePicker();
+                              XFile? file = await imagePicker.pickImage(
+                                source: ImageSource.gallery,
+                              );
+                              if (file == null) {
+                                return;
+                              }
+                              //convert file to data
+                              final Uint8List fileBytes =
+                                  await file.readAsBytes();
 
-                            // Reference to storage root of Firebase Storage
-                            Reference referenceRoot =
-                                FirebaseStorage.instance.ref();
-                            Reference referenceDirImages =
-                                referenceRoot.child('images');
+                              // Reference to storage root of Firebase Storage
+                              Reference referenceRoot =
+                                  FirebaseStorage.instance.ref();
+                              Reference referenceDirImages =
+                                  referenceRoot.child('images');
 
-                            // Reference for the image to be stored
-                            String uniqueFileName = DateTime.now()
-                                    .millisecondsSinceEpoch
-                                    .toString() +
-                                '.jpg';
-                            Reference referenceImageToUpload =
-                                referenceDirImages.child(uniqueFileName);
-                            try {
-                              // Store the file
-                              await referenceImageToUpload.putData(
-                                  fileBytes,
-                                  SettableMetadata(contentType: 'image/jpeg'));
-                              ImageUrl =
-                                  await referenceImageToUpload.getDownloadURL();
-                              print(ImageUrl);
-                            } catch (e) {
-                              print('Error uploading image: $e');
-                            }
-                          },
-                          child: Container(
-                            height: 150,
-                            width: 150,
-                            decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.circular(1000),
-                            ),
-                            child: Center(
-                              child: Icon(
-                                Icons.add_a_photo,
-                                color: Colors.white,
-                                size: 50,
-                              ),
-                            ),
-                          ),
-                        ),
+                              // Reference for the image to be stored
+                              String uniqueFileName = DateTime.now()
+                                      .millisecondsSinceEpoch
+                                      .toString() +
+                                  '.jpg';
+                              Reference referenceImageToUpload =
+                                  referenceDirImages.child(uniqueFileName);
+                              try {
+                                // Store the file
+                                await referenceImageToUpload.putData(
+                                    fileBytes,
+                                    SettableMetadata(
+                                        contentType: 'image/jpeg'));
+                                ImageUrl = await referenceImageToUpload
+                                    .getDownloadURL();
+                                print(ImageUrl);
+                                setState(
+                                  () {
+                                    ImageUrl;
+                                  },
+                                );
+                              } catch (e) {
+                                print('Error uploading image: $e');
+                              }
+                            },
+                            child: ImageUrl.isEmpty
+                                ? Container(
+                                    height: 150,
+                                    width: 150,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      borderRadius: BorderRadius.circular(1000),
+                                    ),
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.add_a_photo,
+                                        color: Colors.white,
+                                        size: 50,
+                                      ),
+                                    ),
+                                  )
+                                : ImageNetwork(
+                                    image: ImageUrl, height: 150, width: 150)),
                       ),
                     ),
                     Center(
@@ -170,6 +179,13 @@ void addNewDriverPopUp(BuildContext context) {
                           ),
                           Expanded(
                             child: TextFormField(
+                              validator: (val) {
+                                return RegExp(
+                                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                        .hasMatch(val!)
+                                    ? null
+                                    : "Please enter a valid email";
+                              },
                               onChanged: (val) {
                                 setState(() {
                                   email = val;
@@ -198,6 +214,13 @@ void addNewDriverPopUp(BuildContext context) {
                           ),
                           Expanded(
                             child: TextFormField(
+                              validator: (value) {
+                                if (phone.length < 10) {
+                                  return 'Phone must be atleast 10 digits';
+                                } else {
+                                  return null;
+                                }
+                              },
                               onChanged: (val) {
                                 setState(() {
                                   phone = val;
@@ -223,6 +246,11 @@ void addNewDriverPopUp(BuildContext context) {
             actions: [
               ElevatedButton(
                 onPressed: () {
+                  setState(
+                    () {
+                      ImageUrl = '';
+                    },
+                  );
                   Navigator.of(context).pop();
                 },
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
