@@ -1,26 +1,21 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:js_interop';
+
 import 'dart:typed_data';
-import 'package:cab_management/Auth/navBar.dart';
-import 'package:cab_management/Cab/cabtile.dart';
+import 'package:cab_management/Cab/addNewCabPopUp.dart';
 import 'package:cab_management/Cab/therealcabpage.dart';
 import 'package:cab_management/Driver/DriverPage.dart';
-import 'package:cab_management/Cab/therealcabpage.dart';
+import 'package:cab_management/Driver/DriverProfile.dart';
+import 'package:cab_management/Driver/addNewDriverPopUp.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cab_management/responsive.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cab_management/databaseService.dart';
+import 'package:cab_management/responsive.dart';
+import 'package:cab_management/sideScreenDesktop.dart';
 import 'package:flutter/material.dart';
-import 'package:image_network/image_network.dart';
-import 'package:image_picker/image_picker.dart';
-import 'databaseService.dart';
-import 'Cab/database_c.dart';
-import 'firebase_options.dart';
-import 'dart:js_util';
-import 'package:js/js.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -30,30 +25,11 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  String C_name = "";
-  String C_id = "";
-  String C_type = "";
-  String C_RTO = "";
-
-  Stream? Cabs;
-  String name = "";
-  String id = "";
-  String email = "";
-  String phone = "";
-  final DatabaseService databaseService = DatabaseService();
-  final Database_c database_c = Database_c();
-  Stream? drivers;
-  String ImageUrl = "";
   List<String> cabs = [];
-
   var NewDriverRef;
   late PageController _myPage;
   var selectedPage;
-
   String inputValue = '';
-
-  String? AssignDriver;
-  String? AssignCab;
 
   @override
   void initState() {
@@ -62,64 +38,65 @@ class _HomeState extends State<Home> {
     selectedPage = 0;
   }
 
-  void _onItemTapped(int index) {
-    setState(() {
-      selectedPage = index;
-
-      _myPage.animateToPage(index,
-          duration: Duration(milliseconds: 500), curve: Curves.easeOut);
-    });
-  }
-
-  @override
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kbackgroundColor,
-      appBar: AppBar(
-        elevation: 0,
-        forceMaterialTransparency: true,
-        toolbarHeight: 70,
-        title: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: selectedPage == 0
-              ? Text(
-                  'Drivers',
-                  style: TextStyle(fontWeight: FontWeight.w800, fontSize: 24),
-                )
-              : Text(
-                  'Cabs',
-                  style: TextStyle(fontWeight: FontWeight.w800, fontSize: 24),
-                ),
+    return Responsive(
+      Mobile: Scaffold(
+        body: PageView(
+          physics: NeverScrollableScrollPhysics(),
+          controller: _myPage,
+          children: <Widget>[DriverPage(), thecab()],
         ),
-        centerTitle: true,
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: kFloatingActionbuttonColor,
+          onPressed: () {
+            if (selectedPage == 0) {
+              addNewDriverPopUp(context);
+            } else {
+              addNewCabPopUp(context);
+            }
+          },
+          child: Icon(Icons.add, color: Colors.white),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: bottomNavBar(),
       ),
-      drawer: navBar(),
-      body: PageView(
-        physics: NeverScrollableScrollPhysics(),
-        controller: _myPage,
-        children: <Widget>[DriverPage(), thecab()],
+      Desktop: Row(
+        children: [
+          Expanded(
+            child: Scaffold(
+              body: PageView(
+                physics: NeverScrollableScrollPhysics(),
+                controller: _myPage,
+                children: <Widget>[DriverPage(), thecab()],
+              ),
+              floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  if (selectedPage == 0) {
+                    addNewDriverPopUp(context);
+                  } else {
+                    addNewCabPopUp(context);
+                  }
+                },
+                child: Icon(Icons.add, color: Colors.white),
+              ),
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.centerDocked,
+              bottomNavigationBar: bottomNavBar(),
+            ),
+          ),
+          Expanded(
+            child: SideScreenDesktop(),
+          )
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: kFloatingActionbuttonColor,
-        onPressed: () {
-          if (selectedPage == 0) {
-            addNewDriverPopUp(context);
-          } else {
-            addNewCabPopUp(context);
-          }
-        },
-        child: Icon(Icons.add, color: Colors.white),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: bottomNavBar(),
     );
   }
 
   BottomAppBar bottomNavBar() {
     return BottomAppBar(
       height: 70,
-      color: kbackgroundColor,
+      color: kbottomNavColor,
       shape: CircularNotchedRectangle(),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20),
@@ -128,9 +105,9 @@ class _HomeState extends State<Home> {
           children: [
             Expanded(
               child: IconButton(
-                color: selectedPage == 0 ? Colors.blue : Colors.grey,
+                color: kSelectedIconColor,
                 icon: Icon(
-                  Icons.person,
+                  selectedPage == 0 ? Icons.person : Icons.person_outlined,
                   size: 25,
                 ),
                 onPressed: () {
@@ -152,11 +129,11 @@ class _HomeState extends State<Home> {
                     selectedPage = 1;
                   });
                 },
-                color: selectedPage == 1
-                    ? kSelectedIconColor
-                    : kUnselectedIconColor,
+                color: kSelectedIconColor,
                 icon: Icon(
-                  Icons.car_rental,
+                  selectedPage == 1
+                      ? Icons.directions_car
+                      : Icons.directions_car_outlined,
                   size: 25,
                 ),
               ),
@@ -165,607 +142,6 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
-  }
-
-  void addNewCabPopUp(BuildContext context) {
-    FirebaseFirestore.instance
-        .collection('drivers')
-        .get()
-        .then((querySnapshot) {
-      List<String> cabs = [];
-      querySnapshot.docs.forEach((doc) {
-        var driverName = doc.data()['name'].toString().toUpperCase();
-
-        cabs.add(driverName);
-      });
-
-      showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) {
-          return StatefulBuilder(builder: (context, setState) {
-            return AlertDialog(
-              insetPadding: EdgeInsets.all(10),
-              contentPadding: EdgeInsets.zero,
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              title: const Text(
-                "Add Cab",
-                textAlign: TextAlign.center,
-              ),
-              content: SingleChildScrollView(
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    children: [
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(1000),
-                            onTap: () async {
-                              ImagePicker imagePicker = ImagePicker();
-                              XFile? file = await imagePicker.pickImage(
-                                source: ImageSource.gallery,
-                              );
-                              if (file == null) {
-                                return;
-                              }
-                              final Uint8List fileBytes =
-                                  await file.readAsBytes();
-
-                              Reference referenceRoot =
-                                  FirebaseStorage.instance.ref();
-                              Reference referenceDirImages =
-                                  referenceRoot.child('images');
-
-                              String uniqueFileName = DateTime.now()
-                                      .millisecondsSinceEpoch
-                                      .toString() +
-                                  '.jpg';
-                              Reference referenceImageToUpload =
-                                  referenceDirImages.child(uniqueFileName);
-                              try {
-                                await referenceImageToUpload.putData(
-                                    fileBytes as Uint8List,
-                                    SettableMetadata(
-                                        contentType: 'image/jpeg'));
-                                ImageUrl = await referenceImageToUpload
-                                    .getDownloadURL();
-                                print(ImageUrl);
-                              } catch (e) {
-                                print('Error uploading image: $e');
-                              }
-                            },
-                            child: Container(
-                              height: 150,
-                              width: 150,
-                              decoration: BoxDecoration(
-                                color: kImgColor,
-                                borderRadius: BorderRadius.circular(1000),
-                              ),
-                              child: Center(
-                                child: Icon(
-                                  Icons.add_a_photo,
-                                  color: Colors.white,
-                                  size: 50,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Center(
-                        child: Text(
-                          'Update Profile Picture',
-                          style: TextStyle(fontSize: 15),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.only(top: 30)),
-                      Padding(
-                        padding: const EdgeInsets.only(),
-                        child: DropdownButtonFormField<String>(
-                          iconSize: 32,
-                          decoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black)),
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black))),
-                          items: cabs.map((String item) {
-                            return DropdownMenuItem<String>(
-                              value: item,
-                              child: Text(
-                                item,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                          hint: Text("Assign a Driver"),
-                          onChanged: (String? value) {
-                            setState(() {
-                              AssignDriver = value;
-                            });
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Icon(Icons.person),
-                            ),
-                            Expanded(
-                              child: TextFormField(
-                                onChanged: (val) {
-                                  setState(() {
-                                    C_name = val.toLowerCase();
-                                  });
-                                },
-                                style: TextStyle(),
-                                decoration: InputDecoration(
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black54),
-                                      borderRadius: BorderRadius.circular(13)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                      borderRadius: BorderRadius.circular(12)),
-                                  labelText: 'Cab Name',
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                            )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Icon(Icons.directions_car),
-                            ),
-                            Expanded(
-                              child: TextFormField(
-                                onChanged: (val) {
-                                  setState(() {
-                                    C_type = val;
-                                  });
-                                },
-                                style: TextStyle(),
-                                decoration: InputDecoration(
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black54),
-                                      borderRadius: BorderRadius.circular(13)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                      borderRadius: BorderRadius.circular(12)),
-                                  labelText: 'Cab Type',
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                            )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Icon(Icons.numbers),
-                            ),
-                            Expanded(
-                              child: TextFormField(
-                                onChanged: (val) {
-                                  setState(() {
-                                    C_RTO = val;
-                                  });
-                                },
-                                style: TextStyle(),
-                                decoration: InputDecoration(
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black54),
-                                      borderRadius: BorderRadius.circular(13)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                      borderRadius: BorderRadius.circular(12)),
-                                  labelText: 'RTO Passing No.',
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              actions: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: kCancelbuttonColor),
-                  child: const Text(
-                    "CANCEL",
-                    style: TextStyle(color: Colors.black),
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    await database_c
-                        .saveCabsData(
-                            C_name.toUpperCase(),
-                            C_id.toUpperCase(),
-                            C_type.toUpperCase(),
-                            C_RTO.toUpperCase(),
-                            ImageUrl,
-                            AssignDriver == null
-                                ? AssignDriver = "Not selected "
-                                : AssignDriver)
-                        .whenComplete(() {
-                      Navigator.of(context).pop();
-                    });
-
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Center(
-                          child: Text('Cab Registered Successfully'),
-                        ),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: kRegisterbuttonColor,
-                  ),
-                  child: const Text(
-                    "Register",
-                    style: TextStyle(color: Colors.black),
-                  ),
-                ),
-              ],
-            );
-          });
-        },
-      );
-    }).catchError((error) {
-      print('Error fetching cabs: $error');
-    });
-  }
-
-  void addNewDriverPopUp(BuildContext context) {
-    FirebaseFirestore.instance.collection('Cabs').get().then((querySnapshot) {
-      List<String> cabs = []; // Create an empty list to store cab names
-      querySnapshot.docs.forEach((doc) {
-        var cName = doc.data()['C_name'].toString().toUpperCase();
-        var cRTO = doc.data()['C_RTO'].toString().toUpperCase();
-        cabs.add(cRTO + " - " + cName);
-        print(cabs);
-      });
-
-      showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) {
-          return StatefulBuilder(builder: (context, setState) {
-            return AlertDialog(
-              insetPadding: EdgeInsets.all(10),
-              contentPadding: EdgeInsets.zero,
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              title: const Text(
-                "Add Driver",
-                textAlign: TextAlign.center,
-              ),
-              content: SingleChildScrollView(
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    children: [
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(1000),
-                            onTap: () async {
-                              ImagePicker imagePicker = ImagePicker();
-                              XFile? file = await imagePicker.pickImage(
-                                source: ImageSource.gallery,
-                              );
-                              if (file == null) {
-                                return;
-                              }
-                              //convert file to data
-                              final Uint8List fileBytes =
-                                  await file.readAsBytes();
-
-                              // Reference to storage root of Firebase Storage
-                              Reference referenceRoot =
-                                  FirebaseStorage.instance.ref();
-                              Reference referenceDirImages =
-                                  referenceRoot.child('images');
-
-                              // Reference for the image to be stored
-                              String uniqueFileName = DateTime.now()
-                                      .millisecondsSinceEpoch
-                                      .toString() +
-                                  '.jpg';
-                              Reference referenceImageToUpload =
-                                  referenceDirImages.child(uniqueFileName);
-                              try {
-                                // Store the file
-                                await referenceImageToUpload.putData(
-                                    fileBytes as Uint8List,
-                                    SettableMetadata(
-                                        contentType: 'image/jpeg'));
-                                ImageUrl = await referenceImageToUpload
-                                    .getDownloadURL();
-                                print(ImageUrl);
-                              } catch (e) {
-                                print('Error uploading image: $e');
-                              }
-                            },
-                            child: Container(
-                              height: 150,
-                              width: 150,
-                              decoration: BoxDecoration(
-                                color: kImgColor,
-                                borderRadius: BorderRadius.circular(1000),
-                              ),
-                              child: Center(
-                                child: Icon(
-                                  Icons.add_a_photo,
-                                  color: Colors.white,
-                                  size: 50,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Center(
-                        child: Text(
-                          'Update Profile Picture',
-                          style: TextStyle(fontSize: 15),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.only(top: 30)),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 170, right: 170, bottom: 18),
-                        child: DropdownButtonFormField<String>(
-                          decoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black)),
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black))),
-                          items: cabs.map((String item) {
-                            return DropdownMenuItem<String>(
-                              value: item,
-                              child: Text(
-                                item,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                          hint: Text("Assign a Cab"),
-                          onChanged: (String? value) {
-                            setState(() {
-                              AssignCab = value;
-                            });
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Icon(Icons.person),
-                            ),
-                            Expanded(
-                              child: TextFormField(
-                                onChanged: (val) {
-                                  setState(() {
-                                    name = val.toLowerCase();
-                                  });
-                                },
-                                style: TextStyle(),
-                                decoration: InputDecoration(
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black54),
-                                      borderRadius: BorderRadius.circular(13)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                      borderRadius: BorderRadius.circular(12)),
-                                  labelText: 'Name',
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                            )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Icon(Icons.email),
-                            ),
-                            Expanded(
-                              child: TextFormField(
-                                onChanged: (val) {
-                                  setState(() {
-                                    email = val;
-                                  });
-                                },
-                                style: TextStyle(),
-                                decoration: InputDecoration(
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black54),
-                                      borderRadius: BorderRadius.circular(13)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                      borderRadius: BorderRadius.circular(12)),
-                                  labelText: 'Email',
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                            )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Icon(Icons.phone),
-                            ),
-                            Expanded(
-                              child: TextFormField(
-                                onChanged: (val) {
-                                  setState(() {
-                                    phone = val;
-                                  });
-                                },
-                                style: TextStyle(),
-                                decoration: InputDecoration(
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black54),
-                                      borderRadius: BorderRadius.circular(13)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                      borderRadius: BorderRadius.circular(12)),
-                                  labelText: 'Phone',
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              actions: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: kCancelbuttonColor),
-                  child: const Text(
-                    "CANCEL",
-                    style: TextStyle(color: Colors.black),
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    await databaseService
-                        .saveDriverData(
-                            name.toUpperCase(),
-                            id.toUpperCase(),
-                            email,
-                            phone,
-                            ImageUrl,
-                            AssignCab == null
-                                ? AssignCab = "Not selected "
-                                : AssignCab)
-                        .whenComplete(() {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Home()),
-                      ).then((value) => setState(() {}));
-                      Navigator.of(context).pop();
-                    });
-
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Center(
-                          child: Text('Driver Registered Successfully'),
-                        ),
-                      ),
-                    );
-                    Navigator.of(context).pop();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: kRegisterbuttonColor,
-                  ),
-                  child: const Text(
-                    "Register",
-                    style: TextStyle(color: Colors.black),
-                  ),
-                ),
-              ],
-            );
-          });
-        },
-      );
-    }).catchError((error) {
-      // Handle any potential errors here
-      print('Error fetching cabs: $error');
-    });
-  }
-
-  onTapFunction(BuildContext context) async {
-    final reLoadPage = await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => Home()),
-    );
-
-    if (reLoadPage) {
-      setState(() {});
-    }
   }
 
   Future<Image> convertFileToImage(File picture) async {

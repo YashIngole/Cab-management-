@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cab_management/Auth/navBar.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -18,12 +20,33 @@ class _thecabState extends State<thecab> {
   String C_type = "";
   String C_RTO = "";
   String searchQuery = "";
-  Stream? Cabs;
+  Stream<QuerySnapshot<Map<String, dynamic>>>? cabStream;
   String ImageUrl = "";
   String AssignDriver = "";
 
   final Database_c database_c = Database_c();
-  //final DatabaseService databaseService = DatabaseService();
+  final StreamController<QuerySnapshot<Map<String, dynamic>>>
+      _streamController =
+      StreamController<QuerySnapshot<Map<String, dynamic>>>();
+
+  @override
+  void initState() {
+    super.initState();
+    cabStream = FirebaseFirestore.instance
+        .collection('Cabs')
+        .orderBy('C_RTO')
+        .snapshots();
+
+    cabStream!.listen((snapshot) {
+      _streamController.add(snapshot);
+    });
+  }
+
+  @override
+  void dispose() {
+    _streamController.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,14 +58,11 @@ class _thecabState extends State<thecab> {
           right: 12,
         ),
         child: SafeArea(
-          child: StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance
-                .collection('Cabs')
-                .orderBy('C_RTO')
-                .snapshots(),
+          child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+            stream: _streamController.stream,
             builder: (
               BuildContext context,
-              AsyncSnapshot<QuerySnapshot> snapshot,
+              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot,
             ) {
               if (snapshot.hasError) {
                 return Center(

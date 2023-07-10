@@ -1,21 +1,13 @@
 //import 'dart:html';
 
 //import 'package:cab_management/Cab/cabtile.dart';
+import 'package:cab_management/Cab/addNewCabPopUp.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cab_management/firebase_options.dart';
 import 'package:cab_management/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-//import 'package:cab_management/Cab/database_c.dart';
-import 'package:firebase_core/firebase_core.dart';
-
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  runApp(MyApp());
-}
+import 'package:image_network/image_network.dart';
 
 final CollectionReference Cabs =
     FirebaseFirestore.instance.collection('drivers');
@@ -66,23 +58,24 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
           children: [
             Center(
               child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Container(
-                  height: 150,
-                  width: 150,
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(226, 128, 177, 246),
-                    borderRadius: BorderRadius.circular(1000),
-                  ),
-                  child: const Center(
-                    child: Icon(
-                      Icons.add_a_photo,
-                      color: Colors.white,
-                      size: 50,
-                    ),
-                  ),
-                ),
-              ),
+                  padding: const EdgeInsets.all(20),
+                  child: ImageUrl.isEmpty
+                      ? Container(
+                          height: 150,
+                          width: 150,
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(226, 128, 177, 246),
+                            borderRadius: BorderRadius.circular(1000),
+                          ),
+                          child: const Center(
+                            child: Icon(
+                              Icons.add_a_photo,
+                              color: Colors.white,
+                              size: 50,
+                            ),
+                          ),
+                        )
+                      : ImageNetwork(image: ImageUrl, height: 150, width: 150)),
             ),
             const Center(
               child: Text(
