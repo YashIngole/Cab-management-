@@ -308,7 +308,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
               .update({'name': widget.DriverName.toUpperCase()})
               .then((_) => print('Success'))
               .catchError((error) => print('Failed: $error'));
-      if (querySnapshot.docs.isNotEmpty) {
+ if (querySnapshot.docs.isNotEmpty) {
         var documentSnapshot = querySnapshot.docs.first;
         NewImageUrl.isNotEmpty
             ? collection
