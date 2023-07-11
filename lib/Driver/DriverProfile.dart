@@ -8,8 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_network/image_network.dart';
 
-import 'addNewDriverPopUp.dart';
-
 final DatabaseService databaseService = DatabaseService();
 
 class DriverProfile extends StatefulWidget {
@@ -17,7 +15,7 @@ class DriverProfile extends StatefulWidget {
   final String DriverID;
   final String Email;
   final String Phone;
-  //final String License;
+  final String License;
   final String ImageUrl;
   final AsyncSnapshot<QuerySnapshot<Object?>> snapshot;
   final String AssignCab;
@@ -28,7 +26,7 @@ class DriverProfile extends StatefulWidget {
       required this.DriverID,
       required this.Email,
       required this.Phone,
-      //required this.License,
+      required this.License,
       required this.ImageUrl,
       required this.snapshot,
       required this.AssignCab});
@@ -172,8 +170,8 @@ class _DriverProfileState extends State<DriverProfile> {
                         KSubtitle(widget.Email),
                         KTitle('Phone'),
                         KSubtitle(widget.Phone),
-                        // KTitle('License Number'),
-                        // KSubtitle(widget.License),
+                        KTitle('License Number'),
+                        KSubtitle(widget.License),
                         // KTitle('Driver Join date'),
                         // KSubtitle(widget.Phone),
                       ],

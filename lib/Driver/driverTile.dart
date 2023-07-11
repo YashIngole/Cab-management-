@@ -118,6 +118,7 @@ class _DriverTileState extends State<DriverTile> {
                 final String driverID = data['id'];
                 final String email = data['email'];
                 final String phone = data['phone'];
+                final String license = data['license'];
                 final String ImageUrl = data['ImageUrl'];
                 final String AssignCab = data['AssignCab'];
 
@@ -132,14 +133,15 @@ class _DriverTileState extends State<DriverTile> {
                             nextScreen(
                                 context,
                                 DriverProfile(
-                                    DriverName: driverName,
-                                    DriverID: driverID,
-                                    Email: email,
-                                    Phone: phone,
-                                    //License: License,
-                                    ImageUrl: ImageUrl,
-                                    snapshot: widget.snapshot,
-                                    AssignCab: AssignCab));
+                                  DriverName: driverName,
+                                  DriverID: driverID,
+                                  Email: email,
+                                  Phone: phone,
+                                  License:license ,
+                                  ImageUrl: ImageUrl,
+                                  snapshot: widget.snapshot,
+                                  AssignCab: AssignCab,
+                                ));
                           },
                           child: Row(
                             children: [

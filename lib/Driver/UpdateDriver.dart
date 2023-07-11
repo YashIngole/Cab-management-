@@ -15,18 +15,17 @@ final CollectionReference Cabs =
 //final Database_c database_c = Database_c();
 
 class UpdateDriverPage extends StatefulWidget {
-  const UpdateDriverPage(
-      {Key? key,
-      required this.DriverName,
-      required this.DriverID,
-      required this.Email,
-      required this.Phone,
-      required this.ImageUrl,
-      required this.snapshot,
-      required this.AssignCab,
-      //  required String License
-       })
-      : super(key: key);
+  const UpdateDriverPage({
+    Key? key,
+    required this.DriverName,
+    required this.DriverID,
+    required this.Email,
+    required this.Phone,
+    required this.ImageUrl,
+    required this.snapshot,
+    required this.AssignCab,
+    //  required String License
+  }) : super(key: key);
 
   final String DriverName;
   final String DriverID;
@@ -175,11 +174,11 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                         newNameValue = value;
                       },
                       validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter a name';
-                          }
-                          return null;
-                        },
+                        if (value!.isEmpty) {
+                          return 'Please enter a name';
+                        }
+                        return null;
+                      },
                       style: const TextStyle(),
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(

@@ -14,7 +14,7 @@ class DatabaseService {
 
   // function to save the driver data to Firestore
   Future<void> saveDriverData(String name, String id, String email,
-      String phone,/*String License,*/ String ImageUrl, String? AssignCab) async {
+      String phone, String license, String ImageUrl, String? AssignCab) async {
     // new document with a unique ID in the 'drivers' collection
     DocumentReference newDriverRef = driversRef.doc();
 
@@ -23,10 +23,10 @@ class DatabaseService {
       'name': name, // Driver Name
       'id': generateDriverId(), // Driver ID Number
       'email': email, // Driver Email
-      'phone': phone,
+      'phone': phone, // Driver Phone Number
       'ImageUrl': ImageUrl,
-      //'License':License,
-      'AssignCab': AssignCab // Driver Phone Number
+      'license': license,
+      'AssignCab': AssignCab
     });
   }
 
