@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:cab_management/Driver/DriverProfile.dart';
+import 'package:cab_management/Driver/addNewDriverPopUp.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cab_management/home.dart';
 import 'package:cab_management/responsive2.dart';
@@ -135,6 +136,7 @@ class _DriverTileState extends State<DriverTile> {
                                     DriverID: driverID,
                                     Email: email,
                                     Phone: phone,
+                                    License: License,
                                     ImageUrl: ImageUrl,
                                     snapshot: widget.snapshot,
                                     AssignCab: AssignCab));
