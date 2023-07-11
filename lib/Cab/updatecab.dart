@@ -260,6 +260,16 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
               child: ElevatedButton(
                 onPressed: () {
                   updateCabData(newNameValue);
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      behavior: SnackBarBehavior.floating,
+                      duration: const Duration(milliseconds: 900),
+                      content: Center(
+                        child: Text('Cab Updated Successfully'),
+                      ),
+                    ),
+                  );
                 },
                 child: const Text(
                   'Save',

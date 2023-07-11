@@ -24,13 +24,14 @@ class UpdateDriverPage extends StatefulWidget {
     required this.ImageUrl,
     required this.snapshot,
     required this.AssignCab,
-    //  required String License
+    required this.License,
   }) : super(key: key);
 
   final String DriverName;
   final String DriverID;
   final String Email;
   final String Phone;
+  final String License;
   final String ImageUrl;
   final String? AssignCab;
   final AsyncSnapshot<QuerySnapshot<Object?>> snapshot;
@@ -45,6 +46,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
   String newNameValue = '';
   String newemail = '';
   String newphonenumber = '';
+  String newlicense = '';
   String NewImageUrl = '';
 
   @override
@@ -262,6 +264,38 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                 ],
               ),
             ),
+             Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Icon(Icons.document_scanner),
+                  ),
+                  Expanded(
+                    child: TextFormField(
+                      initialValue: widget.License,
+                      onChanged: (value) {
+                        newlicense = value;
+                      },
+                      style: const TextStyle(),
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                            borderRadius: BorderRadius.circular(13)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                            borderRadius: BorderRadius.circular(12)),
+                        labelText: 'Lisence number',
+                      ),
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                  ),
+                ],
+              ),
+            ),
             const Padding(padding: EdgeInsets.symmetric(vertical: 35)),
             Container(
               decoration: BoxDecoration(
@@ -272,15 +306,27 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
               child: ElevatedButton(
                 onPressed: () {
                   updateDriverData(newNameValue);
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      behavior: SnackBarBehavior.floating,
+                      duration: const Duration(milliseconds: 900),
+                      content: Center(
+                        child: Text('Driver Updated Successfully'),
+                      ),
+                    ),
+                  );
                 },
                 child: const Text(
                   'Save',
+                  
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
                       fontWeight: FontWeight.bold),
                 ),
                 style: ElevatedButton.styleFrom(
+                  
                     fixedSize: Size(200, 50),
                     backgroundColor: Colors.transparent,
                     shadowColor: Colors.transparent),
@@ -354,7 +400,22 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                 .update({'phone': widget.Phone})
                 .then((_) => print('Success'))
                 .catchError((error) => print('Failed: $error'));
-      } else {
+      } 
+      if (querySnapshot.docs.isNotEmpty) {
+        var documentSnapshot = querySnapshot.docs.first;
+        newlicense.isNotEmpty
+            ? collection
+                .doc(documentSnapshot.id)
+                .update({'license': newlicense})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'))
+            : collection
+                .doc(documentSnapshot.id)
+                .update({'license': widget.License})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'));
+      }
+      else {
         print('Document not found');
       }
     }
