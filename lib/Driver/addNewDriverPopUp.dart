@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:cab_management/Driver/driverTile.dart';
 import 'package:cab_management/databaseService.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,7 +12,7 @@ String name = "";
 String id = "";
 String email = "";
 String phone = "";
-String License = "";
+// String License = "";
 String? AssignCab;
 String ImageUrl = "";
 final DatabaseService databaseService = DatabaseService();
@@ -240,34 +239,34 @@ void addNewDriverPopUp(BuildContext context) {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Icon(Icons.person),
-                          ),
-                          Expanded(
-                            child: TextFormField(
-                              onChanged: (val) {
-                                setState(() {
-                                  License = val.toUpperCase();
-                                });
-                              },
-                              style: TextStyle(),
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'License Number',
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                          )
-                        ],
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(vertical: 15),
+                    //   child: Row(
+                    //     children: [
+                    //       Padding(
+                    //         padding: const EdgeInsets.symmetric(horizontal: 20),
+                    //         child: Icon(Icons.person),
+                    //       ),
+                    //       Expanded(
+                    //         child: TextFormField(
+                    //           onChanged: (val) {
+                    //             setState(() {
+                    //               License = val.toUpperCase();
+                    //             });
+                    //           },
+                    //           style: TextStyle(),
+                    //           decoration: InputDecoration(
+                    //             border: OutlineInputBorder(),
+                    //             labelText: 'License Number',
+                    //           ),
+                    //         ),
+                    //       ),
+                    //       Padding(
+                    //         padding: const EdgeInsets.symmetric(horizontal: 20),
+                    //       )
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
@@ -299,7 +298,7 @@ void addNewDriverPopUp(BuildContext context) {
                       email,
                       phone,
                       ImageUrl,
-                      License,
+                      //License,
                       
                       AssignCab == null
                           ? AssignCab = "Not selected "

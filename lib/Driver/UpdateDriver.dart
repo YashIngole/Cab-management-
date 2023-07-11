@@ -23,7 +23,9 @@ class UpdateDriverPage extends StatefulWidget {
       required this.Phone,
       required this.ImageUrl,
       required this.snapshot,
-      required this.AssignCab, required String License})
+      required this.AssignCab,
+      //  required String License
+       })
       : super(key: key);
 
   final String DriverName;

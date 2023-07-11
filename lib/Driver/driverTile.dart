@@ -136,7 +136,7 @@ class _DriverTileState extends State<DriverTile> {
                                     DriverID: driverID,
                                     Email: email,
                                     Phone: phone,
-                                    License: License,
+                                    //License: License,
                                     ImageUrl: ImageUrl,
                                     snapshot: widget.snapshot,
                                     AssignCab: AssignCab));
