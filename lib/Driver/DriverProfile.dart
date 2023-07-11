@@ -16,6 +16,7 @@ class DriverProfile extends StatefulWidget {
   final String Email;
   final String Phone;
   final String License;
+  final String Joinning;
   final String ImageUrl;
   final AsyncSnapshot<QuerySnapshot<Object?>> snapshot;
   final String AssignCab;
@@ -27,6 +28,7 @@ class DriverProfile extends StatefulWidget {
       required this.Email,
       required this.Phone,
       required this.License,
+      required this.Joinning,
       required this.ImageUrl,
       required this.snapshot,
       required this.AssignCab});
@@ -172,8 +174,8 @@ class _DriverProfileState extends State<DriverProfile> {
                         KSubtitle(widget.Phone),
                         KTitle('License Number'),
                         KSubtitle(widget.License),
-                        // KTitle('Driver Join date'),
-                        // KSubtitle(widget.Phone),
+                        KTitle('Driver Join date'),
+                        KSubtitle(widget.Joinning),
                       ],
                     ),
                   ),

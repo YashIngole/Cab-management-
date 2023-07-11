@@ -119,6 +119,7 @@ class _DriverTileState extends State<DriverTile> {
                 final String email = data['email'];
                 final String phone = data['phone'];
                 final String license = data['license'];
+                final String joinning = data['joinning'];
                 final String ImageUrl = data['ImageUrl'];
                 final String AssignCab = data['AssignCab'];
 
@@ -137,10 +138,11 @@ class _DriverTileState extends State<DriverTile> {
                                   DriverID: driverID,
                                   Email: email,
                                   Phone: phone,
-                                  License:license ,
+                                  License: license,
                                   ImageUrl: ImageUrl,
                                   snapshot: widget.snapshot,
                                   AssignCab: AssignCab,
+                                  Joinning: joinning,
                                 ));
                           },
                           child: Row(

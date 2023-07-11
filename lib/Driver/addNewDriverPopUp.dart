@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_network/image_network.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 Stream? Cabs;
 String name = "";
@@ -13,6 +14,7 @@ String id = "";
 String email = "";
 String phone = "";
 String License = "";
+String joinning = "";
 String? AssignCab;
 String ImageUrl = "";
 final DatabaseService databaseService = DatabaseService();
@@ -25,7 +27,7 @@ void addNewDriverPopUp(BuildContext context) {
       cabs.add(cRTO + " - " + cName);
       print(cabs);
     });
-
+    TextEditingController _date = TextEditingController();
     showDialog(
       barrierDismissible: false,
       context: context,
@@ -245,7 +247,7 @@ void addNewDriverPopUp(BuildContext context) {
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Icon(Icons.person),
+                            child: Icon(Icons.document_scanner),
                           ),
                           Expanded(
                             child: TextFormField(
@@ -259,6 +261,52 @@ void addNewDriverPopUp(BuildContext context) {
                                 border: OutlineInputBorder(),
                                 labelText: 'License Number',
                               ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                          )
+                        ],
+                      ),
+                    ),
+
+                    // Datetime _dateTime = DateTime.now();
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Icon(Icons.date_range),
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                              controller: _date,
+                              onChanged: (val) {
+                                setState(() {
+                                  joinning = val;
+                                });
+                              },
+                              style: TextStyle(),
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: 'Joinning Date',
+                              ),
+                              onTap: () async {
+                                DateTime? pickdate = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(2000),
+                                  lastDate: DateTime(2025),
+                                );
+                                if (pickdate != null) {
+                                  setState(() {
+                                    _date.text = DateFormat('yyyy-MM-dd')
+                                        .format(pickdate);
+                                  });
+                                }
+                                ;
+                              },
                             ),
                           ),
                           Padding(
@@ -290,7 +338,9 @@ void addNewDriverPopUp(BuildContext context) {
               ElevatedButton(
                 onPressed: () async {
                   setState(
-                    () {},
+                    () {
+                      joinning = _date.text;
+                    },
                   );
                   await databaseService.saveDriverData(
                       name.toUpperCase(),
@@ -298,6 +348,7 @@ void addNewDriverPopUp(BuildContext context) {
                       email,
                       phone,
                       License,
+                      joinning,
                       ImageUrl,
                       AssignCab == null
                           ? AssignCab = "Not selected "
