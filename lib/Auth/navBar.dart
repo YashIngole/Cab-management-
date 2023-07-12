@@ -1,4 +1,5 @@
 import 'package:cab_management/Auth/Signin.dart';
+import 'package:cab_management/Driver/addNewDriverPopUp.dart';
 import 'package:cab_management/constants.dart';
 import 'package:flutter/material.dart';
 //import 'package:cab_management/Auth/DBservice.dart';
@@ -36,41 +37,37 @@ class _navBarState extends State<navBar> {
   }
 
   AuthService authService = AuthService();
-
   @override
   Widget build(BuildContext context) {
     return Drawer(
       shadowColor: kbackgroundColor,
       child: ListView(
         children: [
-          UserAccountsDrawerHeader(
-            decoration: BoxDecoration(
-                color: kSelectedIconColor,
-                image: DecorationImage(image: AssetImage('assets/taxi.avif'))),
-            accountName: Text(
-              userName,
-              style: TextStyle(color: Color.fromARGB(255, 251, 252, 250)),
-            ),
-            accountEmail: Text(
-              email,
-              style: TextStyle(color: Color.fromARGB(255, 251, 252, 250)),
-            ),
-            currentAccountPicture: CircleAvatar(
-              child: ClipOval(
-                child: Material(
-                  color: Color.fromARGB(255, 57, 134, 223),
-                  child: InkWell(
-                    onTap: () {},
-                    child: Icon(
-                      Icons.person,
-                      color: Colors.white,
-                      size: 70,
-                    ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+              child: CircleAvatar(
+                radius: 50,
+                backgroundColor: kSearchbarColor,
+                child: Center(
+                  child: Icon(
+                    Icons.person,
+                    size: 60,
                   ),
                 ),
               ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+              child: Text(userName),
+            ),
+          ),
+          Center(
+            child: Text(email),
+          ),
+          Padding(padding: EdgeInsets.symmetric(vertical: 10)),
           ListTile(
             leading: const Icon(Icons.logout),
             title: const Text(

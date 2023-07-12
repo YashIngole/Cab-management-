@@ -170,7 +170,7 @@ class _CabProfileState extends State<CabProfile> {
                           KSubtitle(widget.C_name),
                           KTitle('Cab Type'),
                           KSubtitle(widget.C_type),
-                          KTitle('RTO Passing no.'),
+                          KTitle('Registration number'),
                           KSubtitle(widget.C_RTO),
                           // KTitle('License Number'),
                           // KSubtitle(widget.Phone),

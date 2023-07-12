@@ -195,7 +195,7 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Icon(Icons.person),
+                    child: Icon(Icons.directions_car_filled_sharp),
                   ),
                   Expanded(
                     child: TextFormField(
@@ -276,7 +276,7 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.black),
                             borderRadius: BorderRadius.circular(12)),
-                        labelText: 'RTO passing number',
+                        labelText: 'Registration Number',
                       ),
                     ),
                   ),
