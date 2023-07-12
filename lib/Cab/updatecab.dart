@@ -1,12 +1,12 @@
 import 'dart:typed_data';
 import 'package:cab_management/constants.dart';
-import 'package:cab_management/firebase_options.dart';
-import 'package:cab_management/main.dart';
+// import 'package:cab_management/firebase_options.dart';
+// import 'package:cab_management/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cab_management/Cab/database_c.dart';
-import 'package:firebase_core/firebase_core.dart';
+//import 'package:firebase_core/firebase_core.dart';
 import 'package:image_network/image_network.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -37,6 +37,12 @@ class UpdateCabPage extends StatefulWidget {
 }
 
 class _UpdateCabPageState extends State<UpdateCabPage> {
+  List<String> cabs = [];
+  void initState() {
+    super.initState();
+    fetchdriverlist();
+  }
+
   String? selectedValue;
 
   String newNameValue = '';
@@ -44,10 +50,32 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
   String newcabRTOValue = '';
   String NewImageUrl = '';
 
+  //Object? ImageUrl;
+
+  void fetchdriverlist() {
+    FirebaseFirestore.instance
+        .collection('drivers')
+        .get()
+        .then((querySnapshot) {
+      List<String> cabList = []; // Create an empty list to store cab names
+      querySnapshot.docs.forEach((doc) {
+        var driverName = doc.data()['name'].toString().toUpperCase();
+
+        cabList.add(driverName);
+      });
+
+      setState(() {
+        cabs = cabList; // Assign the fetched cab names to the class-level list
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kbackgroundColor,
       appBar: AppBar(
+        backgroundColor: kbackgroundColor,
         title: const Text('Update Cab'),
         centerTitle: true,
       ),
@@ -121,35 +149,40 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
             ),
             SizedBox(height: 20),
             Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text("Assign a driver"),
-                  const Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
-                  DropdownButton<String>(
-                    items: items
-                        .map(
-                          (String item) => DropdownMenuItem<String>(
-                            value: item,
-                            child: Text(
-                              item,
-                              style: const TextStyle(
-                                fontSize: 14,
-                              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    //const Text("Assign a cab"),
+                    const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20)),
+                    DropdownButtonFormField<String>(
+                      decoration: InputDecoration(
+                          constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width * 0.5,
+                      )),
+                      items: cabs.map((String item) {
+                        return DropdownMenuItem<String>(
+                          value: item,
+                          child: Text(
+                            item,
+                            style: const TextStyle(
+                              fontSize: 14,
                             ),
                           ),
-                        )
-                        .toList(),
-                    hint: const Text("Select an item"),
-                    value: selectedValue,
-                    onChanged: (String? value) {
-                      setState(() {
-                        selectedValue = value;
-                      });
-                    },
-                  ),
-                ],
+                        );
+                      }).toList(),
+                      hint: Text("Assign a Cab"),
+                      onChanged: (String? value) {
+                        setState(() {
+                          selectedValue = value;
+                        });
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
             const Padding(padding: EdgeInsets.only(top: 50)),
@@ -159,7 +192,7 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Icon(Icons.local_taxi),
+                    child: Icon(Icons.person),
                   ),
                   Expanded(
                     child: TextFormField(
@@ -224,7 +257,7 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Icon(Icons.local_taxi),
+                    child: Icon(Icons.numbers),
                   ),
                   Expanded(
                     child: TextFormField(

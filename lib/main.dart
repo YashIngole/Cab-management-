@@ -1,4 +1,5 @@
 import 'package:cab_management/Auth/Signin.dart';
+import 'package:cab_management/Auth/Welcome.dart';
 
 import 'package:cab_management/home.dart';
 import 'package:cab_management/responsive.dart';
@@ -29,13 +30,7 @@ void main() async {
 
   runApp(const MyApp());
 }
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   // initializing the firebase app
-//   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-//   runApp(MyApp());
-// }
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -71,7 +66,7 @@ class _MyAppState extends State<MyApp> {
           scaffoldBackgroundColor: Colors.white,
           useMaterial3: true,
         ),
-        // home: Home());
-        home: _isSignedIn ? Home() : Signin());
+        home: 
+            _isSignedIn ? Home() : Welcome());
   }
 }
