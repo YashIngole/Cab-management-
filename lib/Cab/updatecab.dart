@@ -174,7 +174,7 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
                           ),
                         );
                       }).toList(),
-                      hint: Text("Assign a Cab"),
+                      hint: Text("Assign a Driver"),
                       onChanged: (String? value) {
                         setState(() {
                           selectedValue = value;

@@ -160,7 +160,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Text("Assign a cab"),
+                    // const Text("Assign a cab"),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: DropdownButtonFormField<String>(
@@ -361,11 +361,9 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                   Navigator.of(context).pop();
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      
                       behavior: SnackBarBehavior.floating,
                       duration: const Duration(milliseconds: 900),
-                      
-                        backgroundColor: Colors.grey,
+                      backgroundColor: Colors.grey,
                       content: Center(
                         child: Text('Driver Updated Successfully'),
                       ),

@@ -125,7 +125,7 @@ class _CabProfileState extends State<CabProfile> {
                           TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
                     ),
                     Text(
-                      "Cab Assigned : " + widget.AssignDriver,
+                      "Driver Assigned : " + widget.AssignDriver,
                       style:
                           TextStyle(fontWeight: FontWeight.w400, fontSize: 15),
                     ),
@@ -162,7 +162,7 @@ class _CabProfileState extends State<CabProfile> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Driver's Info",
+                          Text("Cab's Info",
                               style: TextStyle(
                                   fontWeight: FontWeight.w700, fontSize: 17)),
                           SizedBox(height: 18),

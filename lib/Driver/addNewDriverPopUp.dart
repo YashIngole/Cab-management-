@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:cab_management/Driver/driverTile.dart';
+import 'package:cab_management/constants.dart';
 import 'package:cab_management/databaseService.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -55,6 +56,8 @@ void addNewDriverPopUp(BuildContext context) {
       builder: (context) {
         return StatefulBuilder(builder: (context, setState) {
           return AlertDialog(
+            backgroundColor: kbackgroundColor,
+            surfaceTintColor: kbackgroundColor,
             insetPadding: EdgeInsets.all(10),
             contentPadding: EdgeInsets.zero,
             clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -85,13 +88,13 @@ void addNewDriverPopUp(BuildContext context) {
                                 //convert file to data
                                 final Uint8List fileBytes =
                                     await file.readAsBytes();
-            
+
                                 // Reference to storage root of Firebase Storage
                                 Reference referenceRoot =
                                     FirebaseStorage.instance.ref();
                                 Reference referenceDirImages =
                                     referenceRoot.child('images');
-            
+
                                 // Reference for the image to be stored
                                 String uniqueFileName = DateTime.now()
                                         .millisecondsSinceEpoch
@@ -123,7 +126,8 @@ void addNewDriverPopUp(BuildContext context) {
                                       width: 150,
                                       decoration: BoxDecoration(
                                         color: Colors.black,
-                                        borderRadius: BorderRadius.circular(1000),
+                                        borderRadius:
+                                            BorderRadius.circular(1000),
                                       ),
                                       child: Center(
                                         child: Icon(
@@ -134,7 +138,9 @@ void addNewDriverPopUp(BuildContext context) {
                                       ),
                                     )
                                   : ImageNetwork(
-                                      image: ImageUrl, height: 150, width: 150)),
+                                      image: ImageUrl,
+                                      height: 150,
+                                      width: 150)),
                         ),
                       ),
                       Center(
@@ -171,7 +177,8 @@ void addNewDriverPopUp(BuildContext context) {
                         child: Row(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               child: Icon(Icons.person),
                             ),
                             Expanded(
@@ -183,20 +190,40 @@ void addNewDriverPopUp(BuildContext context) {
                                 },
                                 style: TextStyle(),
                                 decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(12)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(12)),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                      color: Color.fromARGB(255, 243, 65, 65),
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color.fromARGB(255, 0, 0, 5),
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
                                   labelText: 'Name',
                                 ),
                                 controller: nameController,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please Enter Name';
-                                    }
-                                    return null;
-                                  },
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please Enter Name';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                             )
                           ],
                         ),
@@ -206,7 +233,8 @@ void addNewDriverPopUp(BuildContext context) {
                         child: Row(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               child: Icon(Icons.email),
                             ),
                             Expanded(
@@ -225,22 +253,41 @@ void addNewDriverPopUp(BuildContext context) {
                                 },
                                 style: TextStyle(),
                                 decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Email',
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(12)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(12)),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                      color: Color.fromARGB(255, 243, 65, 65),
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color.fromARGB(255, 0, 0, 5),
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  labelText: 'Email ',
                                 ),
                                 controller: emailController,
-                                  validator: (value) {
-                                    return RegExp(
-                                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                            .hasMatch(value!)
-                                        ? null
-                                        : "Please enter a valid email";
-                                   
-                                  },
+                                validator: (value) {
+                                  return RegExp(
+                                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                          .hasMatch(value!)
+                                      ? null
+                                      : "Please enter a valid email";
+                                },
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                             )
                           ],
                         ),
@@ -250,7 +297,8 @@ void addNewDriverPopUp(BuildContext context) {
                         child: Row(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               child: Icon(Icons.phone),
                             ),
                             Expanded(
@@ -269,24 +317,44 @@ void addNewDriverPopUp(BuildContext context) {
                                 },
                                 style: TextStyle(),
                                 decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(12)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(12)),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                      color: Color.fromARGB(255, 243, 65, 65),
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color.fromARGB(255, 0, 0, 5),
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
                                   labelText: 'Phone',
                                 ),
                                 controller: phoneController,
-            
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return "Please Enter a Phone Number";
-                                    } else if (!RegExp(
-                                            r'^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$')
-                                        .hasMatch(value)) {
-                                      return "Please Enter a Valid Phone Number";
-                                    }
-                                  },
+
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Please Enter a Phone Number";
+                                  } else if (!RegExp(
+                                          r'^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$')
+                                      .hasMatch(value)) {
+                                    return "Please Enter a Valid Phone Number";
+                                  }
+                                },
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                             )
                           ],
                         ),
@@ -296,7 +364,8 @@ void addNewDriverPopUp(BuildContext context) {
                         child: Row(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               child: Icon(Icons.document_scanner),
                             ),
                             Expanded(
@@ -308,32 +377,53 @@ void addNewDriverPopUp(BuildContext context) {
                                 },
                                 style: TextStyle(),
                                 decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(12)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(12)),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                      color: Color.fromARGB(255, 243, 65, 65),
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color.fromARGB(255, 0, 0, 5),
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
                                   labelText: 'License Number',
                                 ),
                                 controller: licenseController,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please Enter Name';
-                                    }
-                                    return null;
-                                  },
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please Enter Name';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                             )
                           ],
                         ),
                       ),
-            
+
                       // Datetime _dateTime = DateTime.now();
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 15),
                         child: Row(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                               child: Icon(Icons.date_range),
                             ),
                             Expanded(
@@ -346,10 +436,28 @@ void addNewDriverPopUp(BuildContext context) {
                                 },
                                 style: TextStyle(),
                                 decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Joinning Date',
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(12)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(12)),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                      color: Color.fromARGB(255, 243, 65, 65),
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color.fromARGB(255, 0, 0, 5),
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  labelText: 'Joining Date',
                                 ),
-                               
                                 onTap: () async {
                                   DateTime? pickdate = await showDatePicker(
                                     context: context,
@@ -368,7 +476,8 @@ void addNewDriverPopUp(BuildContext context) {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
                             )
                           ],
                         ),
@@ -401,7 +510,7 @@ void addNewDriverPopUp(BuildContext context) {
                       joinning = _date.text;
                     },
                   );
-                   if (_formKey.currentState!.validate()) {
+                  if (_formKey.currentState!.validate()) {
                     setState(
                       () {
                         name = nameController.text;
@@ -409,7 +518,6 @@ void addNewDriverPopUp(BuildContext context) {
                         phone = phoneController.text;
                         License = licenseController.text;
                         //joinning = joinningController.text;
-
                       },
                     );
                   } else
