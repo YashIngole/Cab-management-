@@ -53,6 +53,8 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
   String newNameValue = '';
   String newemail = '';
   String newphonenumber = '';
+  String newlicense = '';
+  String NewImageUrl = '';
 
   void fetchcablist() {
     FirebaseFirestore.instance.collection('Cabs').get().then((querySnapshot) {
@@ -68,9 +70,6 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
       });
     });
   }
-
-  String newlicense = '';
-  String NewImageUrl = '';
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +125,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                           print('Error uploading image: $e');
                         }
                       },
-                      child: widget.ImageUrl.isEmpty
+                      child: NewImageUrl.isEmpty
                           ? Container(
                               height: 150,
                               width: 150,
@@ -143,9 +142,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                               ),
                             )
                           : ImageNetwork(
-                              image: widget.ImageUrl,
-                              height: 150,
-                              width: 150))),
+                              image: NewImageUrl, height: 150, width: 150))),
             ),
             const Center(
               child: Text(
