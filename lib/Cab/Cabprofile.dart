@@ -34,7 +34,9 @@ class _CabProfileState extends State<CabProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: kbackgroundColor,
         appBar: AppBar(
+          backgroundColor: kbackgroundColor,
           title: Text('Cab Profile'),
           centerTitle: true,
           actions: [
