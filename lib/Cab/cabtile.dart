@@ -57,7 +57,7 @@ class _cabTileState extends State<cabtile> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 7, right: 10, bottom: 40),
+          padding: const EdgeInsets.only(left: 7, right: 10, bottom: 30),
           child: Container(
             height: 45,
             decoration: BoxDecoration(
@@ -115,32 +115,22 @@ class _cabTileState extends State<cabtile> {
                 final String ImageUrl = data['ImageUrl'];
                 final String AssignDriver = data['AssignDriver'];
 
-              return Flex(
-                direction: Axis.horizontal,
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 0, bottom: 5),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          elevation: 2,
-                          disabledBackgroundColor: Colors.white,
-                          shadowColor: kDriverTileShadowColor,
-                          shape: BeveledRectangleBorder(
-                              borderRadius: BorderRadius.circular(8)),
-                          side: BorderSide.none,
-                          backgroundColor: Colors.white,
-                        ),
-                        onPressed: () {
-                          nextScreen(
-                            context,
-                            CabProfile(
+                return Flex(
+                  direction: Axis.horizontal,
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 0, bottom: 10),
+                        child: InkWell(
+                          onTap: () {
+                            nextScreen(
+                              context,
+                              CabProfile(
                                 C_name: C_name,
                                 C_id: C_id,
                                 C_type: C_type,
                                 C_RTO: C_RTO,
                                 ImageUrl: ImageUrl,
-                              
                                 snapshot: widget.snapshot,
                                 AssignDriver: AssignDriver,
                               ),
@@ -150,8 +140,8 @@ class _cabTileState extends State<cabtile> {
                             children: [
                               ImageUrl.isEmpty
                                   ? Container(
-                                      width: 77,
-                                      height: 69,
+                                      width: 70,
+                                      height: 60,
                                       decoration: BoxDecoration(
                                         color: kImgColor,
                                         borderRadius: BorderRadius.circular(15),
@@ -166,7 +156,7 @@ class _cabTileState extends State<cabtile> {
                                   : ImageNetwork(
                                       image: ImageUrl,
                                       borderRadius: BorderRadius.circular(15),
-                                      height: 69,
+                                      height: 60,
                                       width: 77,
                                       fitWeb: BoxFitWeb.fill,
                                       fitAndroidIos: BoxFit.fill,
@@ -197,13 +187,18 @@ class _cabTileState extends State<cabtile> {
                                               color: Colors.black38),
                                         ),
                                       ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 8, left: 8, right: 8),
+                                        child: Divider(
+                                          color: Colors.black,
+                                          thickness: 0.1,
+                                          height: 0.6,
+                                        ),
+                                      )
                                     ],
                                   ),
                                 ),
-                              ),
-                              Icon(
-                                Icons.chevron_right,
-                                color: Colors.black12,
                               ),
                             ],
                           ),

@@ -7,6 +7,7 @@ import 'package:cab_management/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_network/image_network.dart';
+import 'package:rive/rive.dart';
 
 final DatabaseService databaseService = DatabaseService();
 
@@ -41,8 +42,9 @@ class _DriverProfileState extends State<DriverProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kbackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: kbackgroundColor,
         title: Text(
           'Driver Profile',
           style: TextStyle(fontWeight: FontWeight.bold),

@@ -5,9 +5,9 @@ import 'dart:typed_data';
 import 'package:cab_management/Driver/DriverProfile.dart';
 import 'package:cab_management/Driver/addNewDriverPopUp.dart';
 import 'package:cab_management/constants.dart';
-import 'package:cab_management/home.dart';
-import 'package:cab_management/responsive2.dart';
-import 'package:cab_management/sideScreenDesktop.dart';
+// import 'package:cab_management/home.dart';
+// import 'package:cab_management/responsive2.dart';
+// import 'package:cab_management/sideScreenDesktop.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_network/image_network.dart';
@@ -61,7 +61,7 @@ class _DriverTileState extends State<DriverTile> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 7, right: 10, bottom: 50),
+          padding: const EdgeInsets.only(left: 7, right: 10, bottom: 30),
           child: Container(
             height: 45,
             decoration: BoxDecoration(
@@ -204,7 +204,7 @@ class _DriverTileState extends State<DriverTile> {
                                           thickness: 0.1,
                                           height: 0.6,
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ),

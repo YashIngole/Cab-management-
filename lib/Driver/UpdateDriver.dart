@@ -75,7 +75,9 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
   Widget build(BuildContext context) {
     print(cabs);
     return Scaffold(
+      backgroundColor: kbackgroundColor,
       appBar: AppBar(
+        backgroundColor: kbackgroundColor,
         title: const Text(
           'Update Driver',
           style: TextStyle(fontWeight: FontWeight.bold),
@@ -215,6 +217,12 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.black),
                             borderRadius: BorderRadius.circular(12)),
+                        errorBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 243, 65, 65),
+                          ),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         labelText: 'Name',
                       ),
                     ),
@@ -248,6 +256,12 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.black),
                             borderRadius: BorderRadius.circular(12)),
+                        errorBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 243, 65, 65),
+                          ),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         labelText: 'Email',
                       ),
                     ),
@@ -280,6 +294,12 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.black),
                             borderRadius: BorderRadius.circular(12)),
+                        errorBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 243, 65, 65),
+                          ),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         labelText: 'phone number',
                       ),
                     ),
