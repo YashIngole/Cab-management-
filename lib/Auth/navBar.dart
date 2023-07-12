@@ -74,7 +74,7 @@ class _navBarState extends State<navBar> {
           ListTile(
             leading: const Icon(Icons.logout),
             title: const Text(
-              'Signout',
+              'Logout',
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.w300),
             ),
