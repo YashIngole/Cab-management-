@@ -144,6 +144,8 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                               ),
                             )
                           : ImageNetwork(
+                              borderRadius:
+                                            BorderRadius.circular(1000),
                               image: NewImageUrl, height: 150, width: 150))),
             ),
             const Center(

@@ -138,7 +138,10 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
                             ),
                           )
                         : ImageNetwork(
-                            image: NewImageUrl, height: 150, width: 150)),
+                            borderRadius: BorderRadius.circular(1000),
+                            image: NewImageUrl,
+                            height: 150,
+                            width: 150)),
               ),
             ),
             const Center(

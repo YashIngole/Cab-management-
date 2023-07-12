@@ -125,7 +125,7 @@ void addNewDriverPopUp(BuildContext context) {
                                       height: 150,
                                       width: 150,
                                       decoration: BoxDecoration(
-                                        color: Colors.black,
+                                        color: kImgColor,
                                         borderRadius:
                                             BorderRadius.circular(1000),
                                       ),
@@ -138,6 +138,7 @@ void addNewDriverPopUp(BuildContext context) {
                                       ),
                                     )
                                   : ImageNetwork(
+                                      borderRadius: BorderRadius.circular(1000),
                                       image: ImageUrl,
                                       height: 150,
                                       width: 150)),
@@ -151,25 +152,31 @@ void addNewDriverPopUp(BuildContext context) {
                       ),
                       Padding(padding: EdgeInsets.only(top: 50)),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 150),
-                        child: DropdownButtonFormField<String>(
-                          items: cabs.map((String item) {
-                            return DropdownMenuItem<String>(
-                              value: item,
-                              child: Text(
-                                item,
-                                style: const TextStyle(
-                                  fontSize: 14,
+                        padding: const EdgeInsets.symmetric(horizontal: 0),
+                        child: Expanded(
+                          child: DropdownButtonFormField<String>(
+                            decoration: InputDecoration(
+                                constraints: BoxConstraints(
+                              maxWidth: MediaQuery.of(context).size.width * 0.5,
+                            )),
+                            items: cabs.map((String item) {
+                              return DropdownMenuItem<String>(
+                                value: item,
+                                child: Text(
+                                  item,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                  ),
                                 ),
-                              ),
-                            );
-                          }).toList(),
-                          hint: Text("Assign a Cab"),
-                          onChanged: (String? value) {
-                            setState(() {
-                              AssignCab = value;
-                            });
-                          },
+                              );
+                            }).toList(),
+                            hint: Text("Assign a Cab"),
+                            onChanged: (String? value) {
+                              setState(() {
+                                AssignCab = value;
+                              });
+                            },
+                          ),
                         ),
                       ),
                       Padding(

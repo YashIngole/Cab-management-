@@ -129,6 +129,8 @@ void addNewCabPopUp(BuildContext context) {
                                       ),
                                     )
                                   : ImageNetwork(
+                                      borderRadius:
+                                            BorderRadius.circular(1000),
                                       image: ImageUrl,
                                       height: 150,
                                       width: 150)),
