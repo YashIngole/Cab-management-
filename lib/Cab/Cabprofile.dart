@@ -72,7 +72,8 @@ class _CabProfileState extends State<CabProfile> {
                             child: const Text("Yes"),
                             onPressed: () {
                               deleteCabData();
-                              nextScreen(context, Home());
+                              Navigator.of(context).pop();
+                              Navigator.of(context).pop();
                             },
                           ),
                         ],
