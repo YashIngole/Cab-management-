@@ -393,6 +393,22 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
       } else {
         print('Document not found');
       }
+      if (querySnapshot.docs.isNotEmpty) {
+        var documentSnapshot = querySnapshot.docs.first;
+        selectedValue!.isNotEmpty
+            ? collection
+                .doc(documentSnapshot.id)
+                .update({'AssignDriver': selectedValue})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'))
+            : collection
+                .doc(documentSnapshot.id)
+                .update({'AssignDriver': 'AssignDriver'})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'));
+      } else {
+        print('Document not found');
+      }
     }
   }
 }

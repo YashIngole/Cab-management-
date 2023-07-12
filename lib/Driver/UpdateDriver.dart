@@ -73,7 +73,6 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
 
   @override
   Widget build(BuildContext context) {
-    print(cabs);
     return Scaffold(
       backgroundColor: kbackgroundColor,
       appBar: AppBar(
@@ -144,9 +143,10 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                               ),
                             )
                           : ImageNetwork(
-                              borderRadius:
-                                            BorderRadius.circular(1000),
-                              image: NewImageUrl, height: 150, width: 150))),
+                              borderRadius: BorderRadius.circular(1000),
+                              image: NewImageUrl,
+                              height: 150,
+                              width: 150))),
             ),
             const Center(
               child: Text(
@@ -465,6 +465,22 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
             : collection
                 .doc(documentSnapshot.id)
                 .update({'license': widget.License})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'));
+      } else {
+        print('Document not found');
+      }
+      if (querySnapshot.docs.isNotEmpty) {
+        var documentSnapshot = querySnapshot.docs.first;
+        selectedValue!.isNotEmpty
+            ? collection
+                .doc(documentSnapshot.id)
+                .update({'AssignCab': selectedValue})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'))
+            : collection
+                .doc(documentSnapshot.id)
+                .update({'AssignCab': 'AssignCab'})
                 .then((_) => print('Success'))
                 .catchError((error) => print('Failed: $error'));
       } else {
