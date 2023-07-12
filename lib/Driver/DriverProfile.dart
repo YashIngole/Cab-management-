@@ -1,5 +1,6 @@
 import 'package:cab_management/Driver/UpdateDriver.dart';
 import 'package:cab_management/Driver/addNewDriverPopUp.dart';
+import 'package:cab_management/Driver/driverTile.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cab_management/databaseService.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -230,5 +231,8 @@ class _DriverProfileState extends State<DriverProfile> {
     } else {
       print('Document not found');
     }
+     setState(() {
+      DriverTile.refreshIndicatorKey2.currentState?.show();
+    });
   }
 }

@@ -1,5 +1,6 @@
 //import 'package:cab_management/Driver/UpdateDriver.dart';
 import 'package:cab_management/Cab/UpdateCab.dart';
+import 'package:cab_management/Cab/cabtile.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -136,48 +137,48 @@ class _CabProfileState extends State<CabProfile> {
               //       decoration: BoxDecoration(color: Color(0xffF4F4F4)),
               //       child: Center(child: Text("Cab Data:"))),
               // ),
-             Center(
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Container(
-                  height: 400,
-                  width: 400,
-                  decoration: BoxDecoration(
-                      color: kProfileContainerColor,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: kProfileContainerShadowColor,
-                          blurRadius: 15,
-                          offset: Offset(3, 3),
-                          //blurStyle: BlurStyle.normal,
-                        ),
-                      ]),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Driver's Info",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700, fontSize: 17)),
-                        SizedBox(height: 18),
-                        KTitle('Cab name'),
-                        KSubtitle(widget.C_name),
-                        KTitle('Cab Type'),
-                        KSubtitle(widget.C_type),
-                        KTitle('RTO Passing no.'),
-                        KSubtitle(widget.C_RTO),
-                        // KTitle('License Number'),
-                        // KSubtitle(widget.Phone),
-                        // KTitle('Driver Join date'),
-                        // KSubtitle(widget.Phone),
-                      ],
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Container(
+                    height: 400,
+                    width: 400,
+                    decoration: BoxDecoration(
+                        color: kProfileContainerColor,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: kProfileContainerShadowColor,
+                            blurRadius: 15,
+                            offset: Offset(3, 3),
+                            //blurStyle: BlurStyle.normal,
+                          ),
+                        ]),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Driver's Info",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700, fontSize: 17)),
+                          SizedBox(height: 18),
+                          KTitle('Cab name'),
+                          KSubtitle(widget.C_name),
+                          KTitle('Cab Type'),
+                          KSubtitle(widget.C_type),
+                          KTitle('RTO Passing no.'),
+                          KSubtitle(widget.C_RTO),
+                          // KTitle('License Number'),
+                          // KSubtitle(widget.Phone),
+                          // KTitle('Driver Join date'),
+                          // KSubtitle(widget.Phone),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            )
+              )
             ],
           ),
         ));
@@ -198,9 +199,8 @@ class _CabProfileState extends State<CabProfile> {
       padding: const EdgeInsets.only(bottom: 20),
       child: Text(SubtitleText,
           style: TextStyle(
-            fontWeight: FontWeight.w400,
-            color: Color.fromARGB(192, 68, 68, 70)
-          )),
+              fontWeight: FontWeight.w400,
+              color: Color.fromARGB(192, 68, 68, 70))),
     );
   }
 
@@ -225,5 +225,8 @@ class _CabProfileState extends State<CabProfile> {
     } else {
       print('Document not found');
     }
+    setState(() {
+      cabtile.refreshIndicatorKey.currentState?.show();
+    });
   }
 }
