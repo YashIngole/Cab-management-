@@ -73,7 +73,9 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kbackgroundColor,
       appBar: AppBar(
+        backgroundColor: kbackgroundColor,
         title: const Text('Update Cab'),
         centerTitle: true,
       ),
