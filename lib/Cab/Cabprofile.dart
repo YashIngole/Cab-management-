@@ -79,7 +79,7 @@ class _CabProfileState extends State<CabProfile> {
                     },
                   );
                 },
-                icon: Icon(Icons.delete)),
+                icon: Icon(Icons.delete_forever_outlined)),
             Padding(padding: EdgeInsets.all(5)),
           ],
         ),
@@ -102,7 +102,7 @@ class _CabProfileState extends State<CabProfile> {
                         height: 150,
                         width: 150,
                         decoration: BoxDecoration(
-                            color: Colors.black,
+                            color: kImgColor,
                             borderRadius: BorderRadius.circular(1000)),
                         child: Center(
                             child: Text(
@@ -123,37 +123,61 @@ class _CabProfileState extends State<CabProfile> {
                     Text(
                       "Cab Assigned : " + widget.AssignDriver,
                       style:
-                          TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
+                          TextStyle(fontWeight: FontWeight.w400, fontSize: 15),
                     ),
                   ],
                 ),
               ),
-              Padding(
+              // Padding(
+              //   padding: const EdgeInsets.all(20),
+              //   child: Container(
+              //       height: 31,
+              //       width: double.infinity,
+              //       decoration: BoxDecoration(color: Color(0xffF4F4F4)),
+              //       child: Center(child: Text("Cab Data:"))),
+              // ),
+             Center(
+              child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Container(
-                    height: 31,
-                    width: double.infinity,
-                    decoration: BoxDecoration(color: Color(0xffF4F4F4)),
-                    child: Center(child: Text("Cab Data:"))),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(30.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    KTitle('Cab ID'),
-                    KSubtitle(widget.C_id),
-                    KTitle('Cab Type'),
-                    KSubtitle(widget.C_type),
-                    KTitle('RTO Passing no.'),
-                    KSubtitle(widget.C_RTO),
-                    // KTitle('License Number'),
-                    // KSubtitle(Phone),
-                    // KTitle('Driver Join date'),
-                    // KSubtitle(Phone),
-                  ],
+                  height: 400,
+                  width: 400,
+                  decoration: BoxDecoration(
+                      color: kProfileContainerColor,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: kProfileContainerShadowColor,
+                          blurRadius: 15,
+                          offset: Offset(3, 3),
+                          //blurStyle: BlurStyle.normal,
+                        ),
+                      ]),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Driver's Info",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w700, fontSize: 17)),
+                        SizedBox(height: 18),
+                        KTitle('Cab name'),
+                        KSubtitle(widget.C_name),
+                        KTitle('Cab Type'),
+                        KSubtitle(widget.C_type),
+                        KTitle('RTO Passing no.'),
+                        KSubtitle(widget.C_RTO),
+                        // KTitle('License Number'),
+                        // KSubtitle(widget.Phone),
+                        // KTitle('Driver Join date'),
+                        // KSubtitle(widget.Phone),
+                      ],
+                    ),
+                  ),
                 ),
-              )
+              ),
+            )
             ],
           ),
         ));
@@ -161,10 +185,10 @@ class _CabProfileState extends State<CabProfile> {
 
   Padding KTitle(TitleText) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(bottom: 12),
       child: Text(
         TitleText,
-        style: TextStyle(color: Color(0xff959595)),
+        style: TextStyle(color: Colors.black),
       ),
     );
   }
@@ -175,6 +199,7 @@ class _CabProfileState extends State<CabProfile> {
       child: Text(SubtitleText,
           style: TextStyle(
             fontWeight: FontWeight.w400,
+            color: Color.fromARGB(192, 68, 68, 70)
           )),
     );
   }

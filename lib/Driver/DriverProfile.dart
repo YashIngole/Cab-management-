@@ -1,16 +1,22 @@
 import 'package:cab_management/Driver/UpdateDriver.dart';
+import 'package:cab_management/Driver/addNewDriverPopUp.dart';
 import 'package:cab_management/constants.dart';
+import 'package:cab_management/databaseService.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cab_management/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_network/image_network.dart';
 
+final DatabaseService databaseService = DatabaseService();
+
 class DriverProfile extends StatefulWidget {
   final String DriverName;
   final String DriverID;
   final String Email;
   final String Phone;
+  final String License;
+  final String Joinning;
   final String ImageUrl;
   final AsyncSnapshot<QuerySnapshot<Object?>> snapshot;
   final String AssignCab;
@@ -21,6 +27,8 @@ class DriverProfile extends StatefulWidget {
       required this.DriverID,
       required this.Email,
       required this.Phone,
+      required this.License,
+      required this.Joinning,
       required this.ImageUrl,
       required this.snapshot,
       required this.AssignCab});
@@ -51,7 +59,9 @@ class _DriverProfileState extends State<DriverProfile> {
                       Email: widget.Email,
                       ImageUrl: widget.ImageUrl,
                       Phone: widget.Phone,
+                      License:widget.License,
                       snapshot: widget.snapshot,
+                      AssignCab: AssignCab,
                     ));
               },
               icon: Icon(Icons.edit)),
@@ -130,14 +140,6 @@ class _DriverProfileState extends State<DriverProfile> {
                 ],
               ),
             ),
-            /*Padding(
-              padding: const EdgeInsets.all(20),
-              child: Container(
-                  width: double.infinity,
-                  height: 31,
-                  decoration: BoxDecoration(color: Color(0xffF4F4F4)),
-                  child: Center(child: Text("Driver Data:"))),
-            ),*/
             Center(
               child: Padding(
                 padding: const EdgeInsets.all(20),
@@ -171,9 +173,9 @@ class _DriverProfileState extends State<DriverProfile> {
                         KTitle('Phone'),
                         KSubtitle(widget.Phone),
                         KTitle('License Number'),
-                        KSubtitle(widget.Phone),
+                        KSubtitle(widget.License),
                         KTitle('Driver Join date'),
-                        KSubtitle(widget.Phone),
+                        KSubtitle(widget.Joinning),
                       ],
                     ),
                   ),

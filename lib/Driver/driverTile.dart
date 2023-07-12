@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:cab_management/Driver/DriverProfile.dart';
+import 'package:cab_management/Driver/addNewDriverPopUp.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cab_management/home.dart';
 import 'package:cab_management/responsive2.dart';
@@ -117,6 +118,8 @@ class _DriverTileState extends State<DriverTile> {
                 final String driverID = data['id'];
                 final String email = data['email'];
                 final String phone = data['phone'];
+                final String license = data['license'];
+                final String joinning = data['joinning'];
                 final String ImageUrl = data['ImageUrl'];
                 final String AssignCab = data['AssignCab'];
 
@@ -131,13 +134,16 @@ class _DriverTileState extends State<DriverTile> {
                             nextScreen(
                                 context,
                                 DriverProfile(
-                                    DriverName: driverName,
-                                    DriverID: driverID,
-                                    Email: email,
-                                    Phone: phone,
-                                    ImageUrl: ImageUrl,
-                                    snapshot: widget.snapshot,
-                                    AssignCab: AssignCab));
+                                  DriverName: driverName,
+                                  DriverID: driverID,
+                                  Email: email,
+                                  Phone: phone,
+                                  License: license,
+                                  ImageUrl: ImageUrl,
+                                  snapshot: widget.snapshot,
+                                  AssignCab: AssignCab,
+                                  Joinning: joinning,
+                                ));
                           },
                           child: Row(
                             children: [

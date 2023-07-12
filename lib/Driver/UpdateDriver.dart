@@ -1,13 +1,14 @@
-import 'dart:html';
-import 'package:cab_management/Cab/cabtile.dart';
+import 'dart:typed_data';
 import 'package:cab_management/Cab/addNewCabPopUp.dart';
 import 'package:cab_management/Driver/addNewDriverPopUp.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cab_management/firebase_options.dart';
 import 'package:cab_management/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_network/image_network.dart';
+import 'package:image_picker/image_picker.dart';
 
 final CollectionReference Cabs =
     FirebaseFirestore.instance.collection('drivers');
@@ -21,13 +22,17 @@ class UpdateDriverPage extends StatefulWidget {
     required this.Phone,
     required this.ImageUrl,
     required this.snapshot,
+    required this.AssignCab,
+    required this.License,
   }) : super(key: key);
 
   final String DriverName;
   final String DriverID;
   final String Email;
   final String Phone;
+  final String License;
   final String ImageUrl;
+  final String? AssignCab;
   final AsyncSnapshot<QuerySnapshot<Object?>> snapshot;
 
   @override
@@ -64,6 +69,9 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
     });
   }
 
+  String newlicense = '';
+  String NewImageUrl = '';
+
   @override
   Widget build(BuildContext context) {
     print(cabs);
@@ -81,24 +89,63 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
             Center(
               child: Padding(
                   padding: const EdgeInsets.all(20),
-                  child: widget.ImageUrl.isEmpty
-                      ? Container(
-                          height: 150,
-                          width: 150,
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(226, 128, 177, 246),
-                            borderRadius: BorderRadius.circular(1000),
-                          ),
-                          child: const Center(
-                            child: Icon(
-                              Icons.add_a_photo,
-                              color: Colors.white,
-                              size: 50,
-                            ),
-                          ),
-                        )
-                      : ImageNetwork(
-                          image: widget.ImageUrl, height: 150, width: 150)),
+                  child: InkWell(
+                      borderRadius: BorderRadius.circular(500),
+                      onTap: () async {
+                        ImagePicker imagePicker = ImagePicker();
+                        XFile? file = await imagePicker.pickImage(
+                          source: ImageSource.gallery,
+                        );
+                        if (file == null) {
+                          return;
+                        }
+                        final Uint8List fileBytes = await file.readAsBytes();
+
+                        Reference referenceRoot =
+                            FirebaseStorage.instance.ref();
+                        Reference referenceDirImages =
+                            referenceRoot.child('images');
+
+                        String uniqueFileName =
+                            DateTime.now().millisecondsSinceEpoch.toString() +
+                                '.jpg';
+                        Reference referenceImageToUpload =
+                            referenceDirImages.child(uniqueFileName);
+                        try {
+                          await referenceImageToUpload.putData(fileBytes,
+                              SettableMetadata(contentType: 'image/jpeg'));
+                          NewImageUrl =
+                              await referenceImageToUpload.getDownloadURL();
+                          print(NewImageUrl);
+                          setState(
+                            () {
+                              NewImageUrl;
+                            },
+                          );
+                        } catch (e) {
+                          print('Error uploading image: $e');
+                        }
+                      },
+                      child: widget.ImageUrl.isEmpty
+                          ? Container(
+                              height: 150,
+                              width: 150,
+                              decoration: BoxDecoration(
+                                color: kImgColor,
+                                borderRadius: BorderRadius.circular(1000),
+                              ),
+                              child: const Center(
+                                child: Icon(
+                                  Icons.add_a_photo,
+                                  color: Colors.white,
+                                  size: 50,
+                                ),
+                              ),
+                            )
+                          : ImageNetwork(
+                              image: widget.ImageUrl,
+                              height: 150,
+                              width: 150))),
             ),
             const Center(
               child: Text(
@@ -156,6 +203,12 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                       initialValue: widget.DriverName,
                       onChanged: (value) {
                         newNameValue = value;
+                      },
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter a name';
+                        }
+                        return null;
                       },
                       style: const TextStyle(),
                       decoration: InputDecoration(
@@ -240,6 +293,38 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                 ],
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Icon(Icons.document_scanner),
+                  ),
+                  Expanded(
+                    child: TextFormField(
+                      initialValue: widget.License,
+                      onChanged: (value) {
+                        newlicense = value;
+                      },
+                      style: const TextStyle(),
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                            borderRadius: BorderRadius.circular(13)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                            borderRadius: BorderRadius.circular(12)),
+                        labelText: 'Lisence number',
+                      ),
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                  ),
+                ],
+              ),
+            ),
             const Padding(padding: EdgeInsets.symmetric(vertical: 35)),
             Container(
               decoration: BoxDecoration(
@@ -250,6 +335,16 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
               child: ElevatedButton(
                 onPressed: () {
                   updateDriverData(newNameValue);
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      behavior: SnackBarBehavior.floating,
+                      duration: const Duration(milliseconds: 900),
+                      content: Center(
+                        child: Text('Driver Updated Successfully'),
+                      ),
+                    ),
+                  );
                 },
                 child: const Text(
                   'Save',
@@ -280,33 +375,75 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
 
     if (querySnapshot.docs.isNotEmpty) {
       var documentSnapshot = querySnapshot.docs.first;
-
-      collection
-          .doc(documentSnapshot.id)
-          .update({'name': newNameValue.toUpperCase()})
-          .then((_) => print('Success'))
-          .catchError((error) => print('Failed: $error'));
-    }
-    
-    if (querySnapshot.docs.isNotEmpty) {
-      var documentSnapshot = querySnapshot.docs.first;
-
-      collection
-          .doc(documentSnapshot.id)
-          .update({'email': newemail})
-          .then((_) => print('Success'))
-          .catchError((error) => print('Failed: $error'));
-    }
-    if (querySnapshot.docs.isNotEmpty) {
-      var documentSnapshot = querySnapshot.docs.first;
-
-      collection
-          .doc(documentSnapshot.id)
-          .update({'phone': newphonenumber})
-          .then((_) => print('Success'))
-          .catchError((error) => print('Failed: $error'));
-    } else {
-      print('Document not found');
+      newNameValue.isNotEmpty
+          ? collection
+              .doc(documentSnapshot.id)
+              .update({'name': newNameValue.toUpperCase()})
+              .then((_) => print('Success'))
+              .catchError((error) => print('Failed: $error'))
+          : collection
+              .doc(documentSnapshot.id)
+              .update({'name': widget.DriverName.toUpperCase()})
+              .then((_) => print('Success'))
+              .catchError((error) => print('Failed: $error'));
+      if (querySnapshot.docs.isNotEmpty) {
+        var documentSnapshot = querySnapshot.docs.first;
+        NewImageUrl.isNotEmpty
+            ? collection
+                .doc(documentSnapshot.id)
+                .update({'ImageUrl': NewImageUrl})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'))
+            : collection
+                .doc(documentSnapshot.id)
+                .update({'ImageUrl': widget.ImageUrl})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'));
+      }
+      if (querySnapshot.docs.isNotEmpty) {
+        var documentSnapshot = querySnapshot.docs.first;
+        newemail.isNotEmpty
+            ? collection
+                .doc(documentSnapshot.id)
+                .update({'email': newemail})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'))
+            : collection
+                .doc(documentSnapshot.id)
+                .update({'email': widget.Email})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'));
+      }
+      if (querySnapshot.docs.isNotEmpty) {
+        var documentSnapshot = querySnapshot.docs.first;
+        newphonenumber.isNotEmpty
+            ? collection
+                .doc(documentSnapshot.id)
+                .update({'phone': newphonenumber})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'))
+            : collection
+                .doc(documentSnapshot.id)
+                .update({'phone': widget.Phone})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'));
+      }
+      if (querySnapshot.docs.isNotEmpty) {
+        var documentSnapshot = querySnapshot.docs.first;
+        newlicense.isNotEmpty
+            ? collection
+                .doc(documentSnapshot.id)
+                .update({'license': newlicense})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'))
+            : collection
+                .doc(documentSnapshot.id)
+                .update({'license': widget.License})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'));
+      } else {
+        print('Document not found');
+      }
     }
   }
 }
