@@ -27,19 +27,6 @@ class _thecabState extends State<thecab> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        elevation: 0,
-        forceMaterialTransparency: true,
-        toolbarHeight: 70,
-        title: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'Cabs',
-            style: TextStyle(fontWeight: FontWeight.w800, fontSize: 24),
-          ),
-        ),
-        centerTitle: true,
-      ),
       body: Padding(
         padding: EdgeInsets.only(
           left: 22,

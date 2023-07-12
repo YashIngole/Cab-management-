@@ -40,11 +40,12 @@ class _navBarState extends State<navBar> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      shadowColor: kbackgroundColor,
       child: ListView(
         children: [
           UserAccountsDrawerHeader(
             decoration: BoxDecoration(
-                color: Color.fromARGB(235, 54, 132, 235),
+                color: kSelectedIconColor,
                 image: DecorationImage(image: AssetImage('assets/taxi.avif'))),
             accountName: Text(
               userName,

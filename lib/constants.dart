@@ -39,7 +39,7 @@ const kUnselectedIconColor = Color.fromARGB(255, 197, 213, 215);
 const kbottomNavColor = Color(0xff9E9E9E);
 
 //driver/cab profile info container
-const kProfileContainerColor = Color.fromARGB(244, 237, 246, 255);
+const kProfileContainerColor = Color.fromARGB(255, 231, 245, 248);
 const kProfileContainerShadowColor = Color.fromARGB(255, 226, 216, 252);
 
 //home page

@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:cab_management/Driver/driverTile.dart';
+import 'package:cab_management/constants.dart';
 import 'package:cab_management/databaseService.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -9,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 Stream? Cabs;
+final _formKey = GlobalKey<FormState>();
 String name = "";
 String id = "";
 String email = "";
@@ -17,6 +19,22 @@ String License = "";
 String joinning = "";
 String? AssignCab;
 String ImageUrl = "";
+
+//TextEditingControllers for Name, Email and Phone
+
+final nameController = TextEditingController();
+final emailController = TextEditingController();
+final phoneController = TextEditingController();
+
+//Dispose Method
+
+@override
+void dispose() {
+  nameController.text = '';
+  emailController.text = '';
+  phoneController.text = '';
+}
+
 final DatabaseService databaseService = DatabaseService();
 void addNewDriverPopUp(BuildContext context) {
   FirebaseFirestore.instance.collection('Cabs').get().then((querySnapshot) {
@@ -34,6 +52,8 @@ void addNewDriverPopUp(BuildContext context) {
       builder: (context) {
         return StatefulBuilder(builder: (context, setState) {
           return AlertDialog(
+            backgroundColor: kbackgroundColor,
+            surfaceTintColor: kbackgroundColor,
             insetPadding: EdgeInsets.all(10),
             contentPadding: EdgeInsets.zero,
             clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -41,89 +61,96 @@ void addNewDriverPopUp(BuildContext context) {
               "Add Driver",
               textAlign: TextAlign.center,
             ),
-            content: SingleChildScrollView(
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  children: [
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: InkWell(
-                            borderRadius: BorderRadius.circular(1000),
-                            onTap: () async {
-                              ImagePicker imagePicker = ImagePicker();
-                              XFile? file = await imagePicker.pickImage(
-                                source: ImageSource.gallery,
-                              );
-                              if (file == null) {
-                                return;
-                              }
-                              //convert file to data
-                              final Uint8List fileBytes =
-                                  await file.readAsBytes();
-
-                              // Reference to storage root of Firebase Storage
-                              Reference referenceRoot =
-                                  FirebaseStorage.instance.ref();
-                              Reference referenceDirImages =
-                                  referenceRoot.child('images');
-
-                              // Reference for the image to be stored
-                              String uniqueFileName = DateTime.now()
-                                      .millisecondsSinceEpoch
-                                      .toString() +
-                                  '.jpg';
-                              Reference referenceImageToUpload =
-                                  referenceDirImages.child(uniqueFileName);
-                              try {
-                                // Store the file
-                                await referenceImageToUpload.putData(
-                                    fileBytes,
-                                    SettableMetadata(
-                                        contentType: 'image/jpeg'));
-                                ImageUrl = await referenceImageToUpload
-                                    .getDownloadURL();
-                                print(ImageUrl);
-                                setState(
-                                  () {
-                                    ImageUrl;
-                                  },
+            content: Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    children: [
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: InkWell(
+                              borderRadius: BorderRadius.circular(1000),
+                              onTap: () async {
+                                ImagePicker imagePicker = ImagePicker();
+                                XFile? file = await imagePicker.pickImage(
+                                  source: ImageSource.gallery,
                                 );
-                              } catch (e) {
-                                print('Error uploading image: $e');
-                              }
-                            },
-                            child: ImageUrl.isEmpty
-                                ? Container(
-                                    height: 150,
-                                    width: 150,
-                                    decoration: BoxDecoration(
-                                      color: Colors.black,
-                                      borderRadius: BorderRadius.circular(1000),
-                                    ),
-                                    child: Center(
-                                      child: Icon(
-                                        Icons.add_a_photo,
-                                        color: Colors.white,
-                                        size: 50,
+                                if (file == null) {
+                                  return;
+                                }
+                                //convert file to data
+                                final Uint8List fileBytes =
+                                    await file.readAsBytes();
+
+                                // Reference to storage root of Firebase Storage
+                                Reference referenceRoot =
+                                    FirebaseStorage.instance.ref();
+                                Reference referenceDirImages =
+                                    referenceRoot.child('images');
+
+                                // Reference for the image to be stored
+                                String uniqueFileName = DateTime.now()
+                                        .millisecondsSinceEpoch
+                                        .toString() +
+                                    '.jpg';
+                                Reference referenceImageToUpload =
+                                    referenceDirImages.child(uniqueFileName);
+                                try {
+                                  // Store the file
+                                  await referenceImageToUpload.putData(
+                                      fileBytes,
+                                      SettableMetadata(
+                                          contentType: 'image/jpeg'));
+                                  ImageUrl = await referenceImageToUpload
+                                      .getDownloadURL();
+                                  print(ImageUrl);
+                                  setState(
+                                    () {
+                                      ImageUrl;
+                                    },
+                                  );
+                                } catch (e) {
+                                  print('Error uploading image: $e');
+                                }
+                              },
+                              child: ImageUrl.isEmpty
+                                  ? Container(
+                                      height: 150,
+                                      width: 150,
+                                      decoration: BoxDecoration(
+                                        color: kImgColor,
+                                        borderRadius:
+                                            BorderRadius.circular(1000),
                                       ),
-                                    ),
-                                  )
-                                : ImageNetwork(
-                                    image: ImageUrl, height: 150, width: 150)),
+                                      child: Center(
+                                        child: Icon(
+                                          Icons.add_a_photo,
+                                          color: Colors.white,
+                                          size: 50,
+                                        ),
+                                      ),
+                                    )
+                                  : ImageNetwork(
+                                      image: ImageUrl,
+                                      height: 150,
+                                      width: 150)),
+                        ),
                       ),
-                    ),
-                    Center(
-                      child: Text(
-                        'Update Profile Picture',
-                        style: TextStyle(fontSize: 15),
+                      Center(
+                        child: Text(
+                          'Upload Driver Picture',
+                          style: TextStyle(fontSize: 15),
+                        ),
                       ),
-                    ),
-                    Padding(padding: EdgeInsets.only(top: 50)),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 150),
-                      child: DropdownButtonFormField<String>(
+                      Padding(padding: EdgeInsets.only(top: 50)),
+                      DropdownButtonFormField<String>(
+                        decoration: InputDecoration(
+                            constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width * 0.5,
+                        )),
                         items: cabs.map((String item) {
                           return DropdownMenuItem<String>(
                             value: item,
@@ -142,180 +169,207 @@ void addNewDriverPopUp(BuildContext context) {
                           });
                         },
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Icon(Icons.person),
-                          ),
-                          Expanded(
-                            child: TextFormField(
-                              onChanged: (val) {
-                                setState(() {
-                                  name = val.toLowerCase();
-                                });
-                              },
-                              style: TextStyle(),
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Name',
-                              ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: Icon(Icons.person),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                          )
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Icon(Icons.email),
-                          ),
-                          Expanded(
-                            child: TextFormField(
-                              validator: (val) {
-                                return RegExp(
-                                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                        .hasMatch(val!)
-                                    ? null
-                                    : "Please enter a valid email";
-                              },
-                              onChanged: (val) {
-                                setState(() {
-                                  email = val;
-                                });
-                              },
-                              style: TextStyle(),
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Email',
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                          )
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Icon(Icons.phone),
-                          ),
-                          Expanded(
-                            child: TextFormField(
-                              validator: (value) {
-                                if (phone.length < 10) {
-                                  return 'Phone must be atleast 10 digits';
-                                } else {
-                                  return null;
-                                }
-                              },
-                              onChanged: (val) {
-                                setState(() {
-                                  phone = val;
-                                });
-                              },
-                              style: TextStyle(),
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Phone',
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                          )
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Icon(Icons.document_scanner),
-                          ),
-                          Expanded(
-                            child: TextFormField(
-                              onChanged: (val) {
-                                setState(() {
-                                  License = val.toUpperCase();
-                                });
-                              },
-                              style: TextStyle(),
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'License Number',
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                          )
-                        ],
-                      ),
-                    ),
-
-                    // Datetime _dateTime = DateTime.now();
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Icon(Icons.date_range),
-                          ),
-                          Expanded(
-                            child: TextFormField(
-                              controller: _date,
-                              onChanged: (val) {
-                                setState(() {
-                                  joinning = val;
-                                });
-                              },
-                              style: TextStyle(),
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Joinning Date',
-                              ),
-                              onTap: () async {
-                                DateTime? pickdate = await showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime(2000),
-                                  lastDate: DateTime(2025),
-                                );
-                                if (pickdate != null) {
+                            Expanded(
+                              child: TextFormField(
+                                onChanged: (val) {
                                   setState(() {
-                                    _date.text = DateFormat('yyyy-MM-dd')
-                                        .format(pickdate);
+                                    name = val.toLowerCase();
                                   });
-                                }
-                                ;
-                              },
+                                },
+                                style: TextStyle(),
+                                decoration: InputDecoration(
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(12)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(12)),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                      color: Color.fromARGB(255, 243, 65, 65),
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color.fromARGB(255, 0, 0, 5),
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  labelText: 'Name',
+                                ),
+                                controller: nameController,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please Enter Name';
+                                  }
+                                  return null;
+                                },
+                              ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                          )
-                        ],
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: Icon(Icons.email),
+                            ),
+                            Expanded(
+                              child: TextFormField(
+                                // validator: (val) {
+                                //   return RegExp(
+                                //               r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                //           .hasMatch(val!)
+                                //       ? null
+                                //       : "Please enter a valid email";
+                                // },
+                                // onChanged: (val) {
+                                //   setState(() {
+                                //     email = val;
+                                //   });
+                                // },
+                                style: TextStyle(),
+                                decoration: InputDecoration(
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(13)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(12)),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                      color: Color.fromARGB(255, 243, 65, 65),
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color.fromARGB(255, 0, 0, 5),
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  labelText: 'Email',
+                                ),
+                                controller: emailController,
+                                validator: (value) {
+                                  return RegExp(
+                                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                          .hasMatch(value!)
+                                      ? null
+                                      : "Please enter a valid email";
+                                  // if (value == null || value.isEmpty) {
+                                  //   return 'Enter email';
+                                  // } else if (!value.contains('@gmail.com')) {
+                                  //   return 'Please enter valid email';
+                                  // }
+                                  // return null;
+                                },
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                            )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: Icon(Icons.phone),
+                            ),
+                            Expanded(
+                              child: TextFormField(
+                                controller: phoneController,
+
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Please Enter a Phone Number";
+                                  } else if (!RegExp(
+                                          r'^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$')
+                                      .hasMatch(value)) {
+                                    return "Please Enter a Valid Phone Number";
+                                  }
+                                },
+
+                                // validator: (value) {
+                                //   if (phone.length < 10 && value!.isEmpty) {
+                                //     return 'Phone must be atleast 10 digits';
+                                //   }
+                                //   return null;
+                                // },
+                                // validator: (value) {
+                                //   if (phone.length < 10) {
+                                //     return 'Phone must be atleast 10 digits';
+                                //   }
+                                //   return null;
+                                // },
+                                // onChanged: (val) {
+                                //   setState(() {
+                                //     phone = val;
+                                //   });
+                                // },
+                                style: TextStyle(),
+                                decoration: InputDecoration(
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(13)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(12)),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                      color: Color.fromARGB(255, 243, 65, 65),
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color.fromARGB(255, 0, 0, 5),
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  labelText: 'Phone no.',
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -325,6 +379,7 @@ void addNewDriverPopUp(BuildContext context) {
                   setState(
                     () {
                       ImageUrl = '';
+                      dispose();
                     },
                   );
                   Navigator.of(context).pop();
@@ -337,11 +392,17 @@ void addNewDriverPopUp(BuildContext context) {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  setState(
-                    () {
-                      joinning = _date.text;
-                    },
-                  );
+                  if (_formKey.currentState!.validate()) {
+                    setState(
+                      () {
+                        name = nameController.text;
+                        email = emailController.text;
+                        phone = phoneController.text;
+                      },
+                    );
+                  } else
+                    return null;
+
                   await databaseService.saveDriverData(
                       name.toUpperCase(),
                       id.toUpperCase(),
@@ -355,6 +416,7 @@ void addNewDriverPopUp(BuildContext context) {
                           : AssignCab);
                   DriverTile.refreshIndicatorKey2.currentState?.show();
                   Navigator.of(context).pop();
+                  dispose();
 
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
