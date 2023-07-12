@@ -31,7 +31,6 @@ void main() async {
   runApp(const MyApp());
 }
 
-
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
@@ -66,7 +65,6 @@ class _MyAppState extends State<MyApp> {
           scaffoldBackgroundColor: Colors.white,
           useMaterial3: true,
         ),
-        home: 
-            _isSignedIn ? Home() : Welcome());
+        home: _isSignedIn ? Home() : Welcome());
   }
 }
