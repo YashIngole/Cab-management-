@@ -155,16 +155,19 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
             SizedBox(height: 20),
             Center(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 100),
+                padding: const EdgeInsets.only(right: 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Text("Assign a cab"),
-                    const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10)),
-                    Expanded(
+                    // const Text("Assign a cab"),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: DropdownButtonFormField<String>(
+                        decoration: InputDecoration(
+                            constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width * 0.5,
+                        )),
                         items: cabs.map((String item) {
                           return DropdownMenuItem<String>(
                             value: item,
@@ -176,7 +179,10 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                             ),
                           );
                         }).toList(),
-                        hint: Text("Assign a Cab"),
+                        hint: Text(
+                          "Assign a Cab",
+                          style: TextStyle(fontSize: 14),
+                        ),
                         onChanged: (String? value) {
                           setState(() {
                             selectedValue = value;

@@ -1,12 +1,12 @@
 import 'dart:typed_data';
 import 'package:cab_management/constants.dart';
-import 'package:cab_management/firebase_options.dart';
-import 'package:cab_management/main.dart';
+// import 'package:cab_management/firebase_options.dart';
+// import 'package:cab_management/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cab_management/Cab/database_c.dart';
-import 'package:firebase_core/firebase_core.dart';
+//import 'package:firebase_core/firebase_core.dart';
 import 'package:image_network/image_network.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -148,34 +148,36 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
             SizedBox(height: 20),
             Center(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 100),
+                padding: const EdgeInsets.symmetric(horizontal: 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Text("Assign a cab"),
+                    //const Text("Assign a cab"),
                     const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10)),
-                    Expanded(
-                      child: DropdownButtonFormField<String>(
-                        items: cabs.map((String item) {
-                          return DropdownMenuItem<String>(
-                            value: item,
-                            child: Text(
-                              item,
-                              style: const TextStyle(
-                                fontSize: 14,
-                              ),
+                        padding: EdgeInsets.symmetric(horizontal: 20)),
+                    DropdownButtonFormField<String>(
+                      decoration: InputDecoration(
+                          constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width * 0.5,
+                      )),
+                      items: cabs.map((String item) {
+                        return DropdownMenuItem<String>(
+                          value: item,
+                          child: Text(
+                            item,
+                            style: const TextStyle(
+                              fontSize: 14,
                             ),
-                          );
-                        }).toList(),
-                        hint: Text("Assign a Cab"),
-                        onChanged: (String? value) {
-                          setState(() {
-                            selectedValue = value;
-                          });
-                        },
-                      ),
+                          ),
+                        );
+                      }).toList(),
+                      hint: Text("Assign a Cab"),
+                      onChanged: (String? value) {
+                        setState(() {
+                          selectedValue = value;
+                        });
+                      },
                     ),
                   ],
                 ),

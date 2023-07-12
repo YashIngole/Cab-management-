@@ -25,7 +25,7 @@ class _WelcomeState extends State<Welcome> {
           children: [
             Center(
               child: Padding(
-                padding: const EdgeInsets.only(left: 100, right: 100),
+                padding: const EdgeInsets.only(left: 100, right: 100, top: 30),
                 child: Container(
                     color: Colors.transparent,
                     child: Image.asset("assets/welcome.png")),
