@@ -355,8 +355,11 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                   Navigator.of(context).pop();
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
+                      
                       behavior: SnackBarBehavior.floating,
                       duration: const Duration(milliseconds: 900),
+                      
+                        backgroundColor: Colors.grey,
                       content: Center(
                         child: Text('Driver Updated Successfully'),
                       ),
