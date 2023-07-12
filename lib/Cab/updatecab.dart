@@ -192,7 +192,7 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Icon(Icons.local_taxi),
+                    child: Icon(Icons.person),
                   ),
                   Expanded(
                     child: TextFormField(
@@ -257,7 +257,7 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Icon(Icons.local_taxi),
+                    child: Icon(Icons.numbers),
                   ),
                   Expanded(
                     child: TextFormField(
