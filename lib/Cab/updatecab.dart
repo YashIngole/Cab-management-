@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:cab_management/Cab/cabtile.dart';
 import 'package:cab_management/constants.dart';
 // import 'package:cab_management/firebase_options.dart';
 // import 'package:cab_management/main.dart';
@@ -296,6 +297,8 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
               child: ElevatedButton(
                 onPressed: () {
                   updateCabData(newNameValue);
+                  cabtile.refreshIndicatorKey.currentState?.show();
+                  Navigator.of(context).pop();
                   Navigator.of(context).pop();
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(

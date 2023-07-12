@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:cab_management/Cab/addNewCabPopUp.dart';
 import 'package:cab_management/Driver/addNewDriverPopUp.dart';
+import 'package:cab_management/Driver/driverTile.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cab_management/firebase_options.dart';
 import 'package:cab_management/main.dart';
@@ -360,12 +361,14 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
               child: ElevatedButton(
                 onPressed: () {
                   updateDriverData(newNameValue);
+                  DriverTile.refreshIndicatorKey2.currentState?.show();
+                  Navigator.of(context).pop();
                   Navigator.of(context).pop();
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       behavior: SnackBarBehavior.floating,
                       duration: const Duration(milliseconds: 900),
-                      backgroundColor: Colors.grey,
+                      backgroundColor: Colors.black,
                       content: Center(
                         child: Text('Driver Updated Successfully'),
                       ),
