@@ -29,13 +29,7 @@ void main() async {
 
   runApp(const MyApp());
 }
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   // initializing the firebase app
-//   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-//   runApp(MyApp());
-// }
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});

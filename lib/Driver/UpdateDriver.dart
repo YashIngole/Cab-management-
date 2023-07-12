@@ -1,7 +1,7 @@
-//import 'dart:html';
-
-//import 'package:cab_management/Cab/cabtile.dart';
+import 'dart:html';
+import 'package:cab_management/Cab/cabtile.dart';
 import 'package:cab_management/Cab/addNewCabPopUp.dart';
+import 'package:cab_management/Driver/addNewDriverPopUp.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cab_management/firebase_options.dart';
 import 'package:cab_management/main.dart';
@@ -11,8 +11,6 @@ import 'package:image_network/image_network.dart';
 
 final CollectionReference Cabs =
     FirebaseFirestore.instance.collection('drivers');
-
-//final Database_c database_c = Database_c();
 
 class UpdateDriverPage extends StatefulWidget {
   const UpdateDriverPage({
@@ -37,14 +35,38 @@ class UpdateDriverPage extends StatefulWidget {
 }
 
 class _UpdatedriverPageState extends State<UpdateDriverPage> {
+  List<String> cabs = []; // Declare the cabs list here
+
+  @override
+  void initState() {
+    super.initState();
+    fetchcablist();
+  }
+
   String? selectedValue;
 
   String newNameValue = '';
   String newemail = '';
   String newphonenumber = '';
 
+  void fetchcablist() {
+    FirebaseFirestore.instance.collection('Cabs').get().then((querySnapshot) {
+      List<String> cabList = []; // Create an empty list to store cab names
+      querySnapshot.docs.forEach((doc) {
+        var cName = doc.data()['C_name'].toString().toUpperCase();
+        var cRTO = doc.data()['C_RTO'].toString().toUpperCase();
+        cabList.add(cRTO + " - " + cName);
+      });
+
+      setState(() {
+        cabs = cabList; // Assign the fetched cab names to the class-level list
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(cabs);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -59,7 +81,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
             Center(
               child: Padding(
                   padding: const EdgeInsets.all(20),
-                  child: ImageUrl.isEmpty
+                  child: widget.ImageUrl.isEmpty
                       ? Container(
                           height: 150,
                           width: 150,
@@ -75,7 +97,8 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                             ),
                           ),
                         )
-                      : ImageNetwork(image: ImageUrl, height: 150, width: 150)),
+                      : ImageNetwork(
+                          image: widget.ImageUrl, height: 150, width: 150)),
             ),
             const Center(
               child: Text(
@@ -85,16 +108,19 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
             ),
             SizedBox(height: 20),
             Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text("Assign a cab"),
-                  const Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
-                  DropdownButton<String>(
-                    items: items
-                        .map(
-                          (String item) => DropdownMenuItem<String>(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 100),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text("Assign a cab"),
+                    const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10)),
+                    Expanded(
+                      child: DropdownButtonFormField<String>(
+                        items: cabs.map((String item) {
+                          return DropdownMenuItem<String>(
                             value: item,
                             child: Text(
                               item,
@@ -102,18 +128,18 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                                 fontSize: 14,
                               ),
                             ),
-                          ),
-                        )
-                        .toList(),
-                    hint: const Text("Select an item"),
-                    value: selectedValue,
-                    onChanged: (String? value) {
-                      setState(() {
-                        selectedValue = value;
-                      });
-                    },
-                  ),
-                ],
+                          );
+                        }).toList(),
+                        hint: Text("Assign a Cab"),
+                        onChanged: (String? value) {
+                          setState(() {
+                            selectedValue = value;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             const Padding(padding: EdgeInsets.only(top: 50)),
@@ -261,6 +287,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
           .then((_) => print('Success'))
           .catchError((error) => print('Failed: $error'));
     }
+    
     if (querySnapshot.docs.isNotEmpty) {
       var documentSnapshot = querySnapshot.docs.first;
 
