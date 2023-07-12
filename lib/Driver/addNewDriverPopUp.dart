@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 
 Stream? Cabs;
 String name = "";
+final _formKey = GlobalKey<FormState>();
 String id = "";
 String email = "";
 String phone = "";
@@ -17,6 +18,26 @@ String License = "";
 String joinning = "";
 String? AssignCab;
 String ImageUrl = "";
+
+final nameController = TextEditingController();
+final emailController = TextEditingController();
+final phoneController = TextEditingController();
+final licenseController = TextEditingController();
+final joinningController = TextEditingController();
+//final  _dateController = TextEditingController();
+
+//Dispose Method
+
+@override
+void dispose() {
+  nameController.text = '';
+  emailController.text = '';
+  phoneController.text = '';
+  licenseController.text = '';
+  joinningController.text = '';
+  //_dateController.text = '';
+}
+
 final DatabaseService databaseService = DatabaseService();
 void addNewDriverPopUp(BuildContext context) {
   FirebaseFirestore.instance.collection('Cabs').get().then((querySnapshot) {
@@ -41,281 +62,319 @@ void addNewDriverPopUp(BuildContext context) {
               "Add Driver",
               textAlign: TextAlign.center,
             ),
-            content: SingleChildScrollView(
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  children: [
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: InkWell(
-                            borderRadius: BorderRadius.circular(1000),
-                            onTap: () async {
-                              ImagePicker imagePicker = ImagePicker();
-                              XFile? file = await imagePicker.pickImage(
-                                source: ImageSource.gallery,
-                              );
-                              if (file == null) {
-                                return;
-                              }
-                              //convert file to data
-                              final Uint8List fileBytes =
-                                  await file.readAsBytes();
-
-                              // Reference to storage root of Firebase Storage
-                              Reference referenceRoot =
-                                  FirebaseStorage.instance.ref();
-                              Reference referenceDirImages =
-                                  referenceRoot.child('images');
-
-                              // Reference for the image to be stored
-                              String uniqueFileName = DateTime.now()
-                                      .millisecondsSinceEpoch
-                                      .toString() +
-                                  '.jpg';
-                              Reference referenceImageToUpload =
-                                  referenceDirImages.child(uniqueFileName);
-                              try {
-                                // Store the file
-                                await referenceImageToUpload.putData(
-                                    fileBytes,
-                                    SettableMetadata(
-                                        contentType: 'image/jpeg'));
-                                ImageUrl = await referenceImageToUpload
-                                    .getDownloadURL();
-                                print(ImageUrl);
-                                setState(
-                                  () {
-                                    ImageUrl;
-                                  },
-                                );
-                              } catch (e) {
-                                print('Error uploading image: $e');
-                              }
-                            },
-                            child: ImageUrl.isEmpty
-                                ? Container(
-                                    height: 150,
-                                    width: 150,
-                                    decoration: BoxDecoration(
-                                      color: Colors.black,
-                                      borderRadius: BorderRadius.circular(1000),
-                                    ),
-                                    child: Center(
-                                      child: Icon(
-                                        Icons.add_a_photo,
-                                        color: Colors.white,
-                                        size: 50,
-                                      ),
-                                    ),
-                                  )
-                                : ImageNetwork(
-                                    image: ImageUrl, height: 150, width: 150)),
-                      ),
-                    ),
-                    Center(
-                      child: Text(
-                        'Update Profile Picture',
-                        style: TextStyle(fontSize: 15),
-                      ),
-                    ),
-                    Padding(padding: EdgeInsets.only(top: 50)),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 150),
-                      child: DropdownButtonFormField<String>(
-                        items: cabs.map((String item) {
-                          return DropdownMenuItem<String>(
-                            value: item,
-                            child: Text(
-                              item,
-                              style: const TextStyle(
-                                fontSize: 14,
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                        hint: Text("Assign a Cab"),
-                        onChanged: (String? value) {
-                          setState(() {
-                            AssignCab = value;
-                          });
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Icon(Icons.person),
-                          ),
-                          Expanded(
-                            child: TextFormField(
-                              onChanged: (val) {
-                                setState(() {
-                                  name = val.toLowerCase();
-                                });
-                              },
-                              style: TextStyle(),
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Name',
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                          )
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Icon(Icons.email),
-                          ),
-                          Expanded(
-                            child: TextFormField(
-                              validator: (val) {
-                                return RegExp(
-                                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                        .hasMatch(val!)
-                                    ? null
-                                    : "Please enter a valid email";
-                              },
-                              onChanged: (val) {
-                                setState(() {
-                                  email = val;
-                                });
-                              },
-                              style: TextStyle(),
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Email',
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                          )
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Icon(Icons.phone),
-                          ),
-                          Expanded(
-                            child: TextFormField(
-                              validator: (value) {
-                                if (phone.length < 10) {
-                                  return 'Phone must be atleast 10 digits';
-                                } else {
-                                  return null;
-                                }
-                              },
-                              onChanged: (val) {
-                                setState(() {
-                                  phone = val;
-                                });
-                              },
-                              style: TextStyle(),
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Phone',
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                          )
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Icon(Icons.document_scanner),
-                          ),
-                          Expanded(
-                            child: TextFormField(
-                              onChanged: (val) {
-                                setState(() {
-                                  License = val.toUpperCase();
-                                });
-                              },
-                              style: TextStyle(),
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'License Number',
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                          )
-                        ],
-                      ),
-                    ),
-
-                    // Datetime _dateTime = DateTime.now();
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Icon(Icons.date_range),
-                          ),
-                          Expanded(
-                            child: TextFormField(
-                              controller: _date,
-                              onChanged: (val) {
-                                setState(() {
-                                  joinning = val;
-                                });
-                              },
-                              style: TextStyle(),
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Joinning Date',
-                              ),
+            content: Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    children: [
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: InkWell(
+                              borderRadius: BorderRadius.circular(1000),
                               onTap: () async {
-                                DateTime? pickdate = await showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime(2000),
-                                  lastDate: DateTime(2025),
+                                ImagePicker imagePicker = ImagePicker();
+                                XFile? file = await imagePicker.pickImage(
+                                  source: ImageSource.gallery,
                                 );
-                                if (pickdate != null) {
-                                  setState(() {
-                                    _date.text = DateFormat('yyyy-MM-dd')
-                                        .format(pickdate);
-                                  });
+                                if (file == null) {
+                                  return;
                                 }
-                                ;
+                                //convert file to data
+                                final Uint8List fileBytes =
+                                    await file.readAsBytes();
+            
+                                // Reference to storage root of Firebase Storage
+                                Reference referenceRoot =
+                                    FirebaseStorage.instance.ref();
+                                Reference referenceDirImages =
+                                    referenceRoot.child('images');
+            
+                                // Reference for the image to be stored
+                                String uniqueFileName = DateTime.now()
+                                        .millisecondsSinceEpoch
+                                        .toString() +
+                                    '.jpg';
+                                Reference referenceImageToUpload =
+                                    referenceDirImages.child(uniqueFileName);
+                                try {
+                                  // Store the file
+                                  await referenceImageToUpload.putData(
+                                      fileBytes,
+                                      SettableMetadata(
+                                          contentType: 'image/jpeg'));
+                                  ImageUrl = await referenceImageToUpload
+                                      .getDownloadURL();
+                                  print(ImageUrl);
+                                  setState(
+                                    () {
+                                      ImageUrl;
+                                    },
+                                  );
+                                } catch (e) {
+                                  print('Error uploading image: $e');
+                                }
                               },
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                          )
-                        ],
+                              child: ImageUrl.isEmpty
+                                  ? Container(
+                                      height: 150,
+                                      width: 150,
+                                      decoration: BoxDecoration(
+                                        color: Colors.black,
+                                        borderRadius: BorderRadius.circular(1000),
+                                      ),
+                                      child: Center(
+                                        child: Icon(
+                                          Icons.add_a_photo,
+                                          color: Colors.white,
+                                          size: 50,
+                                        ),
+                                      ),
+                                    )
+                                  : ImageNetwork(
+                                      image: ImageUrl, height: 150, width: 150)),
+                        ),
                       ),
-                    ),
-                  ],
+                      Center(
+                        child: Text(
+                          'Update Profile Picture',
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.only(top: 50)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 150),
+                        child: DropdownButtonFormField<String>(
+                          items: cabs.map((String item) {
+                            return DropdownMenuItem<String>(
+                              value: item,
+                              child: Text(
+                                item,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                          hint: Text("Assign a Cab"),
+                          onChanged: (String? value) {
+                            setState(() {
+                              AssignCab = value;
+                            });
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              child: Icon(Icons.person),
+                            ),
+                            Expanded(
+                              child: TextFormField(
+                                onChanged: (val) {
+                                  setState(() {
+                                    name = val.toLowerCase();
+                                  });
+                                },
+                                style: TextStyle(),
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Name',
+                                ),
+                                controller: nameController,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Please Enter Name';
+                                    }
+                                    return null;
+                                  },
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                            )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              child: Icon(Icons.email),
+                            ),
+                            Expanded(
+                              child: TextFormField(
+                                // validator: (val) {
+                                //   return RegExp(
+                                //               r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                //           .hasMatch(val!)
+                                //       ? null
+                                //       : "Please enter a valid email";
+                                // },
+                                onChanged: (val) {
+                                  setState(() {
+                                    email = val;
+                                  });
+                                },
+                                style: TextStyle(),
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Email',
+                                ),
+                                controller: emailController,
+                                  validator: (value) {
+                                    return RegExp(
+                                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                            .hasMatch(value!)
+                                        ? null
+                                        : "Please enter a valid email";
+                                   
+                                  },
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                            )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              child: Icon(Icons.phone),
+                            ),
+                            Expanded(
+                              child: TextFormField(
+                                // validator: (value) {
+                                //   if (phone.length < 10) {
+                                //     return 'Phone must be atleast 10 digits';
+                                //   } else {
+                                //     return null;
+                                //   }
+                                // },
+                                onChanged: (val) {
+                                  setState(() {
+                                    phone = val;
+                                  });
+                                },
+                                style: TextStyle(),
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Phone',
+                                ),
+                                controller: phoneController,
+            
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return "Please Enter a Phone Number";
+                                    } else if (!RegExp(
+                                            r'^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$')
+                                        .hasMatch(value)) {
+                                      return "Please Enter a Valid Phone Number";
+                                    }
+                                  },
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                            )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              child: Icon(Icons.document_scanner),
+                            ),
+                            Expanded(
+                              child: TextFormField(
+                                onChanged: (val) {
+                                  setState(() {
+                                    License = val.toUpperCase();
+                                  });
+                                },
+                                style: TextStyle(),
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'License Number',
+                                ),
+                                controller: licenseController,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Please Enter Name';
+                                    }
+                                    return null;
+                                  },
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                            )
+                          ],
+                        ),
+                      ),
+            
+                      // Datetime _dateTime = DateTime.now();
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              child: Icon(Icons.date_range),
+                            ),
+                            Expanded(
+                              child: TextFormField(
+                                controller: _date,
+                                onChanged: (val) {
+                                  setState(() {
+                                    joinning = val;
+                                  });
+                                },
+                                style: TextStyle(),
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Joinning Date',
+                                ),
+                               
+                                onTap: () async {
+                                  DateTime? pickdate = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(2000),
+                                    lastDate: DateTime(2025),
+                                  );
+                                  if (pickdate != null) {
+                                    setState(() {
+                                      _date.text = DateFormat('yyyy-MM-dd')
+                                          .format(pickdate);
+                                    });
+                                  }
+                                  ;
+                                },
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -342,6 +401,19 @@ void addNewDriverPopUp(BuildContext context) {
                       joinning = _date.text;
                     },
                   );
+                   if (_formKey.currentState!.validate()) {
+                    setState(
+                      () {
+                        name = nameController.text;
+                        email = emailController.text;
+                        phone = phoneController.text;
+                        License = licenseController.text;
+                        //joinning = joinningController.text;
+
+                      },
+                    );
+                  } else
+                    return null;
                   await databaseService.saveDriverData(
                       name.toUpperCase(),
                       id.toUpperCase(),
@@ -355,7 +427,7 @@ void addNewDriverPopUp(BuildContext context) {
                           : AssignCab);
                   DriverTile.refreshIndicatorKey2.currentState?.show();
                   Navigator.of(context).pop();
-
+                  dispose();
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Center(
