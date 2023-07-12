@@ -1,14 +1,16 @@
 import 'dart:typed_data';
 import 'package:cab_management/constants.dart';
+import 'package:cab_management/firebase_options.dart';
+import 'package:cab_management/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cab_management/Cab/database_c.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:image_network/image_network.dart';
 import 'package:image_picker/image_picker.dart';
 
-final CollectionReference Cabs = 
-FirebaseFirestore.instance.collection('Cabs');
+final CollectionReference Cabs = FirebaseFirestore.instance.collection('Cabs');
 
 final Database_c database_c = Database_c();
 
@@ -56,7 +58,7 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: InkWell(
-                    borderRadius: BorderRadius.circular(100),
+                    borderRadius: BorderRadius.circular(500),
                     onTap: () async {
                       ImagePicker imagePicker = ImagePicker();
                       XFile? file = await imagePicker.pickImage(
@@ -96,10 +98,10 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
                             height: 150,
                             width: 150,
                             decoration: BoxDecoration(
-                              color: Colors.black,
+                              color: kImgColor,
                               borderRadius: BorderRadius.circular(1000),
                             ),
-                            child: Center(
+                            child: const Center(
                               child: Icon(
                                 Icons.add_a_photo,
                                 color: Colors.white,
@@ -114,9 +116,10 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
             const Center(
               child: Text(
                 'Update Profile Picture',
-                style: TextStyle(fontSize: 15),
+                style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
               ),
             ),
+            SizedBox(height: 20),
             Center(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -166,8 +169,13 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
                       },
                       style: const TextStyle(),
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Cab Name',
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                            borderRadius: BorderRadius.circular(13)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                            borderRadius: BorderRadius.circular(12)),
+                        labelText: 'Cab',
                       ),
                     ),
                   ),
@@ -194,7 +202,12 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
                       },
                       style: const TextStyle(),
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                            borderRadius: BorderRadius.circular(13)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                            borderRadius: BorderRadius.circular(12)),
                         labelText: 'Cab Type',
                       ),
                     ),
@@ -221,7 +234,12 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
                       },
                       style: const TextStyle(),
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                            borderRadius: BorderRadius.circular(13)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                            borderRadius: BorderRadius.circular(12)),
                         labelText: 'RTO passing number',
                       ),
                     ),
@@ -232,14 +250,38 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
                 ],
               ),
             ),
-            const Padding(padding: EdgeInsets.symmetric(vertical: 40)),
-            ElevatedButton(
-              onPressed: () {
-                updateCabData(newNameValue);
-              },
-              child: const Text(
-                'Save',
-                style: TextStyle(color: Colors.black),
+            const Padding(padding: EdgeInsets.symmetric(vertical: 35)),
+            Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [kGrad1, kGrad2, kGrad3],
+                  ),
+                  borderRadius: BorderRadius.circular(12)),
+              child: ElevatedButton(
+                onPressed: () {
+                  updateCabData(newNameValue);
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      behavior: SnackBarBehavior.floating,
+                      duration: const Duration(milliseconds: 900),
+                      content: Center(
+                        child: Text('Cab Updated Successfully'),
+                      ),
+                    ),
+                  );
+                },
+                child: const Text(
+                  'Save',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold),
+                ),
+                style: ElevatedButton.styleFrom(
+                    fixedSize: Size(200, 50),
+                    backgroundColor: Colors.transparent,
+                    shadowColor: Colors.transparent),
               ),
             ),
           ],
@@ -252,9 +294,9 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
     var collection = FirebaseFirestore.instance.collection('Cabs');
     print(widget.C_name);
 
-    var querySnapshot = await collection
-        .where('C_name', isEqualTo: widget.C_name.toUpperCase())
-        .get();
+    var querySnapshot =
+        await collection.where('C_name', isEqualTo: widget.C_name).get();
+
     if (querySnapshot.docs.isNotEmpty) {
       var documentSnapshot = querySnapshot.docs.first;
 
