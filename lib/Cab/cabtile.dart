@@ -4,7 +4,10 @@ import 'dart:typed_data';
 
 import 'package:cab_management/Cab/Cabprofile.dart';
 import 'package:cab_management/constants.dart';
+import 'package:cab_management/responsive.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_network/image_network.dart';
 
@@ -153,14 +156,37 @@ class _cabTileState extends State<cabtile> {
                                         ),
                                       ),
                                     )
-                                  : ImageNetwork(
-                                      image: ImageUrl,
-                                      borderRadius: BorderRadius.circular(15),
-                                      height: 60,
-                                      width: 77,
-                                      fitWeb: BoxFitWeb.fill,
-                                      fitAndroidIos: BoxFit.fill,
-                                    ),
+                                  : defaultTargetPlatform ==
+                                          TargetPlatform.android
+                                      ? CachedNetworkImage(
+                                          height: 60,
+                                          width: 70,
+                                          imageUrl: ImageUrl,
+                                          imageBuilder:
+                                              (context, imageProvider) =>
+                                                  Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              image: DecorationImage(
+                                                image: imageProvider,
+                                                fit: BoxFit.fill,
+                                              ),
+                                            ),
+                                          ),
+                                          placeholder: (context, url) =>
+                                              CircularProgressIndicator(),
+                                        )
+                                      : ImageNetwork(
+                                          image: ImageUrl,
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          height: 60,
+                                          width: 70,
+                                          fitWeb: BoxFitWeb.fill,
+                                          fitAndroidIos: BoxFit.fill,
+                                        ),
+                    
                               Expanded(
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 25),

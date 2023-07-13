@@ -41,76 +41,45 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Responsive(
-      Mobile: Scaffold(
-        backgroundColor: kbackgroundColor,
-        appBar: AppBar(
-          elevation: 0,
-          forceMaterialTransparency: true,
-          toolbarHeight: 70,
-          title: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: selectedPage == 0
-                ? Text(
-                    'Drivers',
-                    style: TextStyle(fontWeight: FontWeight.w800, fontSize: 24),
-                  )
-                : Text(
-                    'Cabs',
-                    style: TextStyle(fontWeight: FontWeight.w800, fontSize: 24),
-                  ),
-          ),
-          centerTitle: true,
+    return Scaffold(
+      backgroundColor: kbackgroundColor,
+      appBar: AppBar(
+        elevation: 0,
+        forceMaterialTransparency: true,
+        toolbarHeight: 70,
+        title: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: selectedPage == 0
+              ? Text(
+                  'Drivers',
+                  style: TextStyle(fontWeight: FontWeight.w800, fontSize: 24),
+                )
+              : Text(
+                  'Cabs',
+                  style: TextStyle(fontWeight: FontWeight.w800, fontSize: 24),
+                ),
         ),
-        drawer: navBar(),
-        body: PageView(
-          physics: NeverScrollableScrollPhysics(),
-          controller: _myPage,
-          children: <Widget>[DriverPage(), thecab()],
-        ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: kFloatingActionbuttonColor,
-          onPressed: () {
-            if (selectedPage == 0) {
-              addNewDriverPopUp(context);
-            } else {
-              addNewCabPopUp(context);
-            }
-          },
-          child: Icon(Icons.add, color: Colors.white),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: bottomNavBar(),
+        centerTitle: true,
       ),
-      Desktop: Row(
-        children: [
-          Expanded(
-            child: Scaffold(
-              body: PageView(
-                physics: NeverScrollableScrollPhysics(),
-                controller: _myPage,
-                children: <Widget>[DriverPage(), thecab()],
-              ),
-              floatingActionButton: FloatingActionButton(
-                onPressed: () {
-                  if (selectedPage == 0) {
-                    addNewDriverPopUp(context);
-                  } else {
-                    addNewCabPopUp(context);
-                  }
-                },
-                child: Icon(Icons.add, color: Colors.white),
-              ),
-              floatingActionButtonLocation:
-                  FloatingActionButtonLocation.centerDocked,
-              bottomNavigationBar: bottomNavBar(),
-            ),
-          ),
-          Expanded(
-            child: SideScreenDesktop(),
-          )
-        ],
+      drawer: navBar(),
+      body: PageView(
+        physics: NeverScrollableScrollPhysics(),
+        controller: _myPage,
+        children: <Widget>[DriverPage(), thecab()],
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: kFloatingActionbuttonColor,
+        onPressed: () {
+          if (selectedPage == 0) {
+            addNewDriverPopUp(context);
+          } else {
+            addNewCabPopUp(context);
+          }
+        },
+        child: Icon(Icons.add, color: Colors.white),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: bottomNavBar(),
     );
   }
 
