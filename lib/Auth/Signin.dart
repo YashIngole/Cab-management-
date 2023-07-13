@@ -41,18 +41,21 @@ class _SigninState extends State<Signin> {
                       child: Text(
                         'Sign In',
                         style: TextStyle(
+                            fontFamily: 'Roboto',
                             fontSize: 45,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w700,
                             color: Color.fromARGB(255, 7, 7, 7)),
                       ),
                     ),
                   ),
+                  Padding(padding: EdgeInsets.symmetric(vertical: 20)),
                   Padding(
                     padding: const EdgeInsets.all(25),
                     child: Image.asset("assets/taxi22.png"),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 3),
+                    padding:
+                        const EdgeInsets.only(top: 80, left: 20, right: 20),
                     child: ConstrainedBox(
                       constraints: BoxConstraints(maxWidth: 350, maxHeight: 60),
                       child: TextFormField(
@@ -65,38 +68,47 @@ class _SigninState extends State<Signin> {
                         },
                         decoration: InputDecoration(
                           labelText: 'Email',
-                          labelStyle: TextStyle(color: Colors.black),
-                          focusColor: Colors.black,
+                          labelStyle: TextStyle(
+                            color: Colors.black,
+                            fontWeight:
+                                FontWeight.bold, // Add font weight for emphasis
+                          ),
+                          hintText: 'Enter your email', // Add a hint text
                           hintStyle: TextStyle(
-                            fontSize: 20.0,
+                            fontSize: 16.0,
                             color: Color.fromARGB(255, 110, 109, 109),
                           ),
-                          contentPadding: EdgeInsets.all(20),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 16, horizontal: 20),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Color.fromARGB(255, 104, 104, 105),
-                              width: 3,
+                              color: Colors
+                                  .grey.shade400, // Use a lighter border color
+                              width: 2,
                             ),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Color.fromARGB(255, 0, 0, 5),
-                              width: 3,
+                              color: Colors
+                                  .black, // Use a different color for focused border
+                              width: 2,
                             ),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           errorBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                              color: Color.fromARGB(255, 243, 65, 65),
-                              width: 3,
+                              color: Colors
+                                  .red, // Use a different color for error border
+                              width: 2,
                             ),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           focusedErrorBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                              color: Color.fromARGB(255, 0, 0, 5),
-                              width: 3,
+                              color: Colors
+                                  .blue, // Use a different color for focused error border
+                              width: 2,
                             ),
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -111,41 +123,55 @@ class _SigninState extends State<Signin> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 23),
+                    padding:
+                        const EdgeInsets.only(top: 23, left: 20, right: 20),
                     child: ConstrainedBox(
                       constraints: BoxConstraints(maxWidth: 350, maxHeight: 60),
                       child: TextFormField(
                           obscureText: true,
                           decoration: InputDecoration(
                             labelText: 'Password',
-                            labelStyle: TextStyle(color: Colors.black),
+                            labelStyle: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight
+                                  .bold, // Add font weight for emphasis
+                            ),
+                            hintText: 'Enter your Password', // Add a hint text
                             hintStyle: TextStyle(
-                                fontSize: 20.0,
-                                color: Color.fromARGB(255, 110, 109, 109)),
-                            contentPadding: EdgeInsets.all(20),
+                              fontSize: 16.0,
+                              color: Color.fromARGB(255, 110, 109, 109),
+                            ),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 16, horizontal: 20),
                             enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color.fromARGB(255, 104, 104, 105),
-                                  width: 3,
-                                ),
-                                borderRadius: BorderRadius.circular(12)),
+                              borderSide: BorderSide(
+                                color: Colors.grey
+                                    .shade400, // Use a lighter border color
+                                width: 2,
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                             focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color.fromARGB(255, 0, 0, 5),
-                                  width: 3,
-                                ),
-                                borderRadius: BorderRadius.circular(12)),
+                              borderSide: BorderSide(
+                                color: Colors
+                                    .black, // Use a different color for focused border
+                                width: 2,
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                             errorBorder: OutlineInputBorder(
                               borderSide: const BorderSide(
-                                color: Color.fromARGB(255, 243, 65, 65),
-                                width: 3,
+                                color: Colors
+                                    .red, // Use a different color for error border
+                                width: 2,
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             focusedErrorBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: Color.fromARGB(255, 0, 0, 5),
-                                width: 3,
+                                color: Colors
+                                    .blue, // Use a different color for focused error border
+                                width: 2,
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -166,7 +192,8 @@ class _SigninState extends State<Signin> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 23),
+                    padding:
+                        const EdgeInsets.only(top: 30, left: 20, right: 20),
                     child: Container(
                       decoration: BoxDecoration(
                           gradient: LinearGradient(
@@ -181,8 +208,9 @@ class _SigninState extends State<Signin> {
                         child: Text(
                           'Sign in',
                           style: TextStyle(
+                            fontFamily: 'Roboto',
                             color: Colors.white,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w700,
                             fontSize: 20,
                           ),
                         ),
@@ -205,7 +233,10 @@ class _SigninState extends State<Signin> {
                       onPressed: () {
                         nextScreen(context, LoginPage());
                       },
-                      child: Text('Sign up.'))
+                      child: Text(
+                        'Sign up.',
+                        style: TextStyle(color: Colors.green),
+                      ))
                 ]), //column
               ))); //form, Singlechildscrollview, Scaffold
   }

@@ -51,14 +51,13 @@ class _WelcomeState extends State<Welcome> {
                 height: 40,
                 width: 350,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: Color(0xff9E9E9E)),
+                    borderRadius: BorderRadius.circular(8), color: kGrad1),
                 child: ElevatedButton(
                   onPressed: () {
                     nextScreen(context, LoginPage());
                   },
                   child: Text(
-                    'SignUp',
+                    'Sign Up',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
@@ -79,7 +78,10 @@ class _WelcomeState extends State<Welcome> {
               onPressed: () {
                 nextScreen(context, Signin());
               },
-              child: Text('Sign In.'),
+              child: Text(
+                'Sign In.',
+                style: TextStyle(color: Colors.green),
+              ),
             ),
           ],
         ),

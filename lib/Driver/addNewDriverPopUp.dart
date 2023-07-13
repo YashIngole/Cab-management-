@@ -154,32 +154,29 @@ void addNewDriverPopUp(BuildContext context) {
                       Padding(padding: EdgeInsets.only(top: 50)),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 0),
-                        child: Expanded(
-                          child: DropdownButtonFormField<String>(
-                            isExpanded: true,
-                            decoration: InputDecoration(
-                                constraints: BoxConstraints(
-                              maxWidth: MediaQuery.of(context).size.width * 0.5,
-                            )),
-                            items: cabs.map((String item) {
-                              return DropdownMenuItem<String>(
-                                
-                                value: item,
-                                child: Text(
-                                  item,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                  ),
+                        child: DropdownButtonFormField<String>(
+                          isExpanded: true,
+                          decoration: InputDecoration(
+                              constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width * 0.5,
+                          )),
+                          items: cabs.map((String item) {
+                            return DropdownMenuItem<String>(
+                              value: item,
+                              child: Text(
+                                item,
+                                style: const TextStyle(
+                                  fontSize: 14,
                                 ),
-                              );
-                            }).toList(),
-                            hint: Text("Assign a Cab"),
-                            onChanged: (String? value) {
-                              setState(() {
-                                AssignCab = value;
-                              });
-                            },
-                          ),
+                              ),
+                            );
+                          }).toList(),
+                          hint: Text("Assign a Cab"),
+                          onChanged: (String? value) {
+                            setState(() {
+                              AssignCab = value;
+                            });
+                          },
                         ),
                       ),
                       Padding(
@@ -313,13 +310,14 @@ void addNewDriverPopUp(BuildContext context) {
                             ),
                             Expanded(
                               child: TextFormField(
-                                // validator: (value) {
-                                //   if (phone.length < 10) {
-                                //     return 'Phone must be atleast 10 digits';
-                                //   } else {
-                                //     return null;
-                                //   }
-                                // },
+                                keyboardType: TextInputType.number,
+                                validator: (value) {
+                                  if (phone.length < 10) {
+                                    return 'Phone must be atleast 10 digits';
+                                  } else {
+                                    return null;
+                                  }
+                                },
                                 onChanged: (val) {
                                   setState(() {
                                     phone = val;
@@ -351,15 +349,15 @@ void addNewDriverPopUp(BuildContext context) {
                                 ),
                                 controller: phoneController,
 
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return "Please Enter a Phone Number";
-                                  } else if (!RegExp(
-                                          r'^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$')
-                                      .hasMatch(value)) {
-                                    return "Please Enter a Valid Phone Number";
-                                  }
-                                },
+                                // validator: (value) {
+                                //   if (value!.isEmpty) {
+                                //     return "Please Enter a Phone Number";
+                                //   } else if (!RegExp(
+                                //           r'^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$')
+                                //       .hasMatch(value)) {
+                                //     return "Please Enter a Valid Phone Number";
+                                //   }
+                                // },
                               ),
                             ),
                             Padding(

@@ -5,16 +5,8 @@ import 'dart:typed_data';
 import 'package:cab_management/Cab/addNewCabPopUp.dart';
 import 'package:cab_management/Cab/therealcabpage.dart';
 import 'package:cab_management/Driver/DriverPage.dart';
-import 'package:cab_management/Driver/DriverProfile.dart';
 import 'package:cab_management/Driver/addNewDriverPopUp.dart';
 import 'package:cab_management/constants.dart';
-import 'package:cab_management/responsive.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:cab_management/databaseService.dart';
-import 'package:cab_management/responsive.dart';
-import 'package:cab_management/sideScreenDesktop.dart';
 import 'package:flutter/material.dart';
 import 'Auth/navBar.dart';
 
@@ -94,18 +86,21 @@ class _HomeState extends State<Home> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              child: IconButton(
-                color: kSelectedIconColor,
-                icon: Icon(
-                  selectedPage == 0 ? Icons.person : Icons.person_outlined,
-                  size: 25,
-                ),
-                onPressed: () {
-                  _myPage.jumpToPage(0);
-                  setState(() {
-                    selectedPage = 0;
-                  });
-                },
+              child: Column(
+                children: [
+                  IconButton(
+                    color: kSelectedIconColor,
+                    icon: selectedPage == 0
+                        ? ImageIcon(AssetImage("assets/driver_se.png"))
+                        : ImageIcon(AssetImage("assets/driver_un.png")),
+                    onPressed: () {
+                      _myPage.jumpToPage(0);
+                      setState(() {
+                        selectedPage = 0;
+                      });
+                    },
+                  ),
+                ],
               ),
             ),
             SizedBox(
@@ -113,20 +108,16 @@ class _HomeState extends State<Home> {
             ),
             Expanded(
               child: IconButton(
-                onPressed: () {
-                  _myPage.jumpToPage(1);
-                  setState(() {
-                    selectedPage = 1;
-                  });
-                },
-                color: kSelectedIconColor,
-                icon: Icon(
-                  selectedPage == 1
-                      ? Icons.directions_car
-                      : Icons.directions_car_outlined,
-                  size: 25,
-                ),
-              ),
+                  onPressed: () {
+                    _myPage.jumpToPage(1);
+                    setState(() {
+                      selectedPage = 1;
+                    });
+                  },
+                  color: kSelectedIconColor,
+                  icon: selectedPage == 1
+                      ? ImageIcon(AssetImage("assets/cab_se.png"))
+                      : ImageIcon(AssetImage("assets/cab_un.png"))),
             ),
           ],
         ),
