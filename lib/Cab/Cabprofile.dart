@@ -1,5 +1,6 @@
 //import 'package:cab_management/Driver/UpdateDriver.dart';
 import 'package:cab_management/Cab/UpdateCab.dart';
+import 'package:cab_management/Cab/addNewCabPopUp.dart';
 import 'package:cab_management/Cab/cabtile.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -97,43 +98,46 @@ class _CabProfileState extends State<CabProfile> {
               Center(
                 child: Padding(
                     padding: const EdgeInsets.all(20),
-                    child: defaultTargetPlatform == TargetPlatform.android
-                        ? CachedNetworkImage(
+                    child: ImageUrl.isEmpty
+                        ? Container(
                             height: 150,
                             width: 150,
-                            imageUrl: widget.ImageUrl,
-                            imageBuilder: (context, imageProvider) => Container(
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: imageProvider,
-                                    fit: BoxFit.fill,
-                                  ),
-                                  borderRadius: BorderRadius.circular(1000)),
-                            ),
-                            placeholder: (context, url) =>
-                                CircularProgressIndicator(),
+                            decoration: BoxDecoration(
+                                color: kImgColor,
+                                borderRadius: BorderRadius.circular(1000)),
+                            child: Center(
+                                child: Text(
+                              widget.C_name.substring(0, 1).toUpperCase(),
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 50),
+                            )),
                           )
-                        : ImageNetwork(
-                            image: widget.ImageUrl,
-                            height: 150,
-                            width: 150,
-                            fitAndroidIos: BoxFit.fill,
-                            fitWeb: BoxFitWeb.fill,
-                            borderRadius: BorderRadius.circular(1000),
-                            onError: Container(
-                              height: 150,
-                              width: 150,
-                              decoration: BoxDecoration(
-                                  color: kImgColor,
-                                  borderRadius: BorderRadius.circular(1000)),
-                              child: Center(
-                                  child: Text(
-                                widget.C_name.substring(0, 1).toUpperCase(),
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 50),
+                        : defaultTargetPlatform == TargetPlatform.android
+                            ? CachedNetworkImage(
+                                height: 150,
+                                width: 150,
+                                imageUrl: widget.ImageUrl,
+                                imageBuilder: (context, imageProvider) =>
+                                    Container(
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.fill,
+                                      ),
+                                      borderRadius:
+                                          BorderRadius.circular(1000)),
+                                ),
+                                placeholder: (context, url) =>
+                                    CircularProgressIndicator(),
+                              )
+                            : ImageNetwork(
+                                image: widget.ImageUrl,
+                                height: 150,
+                                width: 150,
+                                fitAndroidIos: BoxFit.fill,
+                                fitWeb: BoxFitWeb.fill,
+                                borderRadius: BorderRadius.circular(1000),
                               )),
-                            ),
-                          )),
               ),
               Center(
                 child: Column(

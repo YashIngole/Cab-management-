@@ -129,8 +129,7 @@ void addNewCabPopUp(BuildContext context) {
                                       ),
                                     )
                                   : ImageNetwork(
-                                      borderRadius:
-                                            BorderRadius.circular(1000),
+                                      borderRadius: BorderRadius.circular(1000),
                                       image: ImageUrl,
                                       height: 150,
                                       width: 150)),
@@ -144,7 +143,7 @@ void addNewCabPopUp(BuildContext context) {
                       ),
                       Padding(padding: EdgeInsets.only(top: 50)),
                       DropdownButtonFormField<String>(
-                           isExpanded: true,
+                        isExpanded: true,
                         decoration: InputDecoration(
                             constraints: BoxConstraints(
                           maxWidth: MediaQuery.of(context).size.width * 0.5,
@@ -388,6 +387,11 @@ void addNewCabPopUp(BuildContext context) {
                         child: Text('Cab Registered Successfully'),
                       ),
                     ),
+                  );
+                  setState(
+                    () {
+                      ImageUrl = '';
+                    },
                   );
                 },
                 style: ElevatedButton.styleFrom(

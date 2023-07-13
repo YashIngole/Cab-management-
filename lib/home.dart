@@ -88,17 +88,19 @@ class _HomeState extends State<Home> {
             Expanded(
               child: Column(
                 children: [
-                  IconButton(
-                    color: kSelectedIconColor,
-                    icon: selectedPage == 0
-                        ? ImageIcon(AssetImage("assets/driver_se.png"))
-                        : ImageIcon(AssetImage("assets/driver_un.png")),
-                    onPressed: () {
-                      _myPage.jumpToPage(0);
-                      setState(() {
-                        selectedPage = 0;
-                      });
-                    },
+                  Expanded(
+                    child: IconButton(
+                      color: kSelectedIconColor,
+                      icon: selectedPage == 0
+                          ? ImageIcon(AssetImage("assets/driver_se.png"))
+                          : ImageIcon(AssetImage("assets/driver_un.png")),
+                      onPressed: () {
+                        _myPage.jumpToPage(0);
+                        setState(() {
+                          selectedPage = 0;
+                        });
+                      },
+                    ),
                   ),
                 ],
               ),

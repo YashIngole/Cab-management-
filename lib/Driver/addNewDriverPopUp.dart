@@ -147,7 +147,7 @@ void addNewDriverPopUp(BuildContext context) {
                       ),
                       Center(
                         child: Text(
-                          'Update Profile Picture',
+                          'Upload Profile Picture',
                           style: TextStyle(fontSize: 15),
                         ),
                       ),
@@ -550,6 +550,11 @@ void addNewDriverPopUp(BuildContext context) {
                         child: Text('Driver Registered Successfully'),
                       ),
                     ),
+                  );
+                  setState(
+                    () {
+                      ImageUrl = '';
+                    },
                   );
                 },
                 style: ElevatedButton.styleFrom(

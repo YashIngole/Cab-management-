@@ -124,6 +124,19 @@ class _DriverProfileState extends State<DriverProfile> {
                           ),
                           placeholder: (context, url) =>
                               CircularProgressIndicator(),
+                          errorWidget: (context, url, error) => Container(
+                            height: 150,
+                            width: 150,
+                            decoration: BoxDecoration(
+                                color: kImgColor,
+                                borderRadius: BorderRadius.circular(1000)),
+                            child: Center(
+                                child: Text(
+                              widget.DriverName.substring(0, 1).toUpperCase(),
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 50),
+                            )),
+                          ),
                         )
                       : ImageNetwork(
                           image: widget.ImageUrl,
