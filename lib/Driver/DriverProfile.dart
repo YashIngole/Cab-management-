@@ -108,62 +108,44 @@ class _DriverProfileState extends State<DriverProfile> {
           children: [
             Center(
               child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: ImageUrl.isEmpty
-                    ? Container(
-                        width: 150,
-                        height: 1,
-                        decoration: BoxDecoration(
-                          color: kImgColor,
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Center(
-                          child: Text(
-                            widget.DriverName.substring(0, 1).toUpperCase(),
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      )
-                    : defaultTargetPlatform == TargetPlatform.android
-                        ? CachedNetworkImage(
-                            height: 60,
-                            width: 70,
-                            imageUrl: ImageUrl,
-                            imageBuilder: (context, imageProvider) => Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
+                  padding: const EdgeInsets.all(20),
+                  child: defaultTargetPlatform == TargetPlatform.android
+                      ? CachedNetworkImage(
+                          height: 150,
+                          width: 150,
+                          imageUrl: widget.ImageUrl,
+                          imageBuilder: (context, imageProvider) => Container(
+                            decoration: BoxDecoration(
                                 image: DecorationImage(
                                   image: imageProvider,
                                   fit: BoxFit.fill,
                                 ),
-                              ),
-                            ),
-                            placeholder: (context, url) =>
-                                CircularProgressIndicator(),
-                          )
-                        : ImageNetwork(
-                            image: ImageUrl,
-                            borderRadius: BorderRadius.circular(15),
+                                borderRadius: BorderRadius.circular(1000)),
+                          ),
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                        )
+                      : ImageNetwork(
+                          image: widget.ImageUrl,
+                          height: 150,
+                          width: 150,
+                          fitAndroidIos: BoxFit.fill,
+                          fitWeb: BoxFitWeb.fill,
+                          borderRadius: BorderRadius.circular(1000),
+                          onError: Container(
                             height: 150,
                             width: 150,
-                            fitWeb: BoxFitWeb.fill,
-                            fitAndroidIos: BoxFit.fill,
-                            onError: Container(
-                              width: 77,
-                              height: 60,
-                              decoration: BoxDecoration(
+                            decoration: BoxDecoration(
                                 color: kImgColor,
-                                borderRadius: BorderRadius.circular(1000),
-                              ),
-                              child: Center(
+                                borderRadius: BorderRadius.circular(1000)),
+                            child: Center(
                                 child: Text(
-                                  widget.DriverName.substring(0, 1)
-                                      .toUpperCase(),
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ),
+                              widget.DriverName.substring(0, 1).toUpperCase(),
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 50),
                             )),
-              ),
+                          ),
+                        )),
             ),
             Center(
               child: Column(
