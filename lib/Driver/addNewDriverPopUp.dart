@@ -156,12 +156,14 @@ void addNewDriverPopUp(BuildContext context) {
                         padding: const EdgeInsets.symmetric(horizontal: 0),
                         child: Expanded(
                           child: DropdownButtonFormField<String>(
+                            isExpanded: true,
                             decoration: InputDecoration(
                                 constraints: BoxConstraints(
                               maxWidth: MediaQuery.of(context).size.width * 0.5,
                             )),
                             items: cabs.map((String item) {
                               return DropdownMenuItem<String>(
+                                
                                 value: item,
                                 child: Text(
                                   item,

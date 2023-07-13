@@ -163,6 +163,7 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
                     const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20)),
                     DropdownButtonFormField<String>(
+                         isExpanded: true,
                       decoration: InputDecoration(
                           constraints: BoxConstraints(
                         maxWidth: MediaQuery.of(context).size.width * 0.5,

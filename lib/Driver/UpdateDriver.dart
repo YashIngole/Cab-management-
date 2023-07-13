@@ -167,6 +167,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: DropdownButtonFormField<String>(
+                        isExpanded: true,
                         decoration: InputDecoration(
                             constraints: BoxConstraints(
                           maxWidth: MediaQuery.of(context).size.width * 0.5,

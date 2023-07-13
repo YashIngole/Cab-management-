@@ -144,6 +144,7 @@ void addNewCabPopUp(BuildContext context) {
                       ),
                       Padding(padding: EdgeInsets.only(top: 50)),
                       DropdownButtonFormField<String>(
+                           isExpanded: true,
                         decoration: InputDecoration(
                             constraints: BoxConstraints(
                           maxWidth: MediaQuery.of(context).size.width * 0.5,
