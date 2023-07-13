@@ -410,7 +410,7 @@ void addNewDriverPopUp(BuildContext context) {
                                 controller: licenseController,
                                 validator: (value) {
                                   if (value!.isEmpty) {
-                                    return 'Please Enter Name';
+                                    return 'Please Enter License';
                                   }
                                   return null;
                                 },
