@@ -98,46 +98,56 @@ class _CabProfileState extends State<CabProfile> {
               Center(
                 child: Padding(
                     padding: const EdgeInsets.all(20),
-                    child: ImageUrl.isEmpty
-                        ? Container(
+                    child: defaultTargetPlatform == TargetPlatform.android
+                        ? CachedNetworkImage(
                             height: 150,
                             width: 150,
-                            decoration: BoxDecoration(
-                                color: kImgColor,
-                                borderRadius: BorderRadius.circular(1000)),
-                            child: Center(
-                                child: Text(
-                              widget.C_name.substring(0, 1).toUpperCase(),
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 50),
-                            )),
-                          )
-                        : defaultTargetPlatform == TargetPlatform.android
-                            ? CachedNetworkImage(
-                                height: 150,
-                                width: 150,
-                                imageUrl: widget.ImageUrl,
-                                imageBuilder: (context, imageProvider) =>
-                                    Container(
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: imageProvider,
-                                        fit: BoxFit.fill,
-                                      ),
-                                      borderRadius:
-                                          BorderRadius.circular(1000)),
-                                ),
-                                placeholder: (context, url) =>
-                                    CircularProgressIndicator(),
-                              )
-                            : ImageNetwork(
-                                image: widget.ImageUrl,
-                                height: 150,
-                                width: 150,
-                                fitAndroidIos: BoxFit.fill,
-                                fitWeb: BoxFitWeb.fill,
-                                borderRadius: BorderRadius.circular(1000),
+                            imageUrl: widget.ImageUrl,
+                            imageBuilder: (context, imageProvider) => Container(
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: imageProvider,
+                                    fit: BoxFit.fill,
+                                  ),
+                                  borderRadius: BorderRadius.circular(1000)),
+                            ),
+                            placeholder: (context, url) =>
+                                CircularProgressIndicator(),
+                            errorWidget: (context, url, error) => Container(
+                              height: 150,
+                              width: 150,
+                              decoration: BoxDecoration(
+                                  color: kImgColor,
+                                  borderRadius: BorderRadius.circular(1000)),
+                              child: Center(
+                                  child: Text(
+                                widget.C_name.substring(0, 1).toUpperCase(),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 50),
                               )),
+                            ),
+                          )
+                        : ImageNetwork(
+                            image: widget.ImageUrl,
+                            height: 150,
+                            width: 150,
+                            fitAndroidIos: BoxFit.fill,
+                            fitWeb: BoxFitWeb.fill,
+                            borderRadius: BorderRadius.circular(1000),
+                            onError: Container(
+                              height: 150,
+                              width: 150,
+                              decoration: BoxDecoration(
+                                  color: kImgColor,
+                                  borderRadius: BorderRadius.circular(1000)),
+                              child: Center(
+                                  child: Text(
+                                widget.C_name.substring(0, 1).toUpperCase(),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 50),
+                              )),
+                            ),
+                          )),
               ),
               Center(
                 child: Column(
