@@ -165,14 +165,7 @@ class _CabProfileState extends State<CabProfile> {
                   ],
                 ),
               ),
-              // Padding(
-              //   padding: const EdgeInsets.all(20),
-              //   child: Container(
-              //       height: 31,
-              //       width: double.infinity,
-              //       decoration: BoxDecoration(color: Color(0xffF4F4F4)),
-              //       child: Center(child: Text("Cab Data:"))),
-              // ),
+          
               Center(
                 child: Padding(
                   padding: const EdgeInsets.all(20),
@@ -205,10 +198,7 @@ class _CabProfileState extends State<CabProfile> {
                           KSubtitle(widget.C_type),
                           KTitle('Registration number'),
                           KSubtitle(widget.C_RTO),
-                          // KTitle('License Number'),
-                          // KSubtitle(widget.Phone),
-                          // KTitle('Driver Join date'),
-                          // KSubtitle(widget.Phone),
+                    
                         ],
                       ),
                     ),
