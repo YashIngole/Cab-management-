@@ -2,12 +2,14 @@ import 'dart:typed_data';
 import 'package:cab_management/Driver/driverTile.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cab_management/databaseService.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_network/image_network.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 Stream? Cabs;
 String name = "";
@@ -35,7 +37,7 @@ void dispose() {
   emailController.text = '';
   phoneController.text = '';
   licenseController.text = '';
-  joinningController.text = '';
+  //joinningController.text = '';
   //_dateController.text = '';
 }
 
@@ -110,6 +112,7 @@ void addNewDriverPopUp(BuildContext context) {
                                           contentType: 'image/jpeg'));
                                   ImageUrl = await referenceImageToUpload
                                       .getDownloadURL();
+
                                   print(ImageUrl);
                                   setState(
                                     () {
@@ -137,11 +140,12 @@ void addNewDriverPopUp(BuildContext context) {
                                         ),
                                       ),
                                     )
-                                  : ImageNetwork(
-                                      borderRadius: BorderRadius.circular(1000),
-                                      image: ImageUrl,
+                                  : CachedNetworkImage(
+                                      key: UniqueKey(),
+                                      imageUrl: ImageUrl,
                                       height: 150,
-                                      width: 150)),
+                                      width: 150,
+                                    )),
                         ),
                       ),
                       Center(
@@ -409,7 +413,7 @@ void addNewDriverPopUp(BuildContext context) {
                                 controller: licenseController,
                                 validator: (value) {
                                   if (value!.isEmpty) {
-                                    return 'Please Enter Name';
+                                    return 'Please Enter License';
                                   }
                                   return null;
                                 },
