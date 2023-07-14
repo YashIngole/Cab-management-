@@ -49,48 +49,61 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 16, bottom: 5),
-                      child: Image.asset("assets/cab22.png"),
+                      padding: const EdgeInsets.only(top: 30, bottom: 5),
+                      child: Image.asset(
+                        "assets/cab22.png",
+                      ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 3, bottom: 23),
+                      padding: const EdgeInsets.only(
+                          top: 40, bottom: 23, left: 20, right: 20),
                       child: ConstrainedBox(
                         constraints:
                             const BoxConstraints(maxWidth: 350, maxHeight: 60),
                         child: TextFormField(
                           decoration: InputDecoration(
                             labelText: 'Name',
-                            labelStyle: TextStyle(color: Colors.black),
+                            labelStyle: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight
+                                  .bold, // Add font weight for emphasis
+                            ),
+                            hintText: 'Enter your Name', // Add a hint text
                             hintStyle: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 16.0,
                               color: Color.fromARGB(255, 110, 109, 109),
                             ),
-                            contentPadding: EdgeInsets.all(20),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 16, horizontal: 20),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: Color.fromARGB(255, 104, 104, 105),
-                                width: 3,
+                                color: Colors.grey
+                                    .shade400, // Use a lighter border color
+                                width: 2,
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: Color.fromARGB(255, 0, 0, 5),
-                                width: 3,
+                                color: Colors
+                                    .black, // Use a different color for focused border
+                                width: 2,
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             errorBorder: OutlineInputBorder(
                               borderSide: const BorderSide(
-                                color: Color.fromARGB(255, 243, 65, 65),
-                                width: 3,
+                                color: Colors
+                                    .red, // Use a different color for error border
+                                width: 2,
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             focusedErrorBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: Color.fromARGB(255, 0, 0, 5),
-                                width: 3,
+                                color: Colors
+                                    .blue, // Use a different color for focused error border
+                                width: 2,
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -113,7 +126,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 3),
+                      padding:
+                          const EdgeInsets.only(top: 3, left: 20, right: 20),
                       child: ConstrainedBox(
                         constraints:
                             BoxConstraints(maxWidth: 350, maxHeight: 60),
@@ -128,38 +142,47 @@ class _LoginPageState extends State<LoginPage> {
                           },
                           decoration: InputDecoration(
                             labelText: 'Email',
-                            labelStyle: TextStyle(color: Colors.black),
-                            focusColor: Colors.black,
+                            labelStyle: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight
+                                  .bold, // Add font weight for emphasis
+                            ),
+                            hintText: 'Enter your Email', // Add a hint text
                             hintStyle: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 16.0,
                               color: Color.fromARGB(255, 110, 109, 109),
                             ),
-                            contentPadding: EdgeInsets.all(20),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 16, horizontal: 20),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: Color.fromARGB(255, 104, 104, 105),
-                                width: 3,
+                                color: Colors.grey
+                                    .shade400, // Use a lighter border color
+                                width: 2,
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: Color.fromARGB(255, 0, 0, 5),
-                                width: 3,
+                                color: Colors
+                                    .black, // Use a different color for focused border
+                                width: 2,
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             errorBorder: OutlineInputBorder(
                               borderSide: const BorderSide(
-                                color: Color.fromARGB(255, 243, 65, 65),
-                                width: 3,
+                                color: Colors
+                                    .red, // Use a different color for error border
+                                width: 2,
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             focusedErrorBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: Color.fromARGB(255, 0, 0, 5),
-                                width: 3,
+                                color: Colors
+                                    .blue, // Use a different color for focused error border
+                                width: 2,
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -174,45 +197,56 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 23),
+                      padding:
+                          const EdgeInsets.only(top: 23, left: 20, right: 20),
                       child: ConstrainedBox(
                         constraints:
                             BoxConstraints(maxWidth: 350, maxHeight: 60),
                         child: TextFormField(
                           obscureText: true,
                           decoration: InputDecoration(
-                            labelText: 'Create Password',
-                            labelStyle: TextStyle(color: Colors.black),
+                            labelText: 'Password',
+                            labelStyle: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight
+                                  .bold, // Add font weight for emphasis
+                            ),
+                            hintText: 'Create a Password', // Add a hint text
                             hintStyle: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 16.0,
                               color: Color.fromARGB(255, 110, 109, 109),
                             ),
-                            contentPadding: EdgeInsets.all(20),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 16, horizontal: 20),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: Color.fromARGB(255, 104, 104, 105),
-                                width: 3,
+                                color: Colors.grey
+                                    .shade400, // Use a lighter border color
+                                width: 2,
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: Color.fromARGB(255, 0, 0, 5),
-                                width: 3,
+                                color: Colors
+                                    .black, // Use a different color for focused border
+                                width: 2,
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             errorBorder: OutlineInputBorder(
                               borderSide: const BorderSide(
-                                color: Color.fromARGB(255, 243, 65, 65),
-                                width: 3,
+                                color: Colors
+                                    .red, // Use a different color for error border
+                                width: 2,
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             focusedErrorBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: Color.fromARGB(255, 0, 0, 5),
-                                width: 3,
+                                color: Colors
+                                    .blue, // Use a different color for focused error border
+                                width: 2,
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -235,7 +269,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 23),
+                      padding:
+                          const EdgeInsets.only(top: 23, left: 20, right: 20),
                       child: Container(
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
@@ -270,7 +305,10 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () {
                         nextScreen(context, Signin());
                       },
-                      child: Text('Sign In.'),
+                      child: Text(
+                        'Sign In.',
+                        style: TextStyle(color: Colors.green),
+                      ),
                     ),
                   ],
                 ),

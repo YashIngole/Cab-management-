@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:cab_management/Cab/cabtile.dart';
 import 'package:cab_management/constants.dart';
 // import 'package:cab_management/firebase_options.dart';
 // import 'package:cab_management/main.dart';
@@ -162,6 +163,7 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
                     const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20)),
                     DropdownButtonFormField<String>(
+                         isExpanded: true,
                       decoration: InputDecoration(
                           constraints: BoxConstraints(
                         maxWidth: MediaQuery.of(context).size.width * 0.5,
@@ -296,6 +298,8 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
               child: ElevatedButton(
                 onPressed: () {
                   updateCabData(newNameValue);
+                  cabtile.refreshIndicatorKey.currentState?.show();
+                  Navigator.of(context).pop();
                   Navigator.of(context).pop();
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
@@ -388,6 +392,22 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
             : collection
                 .doc(documentSnapshot.id)
                 .update({'C_RTO': widget.C_RTO})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'));
+      } else {
+        print('Document not found');
+      }
+      if (querySnapshot.docs.isNotEmpty) {
+        var documentSnapshot = querySnapshot.docs.first;
+        selectedValue!.isNotEmpty
+            ? collection
+                .doc(documentSnapshot.id)
+                .update({'AssignDriver': selectedValue})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'))
+            : collection
+                .doc(documentSnapshot.id)
+                .update({'AssignDriver': 'AssignDriver'})
                 .then((_) => print('Success'))
                 .catchError((error) => print('Failed: $error'));
       } else {

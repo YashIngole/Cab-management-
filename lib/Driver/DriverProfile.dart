@@ -3,8 +3,10 @@ import 'package:cab_management/Driver/addNewDriverPopUp.dart';
 import 'package:cab_management/Driver/driverTile.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cab_management/databaseService.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cab_management/home.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_network/image_network.dart';
@@ -62,7 +64,7 @@ class _DriverProfileState extends State<DriverProfile> {
                       Email: widget.Email,
                       ImageUrl: widget.ImageUrl,
                       Phone: widget.Phone,
-                      License:widget.License,
+                      License: widget.License,
                       snapshot: widget.snapshot,
                       AssignCab: AssignCab,
                     ));
@@ -107,26 +109,56 @@ class _DriverProfileState extends State<DriverProfile> {
             Center(
               child: Padding(
                   padding: const EdgeInsets.all(20),
-                  child: ImageNetwork(
-                    image: widget.ImageUrl,
-                    height: 150,
-                    width: 150,
-                    fitAndroidIos: BoxFit.fill,
-                    fitWeb: BoxFitWeb.fill,
-                    borderRadius: BorderRadius.circular(1000),
-                    onError: Container(
-                      height: 150,
-                      width: 150,
-                      decoration: BoxDecoration(
-                          color: kImgColor,
-                          borderRadius: BorderRadius.circular(1000)),
-                      child: Center(
-                          child: Text(
-                        widget.DriverName.substring(0, 1).toUpperCase(),
-                        style: TextStyle(color: Colors.white, fontSize: 50),
-                      )),
-                    ),
-                  )),
+                  child: defaultTargetPlatform == TargetPlatform.android
+                      ? CachedNetworkImage(
+                          height: 150,
+                          width: 150,
+                          imageUrl: widget.ImageUrl,
+                          imageBuilder: (context, imageProvider) => Container(
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.fill,
+                                ),
+                                borderRadius: BorderRadius.circular(1000)),
+                          ),
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          errorWidget: (context, url, error) => Container(
+                            height: 150,
+                            width: 150,
+                            decoration: BoxDecoration(
+                                color: kImgColor,
+                                borderRadius: BorderRadius.circular(1000)),
+                            child: Center(
+                                child: Text(
+                              widget.DriverName.substring(0, 1).toUpperCase(),
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 50),
+                            )),
+                          ),
+                        )
+                      : ImageNetwork(
+                          image: widget.ImageUrl,
+                          height: 150,
+                          width: 150,
+                          fitAndroidIos: BoxFit.fill,
+                          fitWeb: BoxFitWeb.fill,
+                          borderRadius: BorderRadius.circular(1000),
+                          onError: Container(
+                            height: 150,
+                            width: 150,
+                            decoration: BoxDecoration(
+                                color: kImgColor,
+                                borderRadius: BorderRadius.circular(1000)),
+                            child: Center(
+                                child: Text(
+                              widget.DriverName.substring(0, 1).toUpperCase(),
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 50),
+                            )),
+                          ),
+                        )),
             ),
             Center(
               child: Column(
@@ -231,7 +263,7 @@ class _DriverProfileState extends State<DriverProfile> {
     } else {
       print('Document not found');
     }
-     setState(() {
+    setState(() {
       DriverTile.refreshIndicatorKey2.currentState?.show();
     });
   }

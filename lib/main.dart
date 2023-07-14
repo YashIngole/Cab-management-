@@ -61,7 +61,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
-        theme: ThemeData().copyWith(
+        theme: ThemeData(fontFamily: 'Roboto').copyWith(
           scaffoldBackgroundColor: Colors.white,
           useMaterial3: true,
         ),

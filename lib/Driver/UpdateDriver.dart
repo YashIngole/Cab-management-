@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:cab_management/Cab/addNewCabPopUp.dart';
 import 'package:cab_management/Driver/addNewDriverPopUp.dart';
+import 'package:cab_management/Driver/driverTile.dart';
 import 'package:cab_management/constants.dart';
 import 'package:cab_management/firebase_options.dart';
 import 'package:cab_management/main.dart';
@@ -73,7 +74,6 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
 
   @override
   Widget build(BuildContext context) {
-    print(cabs);
     return Scaffold(
       backgroundColor: kbackgroundColor,
       appBar: AppBar(
@@ -144,9 +144,10 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                               ),
                             )
                           : ImageNetwork(
-                              borderRadius:
-                                            BorderRadius.circular(1000),
-                              image: NewImageUrl, height: 150, width: 150))),
+                              borderRadius: BorderRadius.circular(1000),
+                              image: NewImageUrl,
+                              height: 150,
+                              width: 150))),
             ),
             const Center(
               child: Text(
@@ -166,6 +167,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: DropdownButtonFormField<String>(
+                        isExpanded: true,
                         decoration: InputDecoration(
                             constraints: BoxConstraints(
                           maxWidth: MediaQuery.of(context).size.width * 0.5,
@@ -360,12 +362,14 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
               child: ElevatedButton(
                 onPressed: () {
                   updateDriverData(newNameValue);
+                  DriverTile.refreshIndicatorKey2.currentState?.show();
+                  Navigator.of(context).pop();
                   Navigator.of(context).pop();
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       behavior: SnackBarBehavior.floating,
                       duration: const Duration(milliseconds: 900),
-                      backgroundColor: Colors.grey,
+                      backgroundColor: Colors.black,
                       content: Center(
                         child: Text('Driver Updated Successfully'),
                       ),
@@ -465,6 +469,22 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
             : collection
                 .doc(documentSnapshot.id)
                 .update({'license': widget.License})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'));
+      } else {
+        print('Document not found');
+      }
+      if (querySnapshot.docs.isNotEmpty) {
+        var documentSnapshot = querySnapshot.docs.first;
+        selectedValue!.isNotEmpty
+            ? collection
+                .doc(documentSnapshot.id)
+                .update({'AssignCab': selectedValue})
+                .then((_) => print('Success'))
+                .catchError((error) => print('Failed: $error'))
+            : collection
+                .doc(documentSnapshot.id)
+                .update({'AssignCab': 'AssignCab'})
                 .then((_) => print('Success'))
                 .catchError((error) => print('Failed: $error'));
       } else {
