@@ -50,8 +50,10 @@ class _SigninState extends State<Signin> {
                   ),
                   Padding(padding: EdgeInsets.symmetric(vertical: 20)),
                   Padding(
-                    padding: const EdgeInsets.all(25),
-                    child: Image.asset("assets/taxi22.png"),
+                    padding: const EdgeInsets.symmetric(horizontal: 40),
+                    child: ConstrainedBox(
+                        constraints: BoxConstraints(maxWidth: 500),
+                        child: Image.asset("assets/taxi22.png")),
                   ),
                   Padding(
                     padding:
