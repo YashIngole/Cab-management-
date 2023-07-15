@@ -50,8 +50,11 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 30, bottom: 5),
-                      child: Image.asset(
-                        "assets/cab22.png",
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(maxWidth: 500),
+                        child: Image.asset(
+                          "assets/cab22.png",
+                        ),
                       ),
                     ),
                     Padding(
