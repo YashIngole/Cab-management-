@@ -63,278 +63,288 @@ void addNewCabPopUp(BuildContext context) {
             content: Form(
               key: _formKey,
               child: SingleChildScrollView(
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    children: [
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: InkWell(
-                              borderRadius: BorderRadius.circular(1000),
-                              onTap: () async {
-                                ImagePicker imagePicker = ImagePicker();
-                                XFile? file = await imagePicker.pickImage(
-                                  source: ImageSource.gallery,
-                                );
-                                if (file == null) {
-                                  return;
-                                }
-                                final Uint8List fileBytes =
-                                    await file.readAsBytes();
-
-                                Reference referenceRoot =
-                                    FirebaseStorage.instance.ref();
-                                Reference referenceDirImages =
-                                    referenceRoot.child('images');
-
-                                String uniqueFileName = DateTime.now()
-                                        .millisecondsSinceEpoch
-                                        .toString() +
-                                    '.jpg';
-                                Reference referenceImageToUpload =
-                                    referenceDirImages.child(uniqueFileName);
-                                try {
-                                  await referenceImageToUpload.putData(
-                                      fileBytes,
-                                      SettableMetadata(
-                                          contentType: 'image/jpeg'));
-                                  ImageUrl = await referenceImageToUpload
-                                      .getDownloadURL();
-                                  print(ImageUrl);
-                                  setState(
-                                    () {
-                                      ImageUrl;
-                                    },
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: 1200),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      children: [
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: InkWell(
+                                borderRadius: BorderRadius.circular(1000),
+                                onTap: () async {
+                                  ImagePicker imagePicker = ImagePicker();
+                                  XFile? file = await imagePicker.pickImage(
+                                    source: ImageSource.gallery,
                                   );
-                                } catch (e) {
-                                  print('Error uploading image: $e');
-                                }
-                              },
-                              child: ImageUrl.isEmpty
-                                  ? Container(
-                                      height: 150,
-                                      width: 150,
-                                      decoration: BoxDecoration(
-                                        color: kImgColor,
+                                  if (file == null) {
+                                    return;
+                                  }
+                                  final Uint8List fileBytes =
+                                      await file.readAsBytes();
+
+                                  Reference referenceRoot =
+                                      FirebaseStorage.instance.ref();
+                                  Reference referenceDirImages =
+                                      referenceRoot.child('images');
+
+                                  String uniqueFileName = DateTime.now()
+                                          .millisecondsSinceEpoch
+                                          .toString() +
+                                      '.jpg';
+                                  Reference referenceImageToUpload =
+                                      referenceDirImages.child(uniqueFileName);
+                                  try {
+                                    await referenceImageToUpload.putData(
+                                        fileBytes,
+                                        SettableMetadata(
+                                            contentType: 'image/jpeg'));
+                                    ImageUrl = await referenceImageToUpload
+                                        .getDownloadURL();
+                                    print(ImageUrl);
+                                    setState(
+                                      () {
+                                        ImageUrl;
+                                      },
+                                    );
+                                  } catch (e) {
+                                    print('Error uploading image: $e');
+                                  }
+                                },
+                                child: ImageUrl.isEmpty
+                                    ? Container(
+                                        height: 150,
+                                        width: 150,
+                                        decoration: BoxDecoration(
+                                          color: kImgColor,
+                                          borderRadius:
+                                              BorderRadius.circular(1000),
+                                        ),
+                                        child: Center(
+                                          child: Icon(
+                                            Icons.add_a_photo,
+                                            color: Colors.white,
+                                            size: 50,
+                                          ),
+                                        ),
+                                      )
+                                    : ImageNetwork(
                                         borderRadius:
                                             BorderRadius.circular(1000),
+                                        image: ImageUrl,
+                                        height: 150,
+                                        width: 150)),
+                          ),
+                        ),
+                        Center(
+                          child: Text(
+                            'Upload Cab Picture',
+                            style: TextStyle(fontSize: 15),
+                          ),
+                        ),
+                        Padding(padding: EdgeInsets.only(top: 50)),
+                        DropdownButtonFormField<String>(
+                          isExpanded: true,
+                          decoration: InputDecoration(
+                              constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width * 0.5,
+                          )),
+                          items: cabs.map((String item) {
+                            return DropdownMenuItem<String>(
+                              value: item,
+                              child: Text(
+                                item,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                          hint: Text("Assign a Driver"),
+                          onChanged: (String? value) {
+                            setState(() {
+                              AssignDriver = value;
+                            });
+                          },
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: Icon(Icons.person),
+                              ),
+                              Expanded(
+                                child: TextFormField(
+                                  onChanged: (val) {
+                                    setState(() {
+                                      C_name = val.toLowerCase();
+                                    });
+                                  },
+                                  style: TextStyle(),
+                                  decoration: InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.black),
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.black),
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Color.fromARGB(255, 243, 65, 65),
                                       ),
-                                      child: Center(
-                                        child: Icon(
-                                          Icons.add_a_photo,
-                                          color: Colors.white,
-                                          size: 50,
-                                        ),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Color.fromARGB(255, 0, 0, 5),
                                       ),
-                                    )
-                                  : ImageNetwork(
-                                      borderRadius: BorderRadius.circular(1000),
-                                      image: ImageUrl,
-                                      height: 150,
-                                      width: 150)),
-                        ),
-                      ),
-                      Center(
-                        child: Text(
-                          'Upload Cab Picture',
-                          style: TextStyle(fontSize: 15),
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.only(top: 50)),
-                      DropdownButtonFormField<String>(
-                        isExpanded: true,
-                        decoration: InputDecoration(
-                            constraints: BoxConstraints(
-                          maxWidth: MediaQuery.of(context).size.width * 0.5,
-                        )),
-                        items: cabs.map((String item) {
-                          return DropdownMenuItem<String>(
-                            value: item,
-                            child: Text(
-                              item,
-                              style: const TextStyle(
-                                fontSize: 14,
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                        hint: Text("Assign a Driver"),
-                        onChanged: (String? value) {
-                          setState(() {
-                            AssignDriver = value;
-                          });
-                        },
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Icon(Icons.person),
-                            ),
-                            Expanded(
-                              child: TextFormField(
-                                onChanged: (val) {
-                                  setState(() {
-                                    C_name = val.toLowerCase();
-                                  });
-                                },
-                                style: TextStyle(),
-                                decoration: InputDecoration(
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                      borderRadius: BorderRadius.circular(12)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                      borderRadius: BorderRadius.circular(12)),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                      color: Color.fromARGB(255, 243, 65, 65),
+                                      borderRadius: BorderRadius.circular(12),
                                     ),
-                                    borderRadius: BorderRadius.circular(12),
+                                    labelText: 'Cab Name',
                                   ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color.fromARGB(255, 0, 0, 5),
-                                    ),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  labelText: 'Cab Name',
+                                  controller: C_nameController,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Please Enter Cab Name';
+                                    }
+                                    return null;
+                                  },
                                 ),
-                                controller: C_nameController,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Please Enter Cab Name';
-                                  }
-                                  return null;
-                                },
                               ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                            )
-                          ],
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Icon(Icons.directions_car),
-                            ),
-                            Expanded(
-                              child: TextFormField(
-                                onChanged: (val) {
-                                  setState(() {
-                                    C_type = val;
-                                  });
-                                },
-                                style: TextStyle(),
-                                decoration: InputDecoration(
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                      borderRadius: BorderRadius.circular(12)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                      borderRadius: BorderRadius.circular(12)),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                      color: Color.fromARGB(255, 243, 65, 65),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: Icon(Icons.directions_car),
+                              ),
+                              Expanded(
+                                child: TextFormField(
+                                  onChanged: (val) {
+                                    setState(() {
+                                      C_type = val;
+                                    });
+                                  },
+                                  style: TextStyle(),
+                                  decoration: InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.black),
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.black),
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Color.fromARGB(255, 243, 65, 65),
+                                      ),
+                                      borderRadius: BorderRadius.circular(12),
                                     ),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color.fromARGB(255, 0, 0, 5),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Color.fromARGB(255, 0, 0, 5),
+                                      ),
+                                      borderRadius: BorderRadius.circular(12),
                                     ),
-                                    borderRadius: BorderRadius.circular(12),
+                                    labelText: 'Cab Type',
                                   ),
-                                  labelText: 'Cab Type',
+                                  controller: C_typeController,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Please Enter Cab Type';
+                                    }
+                                    return null;
+                                  },
                                 ),
-                                controller: C_typeController,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Please Enter Cab Type';
-                                  }
-                                  return null;
-                                },
                               ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                            )
-                          ],
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Icon(Icons.numbers),
-                            ),
-                            Expanded(
-                              child: TextFormField(
-                                onChanged: (val) {
-                                  setState(() {
-                                    C_RTO = val;
-                                  });
-                                },
-                                style: TextStyle(),
-                                decoration: InputDecoration(
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                      borderRadius: BorderRadius.circular(12)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                      borderRadius: BorderRadius.circular(12)),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                      color: Color.fromARGB(255, 243, 65, 65),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: Icon(Icons.numbers),
+                              ),
+                              Expanded(
+                                child: TextFormField(
+                                  onChanged: (val) {
+                                    setState(() {
+                                      C_RTO = val;
+                                    });
+                                  },
+                                  style: TextStyle(),
+                                  decoration: InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.black),
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.black),
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Color.fromARGB(255, 243, 65, 65),
+                                      ),
+                                      borderRadius: BorderRadius.circular(12),
                                     ),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color.fromARGB(255, 0, 0, 5),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Color.fromARGB(255, 0, 0, 5),
+                                      ),
+                                      borderRadius: BorderRadius.circular(12),
                                     ),
-                                    borderRadius: BorderRadius.circular(12),
+                                    labelText: 'Registration No.',
                                   ),
-                                  labelText: 'Registration No.',
+                                  controller: C_RTOController,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Please Enter Registration No.';
+                                    }
+                                    return null;
+                                  },
                                 ),
-                                controller: C_RTOController,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Please Enter Registration No.';
-                                  }
-                                  return null;
-                                },
                               ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                            )
-                          ],
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

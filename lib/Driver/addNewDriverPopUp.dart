@@ -69,428 +69,442 @@ void addNewDriverPopUp(BuildContext context) {
             content: Form(
               key: _formKey,
               child: SingleChildScrollView(
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    children: [
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: InkWell(
-                              borderRadius: BorderRadius.circular(1000),
-                              onTap: () async {
-                                ImagePicker imagePicker = ImagePicker();
-                                XFile? file = await imagePicker.pickImage(
-                                  source: ImageSource.gallery,
-                                );
-                                if (file == null) {
-                                  return;
-                                }
-                                //convert file to data
-                                final Uint8List fileBytes =
-                                    await file.readAsBytes();
-
-                                // Reference to storage root of Firebase Storage
-                                Reference referenceRoot =
-                                    FirebaseStorage.instance.ref();
-                                Reference referenceDirImages =
-                                    referenceRoot.child('images');
-
-                                // Reference for the image to be stored
-                                String uniqueFileName = DateTime.now()
-                                        .millisecondsSinceEpoch
-                                        .toString() +
-                                    '.jpg';
-                                Reference referenceImageToUpload =
-                                    referenceDirImages.child(uniqueFileName);
-                                try {
-                                  // Store the file
-                                  await referenceImageToUpload.putData(
-                                      fileBytes,
-                                      SettableMetadata(
-                                          contentType: 'image/jpeg'));
-                                  ImageUrl = await referenceImageToUpload
-                                      .getDownloadURL();
-                                  print(ImageUrl);
-                                  setState(
-                                    () {
-                                      ImageUrl;
-                                    },
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: 1200),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      children: [
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: InkWell(
+                                borderRadius: BorderRadius.circular(1000),
+                                onTap: () async {
+                                  ImagePicker imagePicker = ImagePicker();
+                                  XFile? file = await imagePicker.pickImage(
+                                    source: ImageSource.gallery,
                                   );
-                                } catch (e) {
-                                  print('Error uploading image: $e');
-                                }
-                              },
-                              child: ImageUrl.isEmpty
-                                  ? Container(
-                                      height: 150,
-                                      width: 150,
-                                      decoration: BoxDecoration(
-                                        color: kImgColor,
+                                  if (file == null) {
+                                    return;
+                                  }
+                                  //convert file to data
+                                  final Uint8List fileBytes =
+                                      await file.readAsBytes();
+
+                                  // Reference to storage root of Firebase Storage
+                                  Reference referenceRoot =
+                                      FirebaseStorage.instance.ref();
+                                  Reference referenceDirImages =
+                                      referenceRoot.child('images');
+
+                                  // Reference for the image to be stored
+                                  String uniqueFileName = DateTime.now()
+                                          .millisecondsSinceEpoch
+                                          .toString() +
+                                      '.jpg';
+                                  Reference referenceImageToUpload =
+                                      referenceDirImages.child(uniqueFileName);
+                                  try {
+                                    // Store the file
+                                    await referenceImageToUpload.putData(
+                                        fileBytes,
+                                        SettableMetadata(
+                                            contentType: 'image/jpeg'));
+                                    ImageUrl = await referenceImageToUpload
+                                        .getDownloadURL();
+                                    print(ImageUrl);
+                                    setState(
+                                      () {
+                                        ImageUrl;
+                                      },
+                                    );
+                                  } catch (e) {
+                                    print('Error uploading image: $e');
+                                  }
+                                },
+                                child: ImageUrl.isEmpty
+                                    ? Container(
+                                        height: 150,
+                                        width: 150,
+                                        decoration: BoxDecoration(
+                                          color: kImgColor,
+                                          borderRadius:
+                                              BorderRadius.circular(1000),
+                                        ),
+                                        child: Center(
+                                          child: Icon(
+                                            Icons.add_a_photo,
+                                            color: Colors.white,
+                                            size: 50,
+                                          ),
+                                        ),
+                                      )
+                                    : ImageNetwork(
                                         borderRadius:
                                             BorderRadius.circular(1000),
-                                      ),
-                                      child: Center(
-                                        child: Icon(
-                                          Icons.add_a_photo,
-                                          color: Colors.white,
-                                          size: 50,
-                                        ),
-                                      ),
-                                    )
-                                  : ImageNetwork(
-                                      borderRadius: BorderRadius.circular(1000),
-                                      image: ImageUrl,
-                                      height: 150,
-                                      width: 150)),
+                                        image: ImageUrl,
+                                        height: 150,
+                                        width: 150)),
+                          ),
                         ),
-                      ),
-                      Center(
-                        child: Text(
-                          'Upload Profile Picture',
-                          style: TextStyle(fontSize: 15),
+                        Center(
+                          child: Text(
+                            'Upload Profile Picture',
+                            style: TextStyle(fontSize: 15),
+                          ),
                         ),
-                      ),
-                      Padding(padding: EdgeInsets.only(top: 50)),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 0),
-                        child: DropdownButtonFormField<String>(
-                          isExpanded: true,
-                          decoration: InputDecoration(
-                              constraints: BoxConstraints(
-                            maxWidth: MediaQuery.of(context).size.width * 0.5,
-                          )),
-                          items: cabs.map((String item) {
-                            return DropdownMenuItem<String>(
-                              value: item,
-                              child: Text(
-                                item,
-                                style: const TextStyle(
-                                  fontSize: 14,
+                        Padding(padding: EdgeInsets.only(top: 50)),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 0),
+                          child: DropdownButtonFormField<String>(
+                            isExpanded: true,
+                            decoration: InputDecoration(
+                                constraints: BoxConstraints(
+                              maxWidth: MediaQuery.of(context).size.width * 0.5,
+                            )),
+                            items: cabs.map((String item) {
+                              return DropdownMenuItem<String>(
+                                value: item,
+                                child: Text(
+                                  item,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                  ),
                                 ),
+                              );
+                            }).toList(),
+                            hint: Text("Assign a Cab"),
+                            onChanged: (String? value) {
+                              setState(() {
+                                AssignCab = value;
+                              });
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: Icon(Icons.person),
                               ),
-                            );
-                          }).toList(),
-                          hint: Text("Assign a Cab"),
-                          onChanged: (String? value) {
-                            setState(() {
-                              AssignCab = value;
-                            });
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Icon(Icons.person),
-                            ),
-                            Expanded(
-                              child: TextFormField(
-                                onChanged: (val) {
-                                  setState(() {
-                                    name = val.toLowerCase();
-                                  });
-                                },
-                                style: TextStyle(),
-                                decoration: InputDecoration(
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                      borderRadius: BorderRadius.circular(12)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                      borderRadius: BorderRadius.circular(12)),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                      color: Color.fromARGB(255, 243, 65, 65),
-                                    ),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color.fromARGB(255, 0, 0, 5),
-                                    ),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  labelText: 'Name',
-                                ),
-                                controller: nameController,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Please Enter Name';
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                            )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Icon(Icons.email),
-                            ),
-                            Expanded(
-                              child: TextFormField(
-                                // validator: (val) {
-                                //   return RegExp(
-                                //               r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                //           .hasMatch(val!)
-                                //       ? null
-                                //       : "Please enter a valid email";
-                                // },
-                                onChanged: (val) {
-                                  setState(() {
-                                    email = val;
-                                  });
-                                },
-                                style: TextStyle(),
-                                decoration: InputDecoration(
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                      borderRadius: BorderRadius.circular(12)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                      borderRadius: BorderRadius.circular(12)),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                      color: Color.fromARGB(255, 243, 65, 65),
-                                    ),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color.fromARGB(255, 0, 0, 5),
-                                    ),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  labelText: 'Email ',
-                                ),
-                                controller: emailController,
-                                validator: (value) {
-                                  return RegExp(
-                                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                          .hasMatch(value!)
-                                      ? null
-                                      : "Please enter a valid email";
-                                },
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                            )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Icon(Icons.phone),
-                            ),
-                            Expanded(
-                              child: TextFormField(
-                                keyboardType: TextInputType.number,
-                                validator: (value) {
-                                  if (phone.length < 10) {
-                                    return 'Phone must be atleast 10 digits';
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                                onChanged: (val) {
-                                  setState(() {
-                                    phone = val;
-                                  });
-                                },
-                                style: TextStyle(),
-                                decoration: InputDecoration(
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                      borderRadius: BorderRadius.circular(12)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                      borderRadius: BorderRadius.circular(12)),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                      color: Color.fromARGB(255, 243, 65, 65),
-                                    ),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color.fromARGB(255, 0, 0, 5),
-                                    ),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  labelText: 'Phone',
-                                ),
-                                controller: phoneController,
-
-                                // validator: (value) {
-                                //   if (value!.isEmpty) {
-                                //     return "Please Enter a Phone Number";
-                                //   } else if (!RegExp(
-                                //           r'^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$')
-                                //       .hasMatch(value)) {
-                                //     return "Please Enter a Valid Phone Number";
-                                //   }
-                                // },
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                            )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Icon(Icons.document_scanner),
-                            ),
-                            Expanded(
-                              child: TextFormField(
-                                onChanged: (val) {
-                                  setState(() {
-                                    License = val.toUpperCase();
-                                  });
-                                },
-                                style: TextStyle(),
-                                decoration: InputDecoration(
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                      borderRadius: BorderRadius.circular(12)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                      borderRadius: BorderRadius.circular(12)),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                      color: Color.fromARGB(255, 243, 65, 65),
-                                    ),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color.fromARGB(255, 0, 0, 5),
-                                    ),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  labelText: 'License Number',
-                                ),
-                                controller: licenseController,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Please Enter License';
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                            )
-                          ],
-                        ),
-                      ),
-
-                      // Datetime _dateTime = DateTime.now();
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Icon(Icons.date_range),
-                            ),
-                            Expanded(
-                              child: TextFormField(
-                                controller: _date,
-                                onChanged: (val) {
-                                  setState(() {
-                                    joinning = val;
-                                  });
-                                },
-                                style: TextStyle(),
-                                decoration: InputDecoration(
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                      borderRadius: BorderRadius.circular(12)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                      borderRadius: BorderRadius.circular(12)),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                      color: Color.fromARGB(255, 243, 65, 65),
-                                    ),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color.fromARGB(255, 0, 0, 5),
-                                    ),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  labelText: 'Joining Date',
-                                ),
-                                onTap: () async {
-                                  DateTime? pickdate = await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(2000),
-                                    lastDate: DateTime(2025),
-                                  );
-                                  if (pickdate != null) {
+                              Expanded(
+                                child: TextFormField(
+                                  onChanged: (val) {
                                     setState(() {
-                                      _date.text = DateFormat('yyyy-MM-dd')
-                                          .format(pickdate);
+                                      name = val.toLowerCase();
                                     });
-                                  }
-                                  ;
-                                },
+                                  },
+                                  style: TextStyle(),
+                                  decoration: InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.black),
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.black),
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Color.fromARGB(255, 243, 65, 65),
+                                      ),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Color.fromARGB(255, 0, 0, 5),
+                                      ),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    labelText: 'Name',
+                                  ),
+                                  controller: nameController,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Please Enter Name';
+                                    }
+                                    return null;
+                                  },
+                                ),
                               ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                            )
-                          ],
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: Icon(Icons.email),
+                              ),
+                              Expanded(
+                                child: TextFormField(
+                                  // validator: (val) {
+                                  //   return RegExp(
+                                  //               r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                  //           .hasMatch(val!)
+                                  //       ? null
+                                  //       : "Please enter a valid email";
+                                  // },
+                                  onChanged: (val) {
+                                    setState(() {
+                                      email = val;
+                                    });
+                                  },
+                                  style: TextStyle(),
+                                  decoration: InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.black),
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.black),
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Color.fromARGB(255, 243, 65, 65),
+                                      ),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Color.fromARGB(255, 0, 0, 5),
+                                      ),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    labelText: 'Email ',
+                                  ),
+                                  controller: emailController,
+                                  validator: (value) {
+                                    return RegExp(
+                                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                            .hasMatch(value!)
+                                        ? null
+                                        : "Please enter a valid email";
+                                  },
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                              )
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: Icon(Icons.phone),
+                              ),
+                              Expanded(
+                                child: TextFormField(
+                                  keyboardType: TextInputType.number,
+                                  validator: (value) {
+                                    if (phone.length < 10) {
+                                      return 'Phone must be atleast 10 digits';
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                  onChanged: (val) {
+                                    setState(() {
+                                      phone = val;
+                                    });
+                                  },
+                                  style: TextStyle(),
+                                  decoration: InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.black),
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.black),
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Color.fromARGB(255, 243, 65, 65),
+                                      ),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Color.fromARGB(255, 0, 0, 5),
+                                      ),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    labelText: 'Phone',
+                                  ),
+                                  controller: phoneController,
+
+                                  // validator: (value) {
+                                  //   if (value!.isEmpty) {
+                                  //     return "Please Enter a Phone Number";
+                                  //   } else if (!RegExp(
+                                  //           r'^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$')
+                                  //       .hasMatch(value)) {
+                                  //     return "Please Enter a Valid Phone Number";
+                                  //   }
+                                  // },
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                              )
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: Icon(Icons.document_scanner),
+                              ),
+                              Expanded(
+                                child: TextFormField(
+                                  onChanged: (val) {
+                                    setState(() {
+                                      License = val.toUpperCase();
+                                    });
+                                  },
+                                  style: TextStyle(),
+                                  decoration: InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.black),
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.black),
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Color.fromARGB(255, 243, 65, 65),
+                                      ),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Color.fromARGB(255, 0, 0, 5),
+                                      ),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    labelText: 'License Number',
+                                  ),
+                                  controller: licenseController,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Please Enter License';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                              )
+                            ],
+                          ),
+                        ),
+
+                        // Datetime _dateTime = DateTime.now();
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: Icon(Icons.date_range),
+                              ),
+                              Expanded(
+                                child: TextFormField(
+                                  controller: _date,
+                                  onChanged: (val) {
+                                    setState(() {
+                                      joinning = val;
+                                    });
+                                  },
+                                  style: TextStyle(),
+                                  decoration: InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.black),
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.black),
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Color.fromARGB(255, 243, 65, 65),
+                                      ),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Color.fromARGB(255, 0, 0, 5),
+                                      ),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    labelText: 'Joining Date',
+                                  ),
+                                  onTap: () async {
+                                    DateTime? pickdate = await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime(2000),
+                                      lastDate: DateTime(2025),
+                                    );
+                                    if (pickdate != null) {
+                                      setState(() {
+                                        _date.text = DateFormat('yyyy-MM-dd')
+                                            .format(pickdate);
+                                      });
+                                    }
+                                    ;
+                                  },
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
