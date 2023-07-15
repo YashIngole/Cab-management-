@@ -18,6 +18,5 @@ RUN flutter build web
 
 # Stage 2 - Create the run-time image
 FROM nginx:1.21.1-alpine
-# Exposing port 8080
-EXPOSE 8080
+
 COPY --from=build-env /app/build/web /usr/share/nginx/html
