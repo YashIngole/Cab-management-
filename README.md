@@ -2,6 +2,10 @@
 
 <p>Cab Manager is a powerful cab and driver management application built using Flutter, Firebase, and Google Cloud. It provides a seamless user experience for efficiently managing a fleet of cabs and drivers, all from a single platform.</p>
 
+
+<b> <p>Download the Cab Manager stable build apk for Android devices from <a href="https://drive.google.com/file/d/1u_D34dHGvOwJSIr7LYNQIj1J8rD2ryak/view?usp=drive_link">here </a></p> </b>
+
+
 <h2>Features</h2>
 
 <h3>Driver Management</h3>
