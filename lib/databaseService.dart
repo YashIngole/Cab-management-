@@ -21,7 +21,7 @@ class DatabaseService {
     // Set the data for the new driver document
     await newDriverRef.set({
       'name': name, // Driver Name
-      'id': generateDriverId(), // Driver ID Number
+      'id': generateDriverId(), // Drivers ID Number
       'email': email, // Driver Email
       'phone': phone, // Driver Phone Number
       'ImageUrl': ImageUrl,

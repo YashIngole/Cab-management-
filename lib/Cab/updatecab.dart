@@ -323,7 +323,9 @@ class _UpdateCabPageState extends State<UpdateCabPage> {
                     backgroundColor: Colors.transparent,
                     shadowColor: Colors.transparent),
               ),
+              
             ),
+            Padding(padding: EdgeInsets.symmetric(vertical: 20))
           ],
         ),
       ),

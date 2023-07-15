@@ -8,9 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cab_management/home.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:image_network/image_network.dart';
-import 'package:rive/rive.dart';
 
 final DatabaseService databaseService = DatabaseService();
 

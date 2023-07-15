@@ -1,11 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:cab_management/Driver/DriverProfile.dart';
-import 'package:cab_management/Driver/addNewDriverPopUp.dart';
 import 'package:cab_management/constants.dart';
-import 'package:cab_management/responsive.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 // import 'package:cab_management/home.dart';
 // import 'package:cab_management/responsive2.dart';

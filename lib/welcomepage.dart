@@ -1,7 +1,5 @@
-import 'package:cab_management/Auth/SignUp.dart';
 import 'package:cab_management/Auth/Signin.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class welcome extends StatelessWidget {
   @override

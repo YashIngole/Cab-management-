@@ -1,10 +1,6 @@
 import 'dart:typed_data';
-import 'package:cab_management/Cab/addNewCabPopUp.dart';
-import 'package:cab_management/Driver/addNewDriverPopUp.dart';
 import 'package:cab_management/Driver/driverTile.dart';
 import 'package:cab_management/constants.dart';
-import 'package:cab_management/firebase_options.dart';
-import 'package:cab_management/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -389,6 +385,7 @@ class _UpdatedriverPageState extends State<UpdateDriverPage> {
                     shadowColor: Colors.transparent),
               ),
             ),
+            Padding(padding: EdgeInsets.symmetric(vertical: 20))
           ],
         ),
       ),
