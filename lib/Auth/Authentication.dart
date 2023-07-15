@@ -13,6 +13,7 @@ class AuthService {
               email: email, password: password))
           .user!;
 
+      // ignore: unnecessary_null_comparison
       if (user != null) {
         return true;
       } else {}
@@ -29,6 +30,7 @@ class AuthService {
               email: email, password: password))
           .user!;
 
+      // ignore: unnecessary_null_comparison
       if (user != null) {
         //call database to update the user data
         await databaseService(uid: user.uid).savingUserData(fullName, email);
