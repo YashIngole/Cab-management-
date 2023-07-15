@@ -18,6 +18,7 @@ RUN flutter upgrade
 RUN mkdir /app/
 COPY . /app/
 WORKDIR /app/
+RUN flutter pub get
 RUN flutter build web
 
 # Stage 2 - Creating the run-time image
