@@ -58,7 +58,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'Cab Management',
         theme: ThemeData(fontFamily: 'Roboto').copyWith(
           scaffoldBackgroundColor: Colors.white,
           useMaterial3: true,
